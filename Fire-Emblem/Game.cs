@@ -24,7 +24,7 @@ public class Game
         }
         else
         {
-            
+            _view.WriteLine(("Archivo de equipos no válido"));
         }
     }
 }

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/juanmdurand/Library/CloudStorage/OneDrive-UniversidadCatólicadeChile/6to Semestre/Diseño Detallado/Fire-Emblem/Fire-Emblem/Fire-Emblem.csproj": {}
+    "/Users/juanmdurand/Library/CloudStorage/OneDrive-UniversidadCatólicadeChile/6to Semestre/Diseño Detallado/ProyectoDDS/Fire-Emblem/Fire-Emblem.csproj": {}
   },
   "projects": {
-    "/Users/juanmdurand/Library/CloudStorage/OneDrive-UniversidadCatólicadeChile/6to Semestre/Diseño Detallado/Fire-Emblem/Fire-Emblem-View/Fire-Emblem-View.csproj": {
+    "/Users/juanmdurand/Library/CloudStorage/OneDrive-UniversidadCatólicadeChile/6to Semestre/Diseño Detallado/ProyectoDDS/Fire-Emblem-View/Fire-Emblem-View.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/juanmdurand/Library/CloudStorage/OneDrive-UniversidadCatólicadeChile/6to Semestre/Diseño Detallado/Fire-Emblem/Fire-Emblem-View/Fire-Emblem-View.csproj",
+        "projectUniqueName": "/Users/juanmdurand/Library/CloudStorage/OneDrive-UniversidadCatólicadeChile/6to Semestre/Diseño Detallado/ProyectoDDS/Fire-Emblem-View/Fire-Emblem-View.csproj",
         "projectName": "Fire-Emblem-View",
-        "projectPath": "/Users/juanmdurand/Library/CloudStorage/OneDrive-UniversidadCatólicadeChile/6to Semestre/Diseño Detallado/Fire-Emblem/Fire-Emblem-View/Fire-Emblem-View.csproj",
+        "projectPath": "/Users/juanmdurand/Library/CloudStorage/OneDrive-UniversidadCatólicadeChile/6to Semestre/Diseño Detallado/ProyectoDDS/Fire-Emblem-View/Fire-Emblem-View.csproj",
         "packagesPath": "/Users/juanmdurand/.nuget/packages/",
-        "outputPath": "/Users/juanmdurand/Library/CloudStorage/OneDrive-UniversidadCatólicadeChile/6to Semestre/Diseño Detallado/Fire-Emblem/Fire-Emblem-View/obj/",
+        "outputPath": "/Users/juanmdurand/Library/CloudStorage/OneDrive-UniversidadCatólicadeChile/6to Semestre/Diseño Detallado/ProyectoDDS/Fire-Emblem-View/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/juanmdurand/.nuget/NuGet/NuGet.Config"
@@ -62,14 +62,14 @@
         }
       }
     },
-    "/Users/juanmdurand/Library/CloudStorage/OneDrive-UniversidadCatólicadeChile/6to Semestre/Diseño Detallado/Fire-Emblem/Fire-Emblem/Fire-Emblem.csproj": {
+    "/Users/juanmdurand/Library/CloudStorage/OneDrive-UniversidadCatólicadeChile/6to Semestre/Diseño Detallado/ProyectoDDS/Fire-Emblem/Fire-Emblem.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/juanmdurand/Library/CloudStorage/OneDrive-UniversidadCatólicadeChile/6to Semestre/Diseño Detallado/Fire-Emblem/Fire-Emblem/Fire-Emblem.csproj",
+        "projectUniqueName": "/Users/juanmdurand/Library/CloudStorage/OneDrive-UniversidadCatólicadeChile/6to Semestre/Diseño Detallado/ProyectoDDS/Fire-Emblem/Fire-Emblem.csproj",
         "projectName": "Fire-Emblem",
-        "projectPath": "/Users/juanmdurand/Library/CloudStorage/OneDrive-UniversidadCatólicadeChile/6to Semestre/Diseño Detallado/Fire-Emblem/Fire-Emblem/Fire-Emblem.csproj",
+        "projectPath": "/Users/juanmdurand/Library/CloudStorage/OneDrive-UniversidadCatólicadeChile/6to Semestre/Diseño Detallado/ProyectoDDS/Fire-Emblem/Fire-Emblem.csproj",
         "packagesPath": "/Users/juanmdurand/.nuget/packages/",
-        "outputPath": "/Users/juanmdurand/Library/CloudStorage/OneDrive-UniversidadCatólicadeChile/6to Semestre/Diseño Detallado/Fire-Emblem/Fire-Emblem/obj/",
+        "outputPath": "/Users/juanmdurand/Library/CloudStorage/OneDrive-UniversidadCatólicadeChile/6to Semestre/Diseño Detallado/ProyectoDDS/Fire-Emblem/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/juanmdurand/.nuget/NuGet/NuGet.Config"
@@ -84,8 +84,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "/Users/juanmdurand/Library/CloudStorage/OneDrive-UniversidadCatólicadeChile/6to Semestre/Diseño Detallado/Fire-Emblem/Fire-Emblem-View/Fire-Emblem-View.csproj": {
-                "projectPath": "/Users/juanmdurand/Library/CloudStorage/OneDrive-UniversidadCatólicadeChile/6to Semestre/Diseño Detallado/Fire-Emblem/Fire-Emblem-View/Fire-Emblem-View.csproj"
+              "/Users/juanmdurand/Library/CloudStorage/OneDrive-UniversidadCatólicadeChile/6to Semestre/Diseño Detallado/ProyectoDDS/Fire-Emblem-View/Fire-Emblem-View.csproj": {
+                "projectPath": "/Users/juanmdurand/Library/CloudStorage/OneDrive-UniversidadCatólicadeChile/6to Semestre/Diseño Detallado/ProyectoDDS/Fire-Emblem-View/Fire-Emblem-View.csproj"
               }
             }
           }
