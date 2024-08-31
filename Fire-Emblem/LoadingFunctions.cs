@@ -1,4 +1,6 @@
+using System.Security.Cryptography;
 using Fire_Emblem_View;
+using System.Text.Json;
 namespace Fire_Emblem
 {
     public class LoadingFunctions
@@ -91,6 +93,12 @@ namespace Fire_Emblem
         private bool AreSkillsValid(List<string> skillsInfo)
         {
             return skillsInfo.Count <= 2 && (skillsInfo.Count < 2 || skillsInfo[0] != skillsInfo[1]);
+        }
+
+        public static Dictionary<string, string> GetUnitInfo(string unitName)
+        {
+            string json = File.ReadAllText("characters.json");
+            List<Dictionary<string, object>> unitsData = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(json);
         }
     }    
 }
