@@ -1,3 +1,4 @@
+using Fire_Emblem_View;
 namespace Fire_Emblem;
 
 public class Combat
@@ -11,8 +12,22 @@ public class Combat
         _player2Units = UnitLoader(playersInfo.Item2);
     }
 
-    private bool UnitLoader(List<Tuple<string, List<string>>>)
+    private List<Unit> UnitLoader(List<Tuple<string, List<string>>> playerInfo)
     {
-        
+        List<Unit> playerUnits = new List<Unit>();
+        foreach (var unitInfo in playerInfo)
+        {
+            Unit unit = LoadingFunctions.CreateUnit(unitInfo.Item1, unitInfo.Item2);
+            playerUnits.Add(unit);
+        }
+        return playerUnits;
+    }
+
+    public void Prueba(View view)
+    {
+        foreach (var unit in _player2Units)
+        {
+            view.WriteLine(unit.Name);
+        }
     }
 }

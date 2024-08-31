@@ -95,10 +95,33 @@ namespace Fire_Emblem
             return skillsInfo.Count <= 2 && (skillsInfo.Count < 2 || skillsInfo[0] != skillsInfo[1]);
         }
 
-        public static Dictionary<string, string> GetUnitInfo(string unitName)
+        public static Unit CreateUnit(string unitName, List<string> skills)
         {
-            string json = File.ReadAllText("characters.json");
-            List<Dictionary<string, object>> unitsData = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(json);
+            using JsonDocument doc = JsonDocument.Parse(File.ReadAllText("characters.json"));
+            JsonElement rootElement = doc.RootElement;
+            Dictionary<string, object> unitData = new Dictionary<string, object>();
+            
+            foreach (JsonElement element in rootElement.EnumerateArray())
+            {
+                if (element.GetProperty("Name").GetString().Equals(unitName))
+                {
+                    unitData["Name"] = element.GetProperty("Name").GetString();
+                    unitData["Weapon"] = element.GetProperty("Weapon").GetString();
+                    unitData["Gender"] = element.GetProperty("Gender").GetString();
+                    unitData["DeathQuote"] = element.GetProperty("DeathQuote").GetString();
+                    unitData["HP"] = int.Parse(element.GetProperty("HP").GetString());
+                    unitData["Atk"] = int.Parse(element.GetProperty("Atk").GetString());
+                    unitData["Spd"] = int.Parse(element.GetProperty("Spd").GetString());
+                    unitData["Def"] = int.Parse(element.GetProperty("Def").GetString());
+                    unitData["Res"] = int.Parse(element.GetProperty("Res").GetString());
+                    unitData["Skills"] = skills;
+                    break;
+                }
+            }
+
+            Unit foundUnit = new Unit(unitData);
+            
+            return foundUnit;
         }
     }    
 }

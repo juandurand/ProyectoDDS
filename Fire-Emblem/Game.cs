@@ -24,7 +24,8 @@ public class Game
         }
         else
         {
-            
+            Combat combat = new Combat(loader.GetPlayers());
+            combat.Prueba(_view);
         }
     }
 }
