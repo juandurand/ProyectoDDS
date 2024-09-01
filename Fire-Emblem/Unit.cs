@@ -32,6 +32,10 @@ public class Unit
 
     public bool IsUnitAlive()
     {
+        if (ActualHP < 0)
+        {
+            ActualHP = 0;
+        }
         return ActualHP > 0;
     }
 
