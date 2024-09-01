@@ -32,16 +32,16 @@ public class Unit
 
     public bool IsUnitAlive()
     {
-        if (ActualHP < 0)
-        {
-            ActualHP = 0;
-        }
         return ActualHP > 0;
     }
 
     public void DealDamage(int damage)
     {
         ActualHP -= damage;
+        if (ActualHP < 0)
+        {
+            ActualHP = 0;
+        }
     }
     
     

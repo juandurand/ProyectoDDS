@@ -39,6 +39,7 @@ public class Damage
         {
             damage = Convert.ToInt32(Math.Floor(attacker.Atk * wtb)) - defender.Def;
         }
+        if (damage < 0) damage = 0;
         return damage;
     }
 

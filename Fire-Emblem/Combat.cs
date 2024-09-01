@@ -81,7 +81,19 @@ public class Combat
             SimulateCounterAttack(defenderUnit, attackerUnit);
             SimulateFollowUp(attackerUnit, defenderUnit);
             _view.WriteLine($"{attackerUnit.Name} ({attackerUnit.ActualHP}) : {defenderUnit.Name} ({defenderUnit.ActualHP})");
-            break;
+            
+            CheckHealth(attackerUnit, GetAttackerIndex());
+            CheckHealth(defenderUnit, GetDefenderIndex());
+            _roundCounter++;
+        }
+
+        if (_player1Units.Count == 0)
+        {
+            _view.WriteLine("Player 2 ganó");
+        }
+        else
+        {
+            _view.WriteLine("Player 1 ganó");
         }
     }
     
@@ -117,6 +129,21 @@ public class Combat
             else
             {
                 _view.WriteLine("Ninguna unidad puede hacer un follow up");
+            }
+        }
+    }
+
+    private void CheckHealth(Unit unit, int playerIndex)
+    {
+        if (!unit.IsUnitAlive())
+        {
+            if (playerIndex == 1)
+            {
+                _player1Units.Remove(unit);
+            }
+            else
+            {
+                _player2Units.Remove(unit);
             }
         }
     }
