@@ -5,26 +5,26 @@ public class Game
 {
     private View _view;
     private string _teamsFolder;
+    private LoadingFunctions _loader;
     
     public Game(View view, string teamsFolder)
     {
         _view = view;
         _teamsFolder = teamsFolder;
+        _loader = new LoadingFunctions(_view, _teamsFolder);
     }
 
     public void Play()
     {
-        // SECCIÓN DE CARGA DE EQUIPOS
-        LoadingFunctions loader = new LoadingFunctions(_view, _teamsFolder);
-        loader.DisplayFileOptions();
+        _loader.DisplayFileOptions();
         
-        if (!loader.IsTeamValid(loader.ChargePlayersInfo()))
+        if (!_loader.IsTeamValid(_loader.ChargePlayersInfo()))
         {
             _view.WriteLine(("Archivo de equipos no válido"));
         }
         else
         {
-            Combat combat = new Combat(loader.GetPlayers(), _view);
+            Combat combat = new Combat(_loader.GetPlayers(), _view);
             combat.InitiateCombat();
         }
     }

@@ -1,5 +1,4 @@
 namespace Fire_Emblem;
-using System.Text.Json.Serialization;
 
 public class Unit
 {
@@ -7,12 +6,12 @@ public class Unit
     public string Weapon;
     public string Gender;
     public string DeathQuote;
-    public int HP;
+    public int Hp;
     public int Atk;
     public int Spd;
     public int Def;
     public int Res;
-    public int ActualHP;
+    public int ActualHp;
     public List<string> Skills;
 
     public Unit(Dictionary<string, object> unitData)
@@ -21,26 +20,26 @@ public class Unit
         Weapon = (string)unitData["Weapon"];
         Gender = (string)unitData["Gender"];
         DeathQuote = (string)unitData["DeathQuote"];
-        HP = (int)unitData["HP"];
+        Hp = (int)unitData["HP"];
         Atk = (int)unitData["Atk"];
         Spd = (int)unitData["Spd"];
         Def = (int)unitData["Def"];
         Res = (int)unitData["Res"];
-        ActualHP = (int)unitData["HP"];
+        ActualHp = (int)unitData["HP"];
         Skills = (List<string>)unitData["Skills"];
     }
 
     public bool IsUnitAlive()
     {
-        return ActualHP > 0;
+        return ActualHp > 0;
     }
 
     public void DealDamage(int damage)
     {
-        ActualHP -= damage;
-        if (ActualHP < 0)
+        ActualHp -= damage;
+        if (ActualHp < 0)
         {
-            ActualHP = 0;
+            ActualHp = 0;
         }
     }
     

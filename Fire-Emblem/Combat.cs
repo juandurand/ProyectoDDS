@@ -20,41 +20,48 @@ public class Combat
     private List<Unit> UnitLoader(List<Tuple<string, List<string>>> playerInfo)
     {
         List<Unit> playerUnits = new List<Unit>();
+        
         foreach (var unitInfo in playerInfo)
         {
             Unit unit = LoadingFunctions.CreateUnit(unitInfo.Item1, unitInfo.Item2);
             playerUnits.Add(unit);
         }
+        
         return playerUnits;
     }
 
     private int GetAttackerIndex()
     {
         if (_roundCounter % 2 == 0) return 2;
+        
         return 1;
     }
     
     private int GetDefenderIndex()
     {
         if (_roundCounter % 2 == 0) return 1;
+        
         return 2;
     }
 
     private List<Unit> GetPlayersUnitsByIndex(int index)
     {
         if (index == 1) return _player1Units;
+        
         return _player2Units;
     }
 
     private string GetPlayerNameByIndex(int index)
     {
         if (index == 1) return "Player 1";
+        
         return "Player 2";
     }
     
-    private void DisplayPlayerTeams(int playerIndex, List<Unit> playerUnits)
+    private void DisplayPlayerTeam(int playerIndex, List<Unit> playerUnits)
     {
         _view.WriteLine($"Player {playerIndex} selecciona una opción");
+        
         for (int i = 0; i < playerUnits.Count; i++)
         {
             Unit unit = playerUnits[i];
@@ -67,11 +74,11 @@ public class Combat
         while (_player1Units.Count != 0 && _player2Units.Count != 0)
         {
             List<Unit> attackerUnits = GetPlayersUnitsByIndex(GetAttackerIndex());
-            DisplayPlayerTeams(GetAttackerIndex(), attackerUnits);
+            DisplayPlayerTeam(GetAttackerIndex(), attackerUnits);
             Unit attackerUnit = attackerUnits[Convert.ToInt32(_view.ReadLine())];
             
             List<Unit> defenderUnits = GetPlayersUnitsByIndex(GetDefenderIndex());
-            DisplayPlayerTeams(GetDefenderIndex(), GetPlayersUnitsByIndex(GetDefenderIndex()));
+            DisplayPlayerTeam(GetDefenderIndex(), GetPlayersUnitsByIndex(GetDefenderIndex()));
             Unit defenderUnit = defenderUnits[Convert.ToInt32(_view.ReadLine())];
             
             _view.WriteLine($"Round {_roundCounter}: {attackerUnit.Name} ({GetPlayerNameByIndex(GetAttackerIndex())}) comienza");
@@ -80,7 +87,7 @@ public class Combat
             SimulateAttack(attackerUnit, defenderUnit);
             SimulateCounterAttack(defenderUnit, attackerUnit);
             SimulateFollowUp(attackerUnit, defenderUnit);
-            _view.WriteLine($"{attackerUnit.Name} ({attackerUnit.ActualHP}) : {defenderUnit.Name} ({defenderUnit.ActualHP})");
+            _view.WriteLine($"{attackerUnit.Name} ({attackerUnit.ActualHp}) : {defenderUnit.Name} ({defenderUnit.ActualHp})");
             
             CheckHealth(attackerUnit, GetAttackerIndex());
             CheckHealth(defenderUnit, GetDefenderIndex());
