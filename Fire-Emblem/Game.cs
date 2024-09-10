@@ -3,15 +3,13 @@ namespace Fire_Emblem;
 
 public class Game
 {
-    private View _view;
-    private string _teamsFolder;
-    private LoadingFunctions _loader;
+    private readonly View _view;
+    private readonly LoadingFunctions _loader;
     
     public Game(View view, string teamsFolder)
     {
         _view = view;
-        _teamsFolder = teamsFolder;
-        _loader = new LoadingFunctions(_view, _teamsFolder);
+        _loader = new LoadingFunctions(_view, teamsFolder);
     }
 
     public void Play()

@@ -2,20 +2,21 @@ namespace Fire_Emblem;
 
 public class Unit
 {
-    public string Name;
-    public string Weapon;
-    public string Gender;
-    public string DeathQuote;
-    public int Hp;
-    public int Atk;
-    public int Spd;
-    public int Def;
-    public int Res;
+    public readonly string Name;
+    public readonly string Weapon;
+    public readonly string Gender;
+    public readonly string DeathQuote;
+    public readonly int Hp;
+    public readonly int Atk;
+    public readonly int Spd;
+    public readonly int Def;
+    public readonly int Res;
     public int ActualHp;
     public List<string> Skills;
 
     public Unit(Dictionary<string, object> unitData)
     {
+        // SOBRECARGAR CONSTRUCTOR?
         Name = (string)unitData["Name"];
         Weapon = (string)unitData["Weapon"];
         Gender = (string)unitData["Gender"];

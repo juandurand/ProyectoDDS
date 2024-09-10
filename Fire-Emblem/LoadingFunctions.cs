@@ -1,4 +1,3 @@
-using System.Security.Cryptography;
 using Fire_Emblem_View;
 using System.Text.Json;
 namespace Fire_Emblem
@@ -7,8 +6,8 @@ namespace Fire_Emblem
     {
         private List<Tuple<string, List<string>>> _player1Info;
         private List<Tuple<string, List<string>>> _player2Info;
-        private View _view;
-        private string _teamsFolder;
+        private readonly View _view;
+        private readonly string _teamsFolder;
         
         public LoadingFunctions(View view, string teamsFolder)
         {
