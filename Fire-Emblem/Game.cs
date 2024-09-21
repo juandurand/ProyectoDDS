@@ -4,26 +4,35 @@ namespace Fire_Emblem;
 public class Game
 {
     private readonly View _view;
-    private readonly LoadingFunctions _loader;
+    private readonly TeamLoader _teamLoader;
+    private readonly string _teamsFolder;
     
     public Game(View view, string teamsFolder)
     {
+        TeamParser parser = new TeamParser(teamsFolder);
+        
         _view = view;
-        _loader = new LoadingFunctions(_view, teamsFolder);
+        _teamsFolder = teamsFolder;
+        _teamLoader = new TeamLoader(_view, parser);
     }
 
     public void Play()
     {
-        _loader.DisplayFileOptions();
+        _view.DisplayTeamSelection(_teamsFolder);
         
-        if (!_loader.IsTeamValid(_loader.ChargePlayersInfo()))
+        if (!_teamLoader.IsTeamValid(_teamLoader.ChargePlayersInfo()))
         {
             _view.WriteLine(("Archivo de equipos no válido"));
         }
         else
         {
-            Combat combat = new Combat(_loader.GetPlayers(), _view);
-            combat.InitiateCombat();
+            StartCombat();
         }
+    }
+
+    private void StartCombat()
+    {
+        Combat combat = new Combat(_teamLoader.GetPlayers(), _view);
+        combat.InitiateCombat();
     }
 }

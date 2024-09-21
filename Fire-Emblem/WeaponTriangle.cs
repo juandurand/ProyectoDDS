@@ -1,6 +1,5 @@
 using Fire_Emblem_View;
-
-namespace Fire_Emblem;
+namespace Fire_Emblem_Common;
 
 public class WeaponTriangle
 {
@@ -12,8 +11,8 @@ public class WeaponTriangle
         { "Magic", ("", "")},
         { "Bow", ("", "")}
     };
-
     private readonly View _view;
+    
     public WeaponTriangle(View view)
     {
         _view = view;
@@ -33,6 +32,7 @@ public class WeaponTriangle
         double wtb = CalculateWtb(attacker.Weapon, defender.Weapon);
         const double epsilon = 0.0001;
         
+        // QUE PASA CON ESE 1.2 0.8 0.0001 (Naming CAP1)
         if (Math.Abs(wtb - 1.0) < epsilon)
         {
             _view.WriteLine("Ninguna unidad tiene ventaja con respecto a la otra");

@@ -1,155 +1,65 @@
+using Fire_Emblem_Common;
 using Fire_Emblem_View;
 namespace Fire_Emblem;
 
 public class Combat
 {
-    private readonly List<Unit> _player1Units;
-    private readonly List<Unit> _player2Units;
+    private readonly List<Unit>[] _playersUnits;
     private readonly View _view;
     private int _roundCounter = 1;
-    private readonly WeaponTriangle _weaponTriangle;
+    private Round _round;
 
     public Combat((List<Tuple<string, List<string>>>, List<Tuple<string, List<string>>>) playersInfo, View view)
     {
-        // SOBRECARGAR CONSTRUCTOR?
-        _player1Units = UnitLoader(playersInfo.Item1);
-        _player2Units = UnitLoader(playersInfo.Item2);
+        _playersUnits = new List<Unit>[2]
+        {
+            UnitsLoader.LoadUnits(playersInfo.Item1),
+            UnitsLoader.LoadUnits(playersInfo.Item2)
+        };
         _view = view;
-        _weaponTriangle = new WeaponTriangle(_view);
+        _round = new Round(view);
     }
-
-    private static List<Unit> UnitLoader(List<Tuple<string, List<string>>> playerInfo)
-    {
-        var playerUnits = new List<Unit>();
-        
-        foreach (var unitInfo in playerInfo)
-        {
-            var unit = LoadingFunctions.CreateUnit(unitInfo.Item1, unitInfo.Item2);
-            playerUnits.Add(unit);
-        }
-        
-        return playerUnits;
-    }
-
-    private int GetAttackerIndex()
-    {
-        return _roundCounter % 2 == 0 ? 2 : 1;
-    }
-    // QUE PASA CON ESE 2 (Naming)
-    private int GetDefenderIndex()
-    {
-        return _roundCounter % 2 == 0 ? 1 : 2;
-    }
-
-    private List<Unit> GetPlayerUnitsByIndex(int playerIndex)
-    {
-        return playerIndex == 1 ? _player1Units : _player2Units;
-    }
-
-    private static string GetPlayerNameByIndex(int playerIndex)
-    {
-        return playerIndex == 1 ? "Player 1" : "Player 2";
-    }
-    
-    private void DisplayPlayerTeam(int playerIndex, List<Unit> playerUnits)
-    {
-        _view.WriteLine($"Player {playerIndex} selecciona una opción");
-        
-        for (int unitIndex = 0; unitIndex < playerUnits.Count; unitIndex++)
-        {
-            Unit unit = playerUnits[unitIndex];
-            _view.WriteLine($"{unitIndex}: " + unit.Name);
-        }
-    }
-
-    private Unit SetAttackerUnit()
-    {
-        List<Unit> attackerUnits = GetPlayerUnitsByIndex(GetAttackerIndex());
-        DisplayPlayerTeam(GetAttackerIndex(), attackerUnits);
-        return attackerUnits[Convert.ToInt32(_view.ReadLine())];
-    }
-    
-    private Unit SetDefenderUnit()
-    {
-        List<Unit> defenderUnits = GetPlayerUnitsByIndex(GetDefenderIndex());
-        DisplayPlayerTeam(GetDefenderIndex(), GetPlayerUnitsByIndex(GetDefenderIndex()));
-        return defenderUnits[Convert.ToInt32(_view.ReadLine())];
-    }
-    
     
     public void InitiateCombat()
     {
-        while (_player1Units.Count != 0 && _player2Units.Count != 0)
+        while (_playersUnits[0].Count > 0 && _playersUnits[1].Count > 0)
         {
-            Unit attackerUnit = SetAttackerUnit();
-            Unit defenderUnit = SetDefenderUnit();
-            
-            // Announce round and WTB
-            _view.WriteLine($"Round {_roundCounter}: {attackerUnit.Name} ({GetPlayerNameByIndex(GetAttackerIndex())}) comienza");
-            _weaponTriangle.AnnounceWtb(attackerUnit, defenderUnit);
-            
-            // Simulate Attacks
-            SimulateRound(attackerUnit, defenderUnit);
-            
-            _view.WriteLine($"{attackerUnit.Name} ({attackerUnit.ActualHp}) : {defenderUnit.Name} ({defenderUnit.ActualHp})");
-            
-            // Check Units Health after attacks
-            CheckHealth(attackerUnit, GetAttackerIndex());
-            CheckHealth(defenderUnit, GetDefenderIndex());
-            
-            // Round passed
+            ProcessCombatRound();
             _roundCounter++;
         }
 
         // Announce winner
-        _view.WriteLine(_player1Units.Count == 0 ? "Player 2 ganó" : "Player 1 ganó");
+        _view.AnnounceWinner(_playersUnits);
     }
 
-    private void SimulateRound(Unit attackerUnit, Unit defenderUnit)
+    private void ProcessCombatRound()
     {
-        SimulateAttack(attackerUnit, defenderUnit);
-        SimulateCounterAttack(defenderUnit, attackerUnit);
-        SimulateFollowUp(attackerUnit, defenderUnit);
-    }
-    
-    private void SimulateAttack(Unit attackerUnit, Unit defenderUnit)
-    {
-        int damage = Damage.GetDamage(attackerUnit, defenderUnit);
-        defenderUnit.DealDamage(damage);
-        _view.WriteLine($"{attackerUnit.Name} ataca a {defenderUnit.Name} con {damage} de daño");
-    }
-
-    private void SimulateCounterAttack(Unit attackerUnit, Unit defenderUnit)
-    {
-        if (attackerUnit.IsUnitAlive())
-        {
-            SimulateAttack(attackerUnit, defenderUnit);
-        }
-    }
-
-    private void SimulateFollowUp(Unit attackerUnit, Unit defenderUnit)
-    {
-        if (!attackerUnit.IsUnitAlive() || !defenderUnit.IsUnitAlive())
-        {
-            return;
-        }
-
-        int requiredSpdDifference = 4;
-        // FollowUp ** Skills cambia esto
-        if (attackerUnit.Spd - defenderUnit.Spd > requiredSpdDifference)
-        {
-            SimulateAttack(attackerUnit, defenderUnit);
-        }
-    
-        else if (attackerUnit.Spd - defenderUnit.Spd < -requiredSpdDifference)
-        {
-            SimulateAttack(defenderUnit, attackerUnit);
-        }
-        else
-        {
-            _view.WriteLine("Ninguna unidad puede hacer un follow up");
-        }
+        Unit attackerUnit = ChooseUnit(GetAttackerIndex());
+        Unit defenderUnit = ChooseUnit(GetDefenderIndex());
         
+        _view.AnnounceRound(_roundCounter, attackerUnit, defenderUnit, GetPlayerName(GetAttackerIndex()));
+        _round.SimulateRound(attackerUnit, defenderUnit);
+        _view.ReportRoundSummary(attackerUnit, defenderUnit);
+        
+        CheckInvolvedUnitsHealth(attackerUnit, defenderUnit);
+    }
+    
+    private int GetAttackerIndex() => (_roundCounter + 1) % 2;
+    private int GetDefenderIndex() => _roundCounter % 2;
+    
+    private static string GetPlayerName(int index) => index == 0 ? "Player 1" : "Player 2";
+
+    private Unit ChooseUnit(int playerIndex)
+    {
+        _view.DisplayPlayerTeam(playerIndex + 1, _playersUnits[playerIndex]);
+        int unitIndex = Convert.ToInt32(_view.ReadLine());
+        return _playersUnits[playerIndex][unitIndex];
+    }
+
+    private void CheckInvolvedUnitsHealth(Unit attackerUnit, Unit defenderUnit)
+    {
+        CheckHealth(attackerUnit, GetAttackerIndex());
+        CheckHealth(defenderUnit, GetDefenderIndex());
     }
 
     private void CheckHealth(Unit unit, int playerIndex)
@@ -158,14 +68,6 @@ public class Combat
         {
             return;
         }
-        
-        if (playerIndex == 1)
-        {
-            _player1Units.Remove(unit);
-        }
-        else
-        {
-            _player2Units.Remove(unit);
-        }
+        _playersUnits[playerIndex].Remove(unit);
     }
 }

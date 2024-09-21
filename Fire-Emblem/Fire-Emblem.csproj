@@ -12,4 +12,10 @@
       <ProjectReference Include="..\Fire-Emblem-View\Fire-Emblem-View.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="Unit.cs" />
+      <Compile Remove="WeaponTriangle.cs" />
+      <Compile Remove="LoadingFunctions.cs" />
+    </ItemGroup>
+
 </Project>

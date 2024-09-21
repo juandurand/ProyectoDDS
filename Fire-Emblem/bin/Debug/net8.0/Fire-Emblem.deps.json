@@ -14,7 +14,18 @@
           "Fire-Emblem.dll": {}
         }
       },
+      "Fire-Emblem-Common/1.0.0": {
+        "runtime": {
+          "Fire-Emblem-Common.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
       "Fire-Emblem-View/1.0.0": {
+        "dependencies": {
+          "Fire-Emblem-Common": "1.0.0"
+        },
         "runtime": {
           "Fire-Emblem-View.dll": {
             "assemblyVersion": "1.0.0",
@@ -26,6 +37,11 @@
   },
   "libraries": {
     "Fire-Emblem/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Fire-Emblem-Common/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
