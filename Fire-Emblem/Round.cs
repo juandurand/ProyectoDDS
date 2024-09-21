@@ -49,10 +49,10 @@ public class Round
         }
     }
 
-    private bool CanFollowUp(Unit fasterUnit, Unit slowerUnit)
+    private bool CanFollowUp(Unit attackerUnit, Unit defenderUnit)
     {
         int followUpSpeedThreshold = 4;
-        return fasterUnit.Spd - slowerUnit.Spd > followUpSpeedThreshold;
+        return attackerUnit.GetTotalSpd() - defenderUnit.GetTotalSpd() > followUpSpeedThreshold;
     }
 
 }

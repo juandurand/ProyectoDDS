@@ -7,9 +7,9 @@ public static class Damage
     {
         double weaponTriangleBonus = WeaponTriangle.CalculateWtb(attacker.Weapon, defender.Weapon);
         
-        int defense = attacker.Weapon == "Magic" ? defender.Res : defender.Def;
+        int defense = attacker.Weapon == "Magic" ? defender.GetTotalRes() : defender.GetTotalDef();
         
-        int damage = Convert.ToInt32(Math.Floor(attacker.Atk * weaponTriangleBonus)) - defense;
+        int damage = Convert.ToInt32(Math.Floor(attacker.GetTotalAtk() * weaponTriangleBonus)) - defense;
         
         return Math.Max(damage, 0);
     }

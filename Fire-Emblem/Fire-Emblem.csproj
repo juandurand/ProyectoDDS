@@ -17,6 +17,7 @@
       <Compile Remove="WeaponTriangle.cs" />
       <Compile Remove="LoadingFunctions.cs" />
       <Compile Remove="HPCondition.cs" />
+      <Compile Remove="Effects\Res.cs" />
     </ItemGroup>
 
 </Project>

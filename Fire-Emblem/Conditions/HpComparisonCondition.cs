@@ -1,11 +1,11 @@
 using Fire_Emblem_Common;
 namespace Fire_Emblem.Conditions;
 
-public class HPComparisonCondition:Condition
+public class HpComparisonCondition:Condition
 {
     private readonly int _requiredDifference;
     
-    public HPComparisonCondition(int requiredDifference)
+    public HpComparisonCondition(int requiredDifference)
     {
         _requiredDifference = requiredDifference;
     }

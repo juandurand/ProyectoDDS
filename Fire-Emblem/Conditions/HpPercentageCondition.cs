@@ -1,12 +1,12 @@
 using Fire_Emblem_Common;
 namespace Fire_Emblem.Conditions;
 
-public class HPPercentageCondition:Condition
+public class HpPercentageCondition:Condition
 {
     private readonly double _requiredPercentage;
     private readonly string _analyzedUnit;
     
-    public HPPercentageCondition(double requiredPercentage, string analyzedUnit)
+    public HpPercentageCondition(double requiredPercentage, string analyzedUnit)
     {
         _analyzedUnit = analyzedUnit;
         _requiredPercentage = requiredPercentage;
