@@ -1,5 +1,7 @@
 using Fire_Emblem_Common;
 using Fire_Emblem_View;
+using Fire_Emblem.Conditions;
+
 namespace Fire_Emblem;
 
 public class Round

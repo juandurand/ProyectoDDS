@@ -40,11 +40,12 @@ public class Combat
         _view.AnnounceRound(_roundCounter, attackerUnit, defenderUnit, GetPlayerName(GetAttackerIndex()));
         _round.SimulateRound(attackerUnit, defenderUnit);
         _view.ReportRoundSummary(attackerUnit, defenderUnit);
-        
+        SetLastOpponent(attackerUnit, defenderUnit);
         CheckInvolvedUnitsHealth(attackerUnit, defenderUnit);
     }
     
     private int GetAttackerIndex() => (_roundCounter + 1) % 2;
+    
     private int GetDefenderIndex() => _roundCounter % 2;
     
     private static string GetPlayerName(int index) => index == 0 ? "Player 1" : "Player 2";
@@ -69,5 +70,11 @@ public class Combat
             return;
         }
         _playersUnits[playerIndex].Remove(unit);
+    }
+
+    private static void SetLastOpponent(Unit attackerUnit, Unit defenderUnit)
+    {
+        attackerUnit.LastOpponent = defenderUnit;
+        defenderUnit.LastOpponent = attackerUnit;
     }
 }

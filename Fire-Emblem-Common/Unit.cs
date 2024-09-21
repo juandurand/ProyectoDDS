@@ -13,6 +13,7 @@ public class Unit
     public readonly int Res;
     public int ActualHp;
     public List<string> Skills;
+    public Unit LastOpponent;
 
     public Unit(Dictionary<string, object> unitData)
     {
@@ -28,10 +29,13 @@ public class Unit
         Res = (int)unitData["Res"];
         ActualHp = (int)unitData["HP"];
         Skills = (List<string>)unitData["Skills"];
+
+        LastOpponent = null;
     }
 
     public bool IsUnitAlive()
     {
+        
         return ActualHp > 0;
     }
 
@@ -43,6 +47,10 @@ public class Unit
             ActualHp = 0;
         }
     }
-    
+
+    public double GetHPPercentage()
+    {
+        return ActualHp / Hp;
+    }
     
 }
