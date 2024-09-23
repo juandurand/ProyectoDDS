@@ -12,7 +12,7 @@ public class SandstormEffectt:Effectt
         if (adjustment > 0) {
             unit.AtkFollowUpBonus += adjustment;
         } else if (adjustment < 0) {
-            unit.AtkFollowUpPenalty += adjustment;
+            unit.AtkFollowUpPenalty += Math.Abs(adjustment);
         }
     }
 }

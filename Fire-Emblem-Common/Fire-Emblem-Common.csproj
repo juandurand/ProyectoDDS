@@ -10,6 +10,7 @@
 
     <ItemGroup>
       <Compile Remove="Effects\Res.cs" />
+      <Compile Remove="Conditions\HpLossCondition.cs" />
     </ItemGroup>
 
 </Project>

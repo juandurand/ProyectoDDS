@@ -14,19 +14,15 @@ public static class SkillFactory
         string conditionConnector = "No Connector";
         string typeOfUnit = "Unit";
         
-        //                  HP+15
-        
         if (skillName == "HP +15")
         {
-            Effectt effect = new AlterBaseStatsEffectt();
+            Effectt effect = new AlterBaseStatsEffectt(skillName);
             effects.Add(effect);
         }
         
-        //                  BONUUUUS 
-        
         if (skillName == "Fair Fight")
         {
-            Condition condition = new FirstAttackCondition("Unit", unit.Name);
+            Condition condition = new FirstAttackCondition("Unit", unit.PersonalizedName);
             conditions.Add(condition);
 
             Effectt effect = new AtkBonusEffectt(6);
@@ -61,7 +57,7 @@ public static class SkillFactory
         
         if (skillName == "Perceptive")
         {
-            Condition condition = new FirstAttackCondition("Unit", unit.Name);
+            Condition condition = new FirstAttackCondition("Unit", unit.PersonalizedName);
             conditions.Add(condition);
 
             Effectt effect = new SpdBonusEffectt(12 + unit.Spd/4);
@@ -100,11 +96,8 @@ public static class SkillFactory
         
         if (skillName == "Wrath")
         {
-            int bonus = Math.Min(unit.Hp - unit.ActualHp, 0);
-            Effectt effect1 = new SpdBonusEffectt(Math.Max(bonus, 30));
-            Effectt effect2 = new AtkBonusEffectt(Math.Max(bonus, 30));
-            effects.Add(effect1);
-            effects.Add(effect2);
+            Effectt effect = new AlterBaseStatsEffectt("Wrath");
+            effects.Add(effect);
         }
         
         if (skillName == "Resolve")
@@ -152,7 +145,7 @@ public static class SkillFactory
         {
             List<string> requiredWeaponType = new List<string> { "Sword" };
             Condition condition1 = new WeaponTypeCondition("Unit", requiredWeaponType);
-            Condition condition2 = new FirstAttackCondition("Unit", unit.Name);
+            Condition condition2 = new FirstAttackCondition("Unit", unit.PersonalizedName);
             conditions.Add(condition1);
             conditions.Add(condition2);
 
@@ -166,7 +159,7 @@ public static class SkillFactory
         
         if (skillName == "Death Blow")
         {
-            Condition condition = new FirstAttackCondition("Unit", unit.Name);
+            Condition condition = new FirstAttackCondition("Unit", unit.PersonalizedName);
             conditions.Add(condition);
 
             Effectt effect = new AtkBonusEffectt(8);
@@ -175,7 +168,7 @@ public static class SkillFactory
         
         if (skillName == "Armored Blow")
         {
-            Condition condition = new FirstAttackCondition("Unit", unit.Name);
+            Condition condition = new FirstAttackCondition("Unit", unit.PersonalizedName);
             conditions.Add(condition);
 
             Effectt effect = new DefBonusEffectt(8);
@@ -184,7 +177,7 @@ public static class SkillFactory
         
         if (skillName == "Darting Blow")
         {
-            Condition condition = new FirstAttackCondition("Unit", unit.Name);
+            Condition condition = new FirstAttackCondition("Unit", unit.PersonalizedName);
             conditions.Add(condition);
 
             Effectt effect = new SpdBonusEffectt(8);
@@ -193,7 +186,7 @@ public static class SkillFactory
         
         if (skillName == "Warding Blow")
         {
-            Condition condition = new FirstAttackCondition("Unit", unit.Name);
+            Condition condition = new FirstAttackCondition("Unit", unit.PersonalizedName);
             conditions.Add(condition);
 
             Effectt effect = new ResBonusEffectt(8);
@@ -202,7 +195,7 @@ public static class SkillFactory
         
         if (skillName == "Swift Sparrow")
         {
-            Condition condition = new FirstAttackCondition("Unit", unit.Name);
+            Condition condition = new FirstAttackCondition("Unit", unit.PersonalizedName);
             conditions.Add(condition);
 
             Effectt effect1 = new AtkBonusEffectt(6);
@@ -213,7 +206,7 @@ public static class SkillFactory
         
         if (skillName == "Sturdy Blow")
         {
-            Condition condition = new FirstAttackCondition("Unit", unit.Name);
+            Condition condition = new FirstAttackCondition("Unit", unit.PersonalizedName);
             conditions.Add(condition);
 
             Effectt effect1 = new AtkBonusEffectt(6);
@@ -224,7 +217,7 @@ public static class SkillFactory
         
         if (skillName == "Mirror Strike")
         {
-            Condition condition = new FirstAttackCondition("Unit", unit.Name);
+            Condition condition = new FirstAttackCondition("Unit", unit.PersonalizedName);
             conditions.Add(condition);
 
             Effectt effect1 = new AtkBonusEffectt(6);
@@ -235,7 +228,7 @@ public static class SkillFactory
         
         if (skillName == "Steady Blow")
         {
-            Condition condition = new FirstAttackCondition("Unit", unit.Name);
+            Condition condition = new FirstAttackCondition("Unit", unit.PersonalizedName);
             conditions.Add(condition);
 
             Effectt effect1 = new DefBonusEffectt(6);
@@ -246,7 +239,7 @@ public static class SkillFactory
         
         if (skillName == "Swift Strike")
         {
-            Condition condition = new FirstAttackCondition("Unit", unit.Name);
+            Condition condition = new FirstAttackCondition("Unit", unit.PersonalizedName);
             conditions.Add(condition);
 
             Effectt effect1 = new ResBonusEffectt(6);
@@ -257,7 +250,7 @@ public static class SkillFactory
         
         if (skillName == "Bracing Blow")
         {
-            Condition condition = new FirstAttackCondition("Unit", unit.Name);
+            Condition condition = new FirstAttackCondition("Unit", unit.PersonalizedName);
             conditions.Add(condition);
 
             Effectt effect1 = new ResBonusEffectt(6);
@@ -368,28 +361,20 @@ public static class SkillFactory
             effects.Add(effect);
         }
         
-        if (skillName == "Chaos Style") // FALTA EL CASO AL REVESSS
+        if (skillName == "Chaos Style")
         {
-            List<string> requiredWeaponType1 = new List<string> { "Sword", "Bow", "Lance", "Axe" };
-            Condition condition1 = new WeaponTypeCondition("Unit", requiredWeaponType1);
-            Condition condition2 = new FirstAttackCondition("Unit", unit.Name);
-            List<string> requiredWeaponType2 = new List<string> { "Magic" };
-            Condition condition3 = new WeaponTypeCondition("Unit", requiredWeaponType2);
-            conditions.Add(condition1);
-            conditions.Add(condition2);
-            conditions.Add(condition3);
+            Condition condition = new ChaosStyleCondition(unit.PersonalizedName);
+            conditions.Add(condition);
 
             Effectt effect = new SpdBonusEffectt(3);
             effects.Add(effect);
-            
-            conditionConnector = "And";
         }
         
         //                  PENALTY
         
         if (skillName == "Blinding Flash")
         {
-            Condition condition = new FirstAttackCondition("Unit", unit.Name);
+            Condition condition = new FirstAttackCondition("Unit", unit.PersonalizedName);
             conditions.Add(condition);
 
             Effectt effect = new SpdPenaltyEffectt(4);
@@ -400,7 +385,7 @@ public static class SkillFactory
         
         if (skillName == "Not *Quite*")
         {
-            Condition condition = new FirstAttackCondition("Rival", unit.Name);
+            Condition condition = new FirstAttackCondition("Rival", unit.PersonalizedName);
             conditions.Add(condition);
 
             Effectt effect = new AtkPenaltyEffectt(4);
@@ -456,7 +441,7 @@ public static class SkillFactory
         
         if (skillName == "Belief in Love")
         {
-            Condition condition1 = new FirstAttackCondition("Rival", unit.Name);
+            Condition condition1 = new FirstAttackCondition("Rival", unit.PersonalizedName);
             Condition condition2 = new HpPercentageCondition(1.0, "Rival");
             conditions.Add(condition1);
             conditions.Add(condition2);
@@ -480,14 +465,14 @@ public static class SkillFactory
         }
         
         //                  PENALTY NEUTRALIZATION
-        if (skillName == "Beorc's Blessing") 
+        if (skillName == "Agnea's Arrow") 
         {
             Effectt effect = new PenaltyNeutralizationEffectt(statType);
             effects.Add(effect);
         }
         
         //                  HIBRIDS
-        if (skillName == "SoulBlade")
+        if (skillName == "Soulblade")
         {
             List<string> requiredWeaponType = new List<string> { "Sword" };
             Condition condition = new WeaponTypeCondition("Unit", requiredWeaponType);
@@ -499,7 +484,7 @@ public static class SkillFactory
             typeOfUnit = "Rival";
         }
         
-        if (skillName == "SoulBlade")
+        if (skillName == "Sandstorm")
         {
             Effectt effect = new SandstormEffectt();
             effects.Add(effect);
@@ -605,7 +590,7 @@ public static class SkillFactory
         {
             List<string> requiredWeaponType = new List<string> { "Sword", "Lance", "Axe" };
             Condition condition1 = new WeaponTypeCondition("Rival", requiredWeaponType);
-            Condition condition2 = new FirstAttackCondition("Rival", unit.Name);
+            Condition condition2 = new FirstAttackCondition("Rival", unit.PersonalizedName);
             conditions.Add(condition1);
             conditions.Add(condition2);
 
@@ -623,7 +608,7 @@ public static class SkillFactory
         {
             List<string> requiredWeaponType = new List<string> { "Magic", "Bow" };
             Condition condition1 = new WeaponTypeCondition("Rival", requiredWeaponType);
-            Condition condition2 = new FirstAttackCondition("Rival", unit.Name);
+            Condition condition2 = new FirstAttackCondition("Rival", unit.PersonalizedName);
             conditions.Add(condition1);
             conditions.Add(condition2);
 
@@ -760,7 +745,7 @@ public static class SkillFactory
         if (skillName == "Dragonskin") // ARREGLARRR
         {
             Condition condition1 = new HpPercentageCondition(0.75, "Rival");
-            Condition condition2 = new FirstAttackCondition("Rival", unit.Name);
+            Condition condition2 = new FirstAttackCondition("Rival", unit.PersonalizedName);
             conditions.Add(condition1);
             conditions.Add(condition2);
 
@@ -797,7 +782,7 @@ public static class SkillFactory
         }
         
         
-        Skill skill = new Skill(effects, conditions, conditionConnector, typeOfUnit, unit.Name);
+        Skill skill = new Skill(effects, conditions, conditionConnector, typeOfUnit, unit.PersonalizedName);
         return skill;
     }
 }

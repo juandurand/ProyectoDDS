@@ -3,6 +3,7 @@ namespace Fire_Emblem_Common;
 public class Unit
 {
     public readonly string Name;
+    public readonly string PersonalizedName;
     public readonly string Weapon;
     public readonly string Gender;
     public readonly string DeathQuote;
@@ -34,8 +35,19 @@ public class Unit
     public int AtkFollowUpBonus;
     public int AtkFollowUpPenalty;
 
+    public bool AtkBonusNeutralization;
+    public bool SpdBonusNeutralization;
+    public bool DefBonusNeutralization;
+    public bool ResBonusNeutralization;
+
+    public bool AtkPenaltyNeutralization;
+    public bool SpdPenaltyNeutralization;
+    public bool DefPenaltyNeutralization;
+    public bool ResPenaltyNeutralization;
+
     public Unit(Dictionary<string, object> unitData)
     {
+        PersonalizedName = (string)unitData["PersonalizedName"];
         Name = (string)unitData["Name"];
         Weapon = (string)unitData["Weapon"];
         Gender = (string)unitData["Gender"];
@@ -71,6 +83,10 @@ public class Unit
         ResBonus = 0;
         AtkFirstAttackBonus = 0;
         AtkFollowUpBonus = 0;
+        AtkBonusNeutralization = false;
+        SpdBonusNeutralization = false;
+        DefBonusNeutralization = false;
+        ResBonusNeutralization = false;
     }
     
     public void ResetPenalty()
@@ -82,6 +98,10 @@ public class Unit
         DefFirstAttackPenalty = 0;
         ResFirstAttackPenalty = 0;
         AtkFollowUpPenalty = 0;
+        AtkPenaltyNeutralization = false;
+        SpdPenaltyNeutralization = false;
+        DefPenaltyNeutralization = false;
+        ResPenaltyNeutralization = false;
     }
     
     public bool IsUnitAlive()
@@ -106,38 +126,92 @@ public class Unit
 
     public int GetTotalAtk(string attackType)
     {
-        if (attackType == "First Attack")
+        int totalAtk = Atk;
+    
+        if (!AtkBonusNeutralization)
         {
-            return Atk + AtkBonus + AtkFirstAttackBonus - AtkPenalty;
+            totalAtk += AtkBonus;
+
+            if (attackType == "First Attack")
+            {
+                totalAtk += AtkFirstAttackBonus;
+            }
+            else if (attackType == "Follow-Up")
+            {
+                totalAtk += AtkFollowUpBonus;
+            }
         }
-        if (attackType == "Counter Attack")
+        
+        if (!AtkPenaltyNeutralization)
         {
-            return Atk + AtkBonus - AtkPenalty;
+            totalAtk -= AtkPenalty;
+            if (attackType != "First Attack")
+            {
+                totalAtk -= AtkFollowUpPenalty;
+            }
         }
-        return Atk + AtkBonus + AtkFollowUpBonus - AtkPenalty - AtkFollowUpPenalty;
+
+        return totalAtk;
     }
 
     public int GetTotalSpd()
     {
-        return Spd + SpdBonus - SpdPenalty;
+        int totalSpd = Spd;
+
+        if (!SpdBonusNeutralization)
+        {
+            totalSpd += SpdBonus;
+        }
+
+        if (!SpdPenaltyNeutralization)
+        {
+            totalSpd -= SpdPenalty;
+        }
+
+        return totalSpd;
     }
 
     public int GetTotalDef(string attackType)
     {
-        if (attackType == "First Attack")
+        int totalDef = Def;
+
+        if (!DefBonusNeutralization)
         {
-            return Def + DefBonus - DefFirstAttackPenalty - DefPenalty;
+            totalDef += DefBonus;
         }
-        return Def + DefBonus - DefPenalty;
+
+        if (!DefPenaltyNeutralization)
+        {
+            if (attackType == "First Attack")
+            {
+                totalDef -= DefFirstAttackPenalty;
+            }
+            totalDef -= DefPenalty;
+        }
+
+        return totalDef;
     }
+
 
     public int GetTotalRes(string attackType)
     {
-        if (attackType == "First Attack")
+        int totalRes = Res;
+
+        if (!ResBonusNeutralization)
         {
-            return Res + ResBonus - ResFirstAttackPenalty - ResPenalty;
+            totalRes += ResBonus;
         }
-        return Res + ResBonus - ResPenalty;
+
+        if (!ResPenaltyNeutralization)
+        {
+            if (attackType == "First Attack")
+            {
+                totalRes -= ResFirstAttackPenalty;
+            }
+            totalRes -= ResPenalty;
+        }
+
+        return totalRes;
     }
     
 }

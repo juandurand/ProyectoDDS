@@ -9,7 +9,7 @@ public abstract class Condition
         Unit unit = roundInfo["Unit"] as Unit;
         Unit rival = roundInfo["Rival"] as Unit;
 
-        if (unit.Name != unitOwnerName)
+        if (unit.PersonalizedName != unitOwnerName)
         {
             return (rival, unit);
         }

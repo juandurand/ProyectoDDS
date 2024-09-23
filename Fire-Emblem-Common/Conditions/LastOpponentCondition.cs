@@ -6,6 +6,6 @@ public class LastOpponentCondition:Condition
     {
         (Unit unit, Unit rival) = GetUnits(roundInfo, unitOwnerName);
 
-        return unit.LastOpponent.Name == rival.Name;
+        return unit.LastOpponent.PersonalizedName == rival.PersonalizedName;
     }
 }

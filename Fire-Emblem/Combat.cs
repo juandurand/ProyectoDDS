@@ -13,8 +13,8 @@ public class Combat
     {
         _playersUnits = new List<Unit>[2]
         {
-            UnitsLoader.LoadUnits(playersInfo.Item1),
-            UnitsLoader.LoadUnits(playersInfo.Item2)
+            UnitsLoader.LoadUnits(playersInfo.Item1, "1"),
+            UnitsLoader.LoadUnits(playersInfo.Item2, "2")
         };
         _view = view;
         _round = new Round(view);
@@ -40,7 +40,6 @@ public class Combat
         _view.AnnounceRound(_roundCounter, attackerUnit, defenderUnit, GetPlayerName(GetAttackerIndex()));
         _round.SimulateRound(attackerUnit, defenderUnit);
         _view.ReportRoundSummary(attackerUnit, defenderUnit);
-        SetLastOpponent(attackerUnit, defenderUnit);
         CheckInvolvedUnitsHealth(attackerUnit, defenderUnit);
     }
     
@@ -70,11 +69,5 @@ public class Combat
             return;
         }
         _playersUnits[playerIndex].Remove(unit);
-    }
-
-    private static void SetLastOpponent(Unit attackerUnit, Unit defenderUnit)
-    {
-        attackerUnit.LastOpponent = defenderUnit;
-        defenderUnit.LastOpponent = attackerUnit;
     }
 }

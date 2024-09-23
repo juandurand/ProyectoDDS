@@ -19,14 +19,17 @@ public class Round
         if (SimulateAttack(attackerUnit, defenderUnit, "First Attack"))
         {
             ResetSkills(attackerUnit, defenderUnit);
+            SetLastOpponent(attackerUnit, defenderUnit);
             return;
         }
-        if (SimulateAttack(defenderUnit, attackerUnit, "Counter Attack"))
+        if (SimulateAttack(defenderUnit, attackerUnit, "First Attack"))
         {
             ResetSkills(attackerUnit, defenderUnit);
+            SetLastOpponent(attackerUnit, defenderUnit);
             return;
         }
         SimulateFollowUp(attackerUnit, defenderUnit);
+        SetLastOpponent(attackerUnit, defenderUnit);
         ResetSkills(attackerUnit, defenderUnit);
     }
 
@@ -74,11 +77,11 @@ public class Round
     {
         if (CanFollowUp(attackerUnit, defenderUnit))
         {
-            SimulateAttack(attackerUnit, defenderUnit, "Follow Up");
+            SimulateAttack(attackerUnit, defenderUnit, "Follow-Up");
         }
         else if (CanFollowUp(defenderUnit, attackerUnit))
         {
-            SimulateAttack(defenderUnit, attackerUnit, "Follow Up");
+            SimulateAttack(defenderUnit, attackerUnit, "Follow-Up");
         }
         else
         {
@@ -90,6 +93,12 @@ public class Round
     {
         int followUpSpeedThreshold = 4;
         return attackerUnit.GetTotalSpd() - defenderUnit.GetTotalSpd() > followUpSpeedThreshold;
+    }
+    
+    private static void SetLastOpponent(Unit attackerUnit, Unit defenderUnit)
+    {
+        attackerUnit.LastOpponent = defenderUnit;
+        defenderUnit.LastOpponent = attackerUnit;
     }
 
 }

@@ -19,7 +19,7 @@ public class HpPercentageCondition:Condition
         {
             return unit.GetHpPercentage() <= _requiredPercentage;
         }
-        return rival.GetHpPercentage() <= _requiredPercentage;
+        return rival.GetHpPercentage() >= _requiredPercentage;
         
     }
 }

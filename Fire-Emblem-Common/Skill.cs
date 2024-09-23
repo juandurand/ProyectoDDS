@@ -53,7 +53,7 @@ public class Skill
         Unit unit = roundInfo["Unit"] as Unit;
         Unit rival = roundInfo["Rival"] as Unit;
 
-        if (unit.Name != _unitOwnerName)
+        if (unit.PersonalizedName != _unitOwnerName)
         {
             unit = roundInfo["Rival"] as Unit;
             rival = roundInfo["Unit"] as Unit;

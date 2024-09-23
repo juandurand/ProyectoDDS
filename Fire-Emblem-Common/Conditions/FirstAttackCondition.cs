@@ -18,8 +18,8 @@ public class FirstAttackCondition:Condition
         
         if (_analyzedUnit == "Unit")
         {
-            return unit.Name == _skillOwnerName;
+            return unit.PersonalizedName == _skillOwnerName;
         }
-        return rival.Name != _skillOwnerName;
+        return rival.PersonalizedName == _skillOwnerName;
     }
 }
