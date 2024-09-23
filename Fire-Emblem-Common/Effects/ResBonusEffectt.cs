@@ -1,11 +1,11 @@
-using Fire_Emblem_Common;
-namespace Fire_Emblem.Effects;
+namespace Fire_Emblem_Common.Effects;
 
-public class ResBonusEffect:Effect
+public class ResBonusEffectt:Effectt
 {
     private readonly int _resBonus;
 
-    public ResBonusEffect(int resBonus)
+    public ResBonusEffectt(int resBonus)
+        : base("Bonus")
     {
         _resBonus = resBonus;
     }

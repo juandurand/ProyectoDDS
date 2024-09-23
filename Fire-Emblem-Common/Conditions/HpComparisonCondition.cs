@@ -1,5 +1,4 @@
-using Fire_Emblem_Common;
-namespace Fire_Emblem.Conditions;
+namespace Fire_Emblem_Common.Conditions;
 
 public class HpComparisonCondition:Condition
 {
@@ -10,10 +9,9 @@ public class HpComparisonCondition:Condition
         _requiredDifference = requiredDifference;
     }
     
-    public override bool IsConditionSatisfied(Dictionary<string, object> roundInfo)
+    public override bool IsConditionSatisfied(Dictionary<string, object> roundInfo, string unitOwnerName)
     {
-        Unit unit = roundInfo["Unit"] as Unit;
-        Unit rival = roundInfo["Rival"] as Unit;
+        (Unit unit, Unit rival) = GetUnits(roundInfo, unitOwnerName);
         
         return unit.ActualHp >= _requiredDifference + rival.ActualHp;
     }

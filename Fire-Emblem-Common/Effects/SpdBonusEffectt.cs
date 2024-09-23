@@ -1,11 +1,11 @@
-using Fire_Emblem_Common;
-namespace Fire_Emblem.Effects;
+namespace Fire_Emblem_Common.Effects;
 
-public class SpdBonusEffect:Effect
+public class SpdBonusEffectt:Effectt
 {
     private readonly int _spdBonus;
 
-    public SpdBonusEffect(int spdBonus)
+    public SpdBonusEffectt(int spdBonus)
+        : base("Bonus")
     {
         _spdBonus = spdBonus;
     }

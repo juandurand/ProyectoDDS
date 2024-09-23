@@ -1,11 +1,11 @@
-using Fire_Emblem_Common;
-namespace Fire_Emblem.Effects;
+namespace Fire_Emblem_Common.Effects;
 
-public class ResPenaltyEffect:Effect
+public class ResPenaltyEffectt:Effectt
 {
     private readonly int _resPenalty;
 
-    public ResPenaltyEffect(int resPenalty)
+    public ResPenaltyEffectt(int resPenalty)
+        : base("Penalty")
     {
         _resPenalty = resPenalty;
     }

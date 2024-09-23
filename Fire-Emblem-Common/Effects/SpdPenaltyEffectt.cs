@@ -1,11 +1,11 @@
-using Fire_Emblem_Common;
-namespace Fire_Emblem.Effects;
+namespace Fire_Emblem_Common.Effects;
 
-public class SpdPenaltyEffect:Effect
+public class SpdPenaltyEffectt:Effectt
 {
     private readonly int _spdPenalty;
 
-    public SpdPenaltyEffect(int spdPenalty)
+    public SpdPenaltyEffectt(int spdPenalty)
+        : base("Bonus")
     {
         _spdPenalty = spdPenalty;
     }

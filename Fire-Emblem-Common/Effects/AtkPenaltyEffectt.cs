@@ -1,11 +1,10 @@
-using Fire_Emblem_Common;
-namespace Fire_Emblem.Effects;
-
-public class AtkPenaltyEffect:Effect
+namespace Fire_Emblem_Common.Effects;
+public class AtkPenaltyEffectt:Effectt
 {
     private readonly int _atkPenalty;
 
-    public AtkPenaltyEffect(int atkPenalty)
+    public AtkPenaltyEffectt(int atkPenalty)
+        : base("Penalty")
     {
         _atkPenalty = atkPenalty;
     }

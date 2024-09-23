@@ -12,7 +12,8 @@ public class Unit
     public readonly int Res;
     public int Hp;
     public int ActualHp;
-    public List<string> Skills;
+    public List<string> SkillsNames;
+    public List<Skill> Skills = new List<Skill>();
     public Unit LastOpponent;
 
     public int AtkBonus;
@@ -25,9 +26,16 @@ public class Unit
     public int DefPenalty;
     public int ResPenalty;
 
+    public int AtkFirstAttackBonus;
+    
+    public int DefFirstAttackPenalty;
+    public int ResFirstAttackPenalty;
+    
+    public int AtkFollowUpBonus;
+    public int AtkFollowUpPenalty;
+
     public Unit(Dictionary<string, object> unitData)
     {
-        // SOBRECARGAR CONSTRUCTOR?
         Name = (string)unitData["Name"];
         Weapon = (string)unitData["Weapon"];
         Gender = (string)unitData["Gender"];
@@ -38,11 +46,21 @@ public class Unit
         Def = (int)unitData["Def"];
         Res = (int)unitData["Res"];
         ActualHp = (int)unitData["HP"];
-        Skills = (List<string>)unitData["Skills"];
+        SkillsNames = (List<string>)unitData["Skills"];
 
-        LastOpponent = null;
+        LastOpponent = this;
         ResetBonus();
         ResetPenalty();
+        CreateSkills();
+    }
+
+    private void CreateSkills()
+    {
+        foreach (string skillName in SkillsNames)
+        {
+            Skill skill = SkillFactory.CreateSkill(skillName, this);
+            Skills.Add(skill);
+        }
     }
 
     public void ResetBonus()
@@ -51,6 +69,8 @@ public class Unit
         SpdBonus = 0;
         DefBonus = 0;
         ResBonus = 0;
+        AtkFirstAttackBonus = 0;
+        AtkFollowUpBonus = 0;
     }
     
     public void ResetPenalty()
@@ -59,6 +79,9 @@ public class Unit
         SpdPenalty = 0;
         DefPenalty = 0;
         ResPenalty = 0;
+        DefFirstAttackPenalty = 0;
+        ResFirstAttackPenalty = 0;
+        AtkFollowUpPenalty = 0;
     }
     
     public bool IsUnitAlive()
@@ -76,14 +99,22 @@ public class Unit
         }
     }
 
-    public double GetHPPercentage()
+    public double GetHpPercentage()
     {
-        return ActualHp / Hp;
+        return (double)ActualHp / Hp;
     }
 
-    public int GetTotalAtk()
+    public int GetTotalAtk(string attackType)
     {
-        return Atk + AtkBonus - AtkPenalty;
+        if (attackType == "First Attack")
+        {
+            return Atk + AtkBonus + AtkFirstAttackBonus - AtkPenalty;
+        }
+        if (attackType == "Counter Attack")
+        {
+            return Atk + AtkBonus - AtkPenalty;
+        }
+        return Atk + AtkBonus + AtkFollowUpBonus - AtkPenalty - AtkFollowUpPenalty;
     }
 
     public int GetTotalSpd()
@@ -91,13 +122,22 @@ public class Unit
         return Spd + SpdBonus - SpdPenalty;
     }
 
-    public int GetTotalDef()
+    public int GetTotalDef(string attackType)
     {
+        if (attackType == "First Attack")
+        {
+            return Def + DefBonus - DefFirstAttackPenalty - DefPenalty;
+        }
         return Def + DefBonus - DefPenalty;
     }
 
-    public int GetTotalRes()
+    public int GetTotalRes(string attackType)
     {
+        if (attackType == "First Attack")
+        {
+            return Res + ResBonus - ResFirstAttackPenalty - ResPenalty;
+        }
         return Res + ResBonus - ResPenalty;
     }
+    
 }

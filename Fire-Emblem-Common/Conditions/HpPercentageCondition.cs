@@ -1,5 +1,4 @@
-using Fire_Emblem_Common;
-namespace Fire_Emblem.Conditions;
+namespace Fire_Emblem_Common.Conditions;
 
 public class HpPercentageCondition:Condition
 {
@@ -12,16 +11,15 @@ public class HpPercentageCondition:Condition
         _requiredPercentage = requiredPercentage;
     }
     
-    public override bool IsConditionSatisfied(Dictionary<string, object> roundInfo)
+    public override bool IsConditionSatisfied(Dictionary<string, object> roundInfo, string unitOwnerName)
     {
-        Unit unit = roundInfo["Unit"] as Unit;
-        Unit rival = roundInfo["Rival"] as Unit;
+        (Unit unit, Unit rival) = GetUnits(roundInfo, unitOwnerName);
         
         if (_analyzedUnit == "Unit")
         {
-            return unit.GetHPPercentage() <= _requiredPercentage;
+            return unit.GetHpPercentage() <= _requiredPercentage;
         }
-        return rival.GetHPPercentage() <= _requiredPercentage;
+        return rival.GetHpPercentage() <= _requiredPercentage;
         
     }
 }

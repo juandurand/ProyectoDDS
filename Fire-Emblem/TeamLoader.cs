@@ -21,9 +21,17 @@ namespace Fire_Emblem
 
         public (List<string> Player1, List<string> Player2) ChargePlayersInfo()
         {
-            string teamSelected = _view.ReadLine().PadLeft(3, '0');
-            return _parser.ParseTeamFile(teamSelected);
+            string teamCode = _view.ReadLine().PadLeft(3, '0');
+            string fileName = FindFileByCode(teamCode, _parser.testFolder);
+            return fileName != null ? _parser.ParseTeamFile(fileName) : (new List<string>(), new List<string>());
         }
+        
+        private string FindFileByCode(string code, string folder)
+        {
+            var files = Directory.GetFiles(folder, $"{code}*.txt");
+            return Path.GetFileName(files.FirstOrDefault());
+        }
+
 
         public bool IsTeamValid((List<string> Player1, List<string> Player2) playersInfo)
         {

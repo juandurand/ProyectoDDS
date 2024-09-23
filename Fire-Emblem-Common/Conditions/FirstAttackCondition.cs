@@ -1,5 +1,4 @@
-using Fire_Emblem_Common;
-namespace Fire_Emblem.Conditions;
+namespace Fire_Emblem_Common.Conditions;
 
 public class FirstAttackCondition:Condition
 {
@@ -12,7 +11,7 @@ public class FirstAttackCondition:Condition
         _skillOwnerName = skillOwnerName;
     }
     
-    public override bool IsConditionSatisfied(Dictionary<string, object> roundInfo)
+    public override bool IsConditionSatisfied(Dictionary<string, object> roundInfo, string unitOwnerName)
     {
         Unit unit = roundInfo["Unit"] as Unit;
         Unit rival = roundInfo["Rival"] as Unit;
@@ -21,6 +20,6 @@ public class FirstAttackCondition:Condition
         {
             return unit.Name == _skillOwnerName;
         }
-        return rival.Name == _skillOwnerName;
+        return rival.Name != _skillOwnerName;
     }
 }

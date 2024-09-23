@@ -1,12 +1,11 @@
-using Fire_Emblem_Common;
+namespace Fire_Emblem_Common.Effects;
 
-namespace Fire_Emblem.Effects;
-
-public class BonusNeutralizationEffect:Effect
+public class BonusNeutralizationEffectt:Effectt
 {
     private readonly List<string> _statsTypes;
 
-    public BonusNeutralizationEffect(List<String> statsTypes)
+    public BonusNeutralizationEffectt(List<String> statsTypes)
+        : base("Neutralization")
     {
         _statsTypes = statsTypes;
     }

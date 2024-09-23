@@ -2,11 +2,11 @@ namespace Fire_Emblem;
 
 public class TeamParser
 {
-    private readonly string _folder;
+    public readonly string testFolder;
 
     public TeamParser(string folder)
     {
-        _folder = folder;
+        testFolder = folder;
     }
     
     public (List<string> Player1, List<string> Player2) ParseTeamFile(string fileName)
@@ -15,7 +15,7 @@ public class TeamParser
         var playerTwoInfo = new List<string>();
         bool isPlayerOne = false, isPlayerTwo = false;
 
-        foreach (var line in File.ReadLines($"{_folder}/{fileName}.txt"))
+        foreach (var line in File.ReadLines($"{testFolder}/{fileName}"))
         {
             if (line == "Player 1 Team") isPlayerOne = true;
             else if (line == "Player 2 Team") { isPlayerOne = false; isPlayerTwo = true; }
