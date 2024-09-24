@@ -11,6 +11,6 @@ public class AtkPenaltyEffectt:Effectt
 
     public override void ApplyEffect(Unit unit)
     {
-        unit.AtkPenalty += _atkPenalty;
+        unit.Atk.Penalty += _atkPenalty;
     }
 }

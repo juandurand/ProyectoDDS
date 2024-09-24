@@ -18,6 +18,7 @@
       <Compile Remove="LoadingFunctions.cs" />
       <Compile Remove="HPCondition.cs" />
       <Compile Remove="Effects\Res.cs" />
+      <Compile Remove="Effect.cs" />
     </ItemGroup>
 
 </Project>

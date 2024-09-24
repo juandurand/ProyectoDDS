@@ -11,6 +11,7 @@
     <ItemGroup>
       <Compile Remove="Effects\Res.cs" />
       <Compile Remove="Conditions\HpLossCondition.cs" />
+      <Compile Remove="ActualHp.cs" />
     </ItemGroup>
 
 </Project>

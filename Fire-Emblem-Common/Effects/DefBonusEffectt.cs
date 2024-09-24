@@ -12,6 +12,6 @@ public class DefBonusEffectt:Effectt
 
     public override void ApplyEffect(Unit unit)
     {
-        unit.DefBonus += _defBonus;
+        unit.Def.Bonus += _defBonus;
     }
 }

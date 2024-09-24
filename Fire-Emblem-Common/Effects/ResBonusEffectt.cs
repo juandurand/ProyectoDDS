@@ -12,6 +12,6 @@ public class ResBonusEffectt:Effectt
 
     public override void ApplyEffect(Unit unit)
     {
-        unit.ResBonus += _resBonus;
+        unit.Res.Bonus += _resBonus;
     }
 }

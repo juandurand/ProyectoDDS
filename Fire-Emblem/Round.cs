@@ -59,18 +59,16 @@ public class Round
 
     private void ResetSkills(Unit attackerUnit, Unit defenderUnit)
     {
-        attackerUnit.ResetBonus();
-        attackerUnit.ResetPenalty();
-        defenderUnit.ResetBonus();
-        defenderUnit.ResetPenalty();
+        attackerUnit.ResetEffects();
+        defenderUnit.ResetEffects();
     }
     
     private bool SimulateAttack(Unit attackerUnit, Unit defenderUnit, string attackType)
     {
         int damage = Damage.GetDamage(attackerUnit, defenderUnit, attackType);
-        defenderUnit.DealDamage(damage);
+        defenderUnit.Hp.DealDamage(damage);
         _view.ReportAttack(attackerUnit, defenderUnit, damage);
-        return !defenderUnit.IsUnitAlive();
+        return !defenderUnit.Hp.IsUnitAlive();
     }
 
     private void SimulateFollowUp(Unit attackerUnit, Unit defenderUnit)

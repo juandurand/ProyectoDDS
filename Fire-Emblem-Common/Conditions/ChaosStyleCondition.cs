@@ -3,11 +3,8 @@ namespace Fire_Emblem_Common.Conditions;
 public class ChaosStyleCondition:Condition
 {
     private readonly string _skillOwnerName;
-    public ChaosStyleCondition(string skillOwnerName)
-    {
-        _skillOwnerName = skillOwnerName;
-    }
-    public override bool IsConditionSatisfied(Dictionary<string, object> roundInfo, string unitOwnerName)
+    public ChaosStyleCondition(string skillOwnerName):base(skillOwnerName){}
+    public override bool IsConditionSatisfied(Dictionary<string, object> roundInfo)
     {
         Unit unit = roundInfo["Unit"] as Unit;
         Unit rival = roundInfo["Rival"] as Unit;

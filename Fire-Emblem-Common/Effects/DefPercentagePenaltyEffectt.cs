@@ -12,6 +12,6 @@ public class DefPercentagePenaltyEffectt:Effectt
 
     public override void ApplyEffect(Unit unit)
     {
-        unit.DefFirstAttackPenalty += Convert.ToInt32(Math.Floor(_percentage * unit.Def));
+        unit.Def.FirstAttackPenalty += Convert.ToInt32(Math.Floor(_percentage * unit.Def.BaseValue));
     }
 }

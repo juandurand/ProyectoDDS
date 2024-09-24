@@ -5,13 +5,13 @@ public class FirstAttackCondition:Condition
     private readonly string _analyzedUnit;
     private readonly string _skillOwnerName;
     
-    public FirstAttackCondition(string analyzedUnit, string skillOwnerName)
+    public FirstAttackCondition(string skillOwnerName, string analyzedUnit)
+        :base(skillOwnerName)
     {
         _analyzedUnit = analyzedUnit;
-        _skillOwnerName = skillOwnerName;
     }
     
-    public override bool IsConditionSatisfied(Dictionary<string, object> roundInfo, string unitOwnerName)
+    public override bool IsConditionSatisfied(Dictionary<string, object> roundInfo)
     {
         Unit unit = roundInfo["Unit"] as Unit;
         Unit rival = roundInfo["Rival"] as Unit;

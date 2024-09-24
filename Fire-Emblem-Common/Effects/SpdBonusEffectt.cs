@@ -12,6 +12,6 @@ public class SpdBonusEffectt:Effectt
 
     public override void ApplyEffect(Unit unit)
     {
-        unit.SpdBonus += _spdBonus;
+        unit.Spd.Bonus += _spdBonus;
     }
 }

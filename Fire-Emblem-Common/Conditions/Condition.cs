@@ -2,14 +2,19 @@ namespace Fire_Emblem_Common.Conditions;
 
 public abstract class Condition
 {
-    public abstract bool IsConditionSatisfied(Dictionary<string, object> roundInfo, string unitOwnerName);
+    private readonly string _skillOwnerName;
+    protected Condition(string skillOwnerName)
+    {
+        _skillOwnerName = skillOwnerName;
+    }
+    public abstract bool IsConditionSatisfied(Dictionary<string, object> roundInfo);
     
-    protected (Unit unit, Unit rival) GetUnits(Dictionary<string, object> roundInfo, string unitOwnerName)
+    protected (Unit unit, Unit rival) GetUnits(Dictionary<string, object> roundInfo)
     {
         Unit unit = roundInfo["Unit"] as Unit;
         Unit rival = roundInfo["Rival"] as Unit;
 
-        if (unit.PersonalizedName != unitOwnerName)
+        if (unit.PersonalizedName != _skillOwnerName)
         {
             return (rival, unit);
         }

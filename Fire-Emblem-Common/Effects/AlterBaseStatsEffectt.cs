@@ -16,16 +16,15 @@ public class AlterBaseStatsEffectt:Effectt
             if (!_isEffectUsed)
             {
                 _isEffectUsed = true;
-                unit.Hp += 15;
-                unit.ActualHp = unit.Hp;
+                unit.Hp.ApplyHpPlus15();
             }
             
         }
         else if (EffectType == "Wrath")
         {
-            int bonus = Math.Min(Math.Max(unit.Hp - unit.ActualHp, 0), 30);
-            unit.SpdBonus += bonus;
-            unit.AtkBonus += bonus;
+            int bonus = Math.Min(Math.Max(unit.Hp.HpBaseValue - unit.Hp.ActualHpValue, 0), 30);
+            unit.Spd.Bonus += bonus;
+            unit.Atk.Bonus += bonus;
         }
     }
 }

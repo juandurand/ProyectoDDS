@@ -16,19 +16,19 @@ public class PenaltyNeutralizationEffectt:Effectt
         {
             if (stat == "Atk")
             {
-                unit.AtkPenaltyNeutralization = true;
+                unit.Atk.PenaltyNeutralized = true;
             }
             else if (stat == "Def")
             {
-                unit.DefPenaltyNeutralization = true;
+                unit.Def.PenaltyNeutralized = true;
             }
             else if (stat == "Spd")
             {
-                unit.SpdPenaltyNeutralization = true;
+                unit.Spd.PenaltyNeutralized = true;
             }
             else
             {
-                unit.ResPenaltyNeutralization = true;
+                unit.Res.PenaltyNeutralized = true;
             }
         }
     }

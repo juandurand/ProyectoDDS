@@ -12,6 +12,6 @@ public class ResPenaltyEffectt:Effectt
 
     public override void ApplyEffect(Unit unit)
     {
-        unit.ResPenalty += _resPenalty;
+        unit.Res.Penalty += _resPenalty;
     }
 }

@@ -27,8 +27,6 @@ public class Combat
             ProcessCombatRound();
             _roundCounter++;
         }
-
-        // Announce winner
         _view.AnnounceWinner(_playersUnits);
     }
 
@@ -64,7 +62,7 @@ public class Combat
 
     private void CheckHealth(Unit unit, int playerIndex)
     {
-        if (unit.IsUnitAlive())
+        if (unit.Hp.IsUnitAlive())
         {
             return;
         }

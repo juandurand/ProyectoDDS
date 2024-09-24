@@ -12,6 +12,6 @@ public class SpdPenaltyEffectt:Effectt
 
     public override void ApplyEffect(Unit unit)
     {
-        unit.SpdPenalty += _spdPenalty;
+        unit.Spd.Penalty += _spdPenalty;
     }
 }

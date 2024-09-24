@@ -12,6 +12,6 @@ public class DefPenaltyEffectt:Effectt
 
     public override void ApplyEffect(Unit unit)
     {
-        unit.DefPenalty += _defPenalty;
+        unit.Def.Penalty += _defPenalty;
     }
 }

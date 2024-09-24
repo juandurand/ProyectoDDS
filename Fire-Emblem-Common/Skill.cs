@@ -7,14 +7,12 @@ public class Skill
     private readonly Dictionary<string, List<Effectt>> _effects;
     private readonly List<Condition> _conditions;
     private readonly string _conditionsConnector;
-    private readonly string _unitOwnerName;
 
-    public Skill(Dictionary<string, List<Effectt>> effects, List<Condition> conditions, string conditionsConnector, string unitOwnerName)
+    public Skill(Dictionary<string, List<Effectt>> effects, List<Condition> conditions, string conditionsConnector)
     {
         _effects = effects;
         _conditions = conditions;
         _conditionsConnector = conditionsConnector;
-        _unitOwnerName = unitOwnerName;
     }
 
     public void Apply(Dictionary<string, object> roundInfo, string effectType)
@@ -39,7 +37,7 @@ public class Skill
             {
                 ApplyEffects(roundInfo, effectType);
             }
-            else if (_conditions[0].IsConditionSatisfied(roundInfo, _unitOwnerName))
+            else if (_conditions[0].IsConditionSatisfied(roundInfo))
             {
                 ApplyEffects(roundInfo, effectType);
             }
@@ -101,7 +99,7 @@ public class Skill
     {
         foreach (Condition condition in _conditions)
         {
-            if (condition.IsConditionSatisfied(roundInfo, _unitOwnerName))
+            if (condition.IsConditionSatisfied(roundInfo))
             {
                 return true;
             }
@@ -113,7 +111,7 @@ public class Skill
     {
         foreach (Condition condition in _conditions)
         {
-            if (!condition.IsConditionSatisfied(roundInfo, _unitOwnerName))
+            if (!condition.IsConditionSatisfied(roundInfo))
             {
                 return false;
             }

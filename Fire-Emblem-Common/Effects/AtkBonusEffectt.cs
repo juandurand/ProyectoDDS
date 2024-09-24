@@ -15,11 +15,11 @@ public class AtkBonusEffectt:Effectt
     {
         if (_attackType == "All")
         {
-            unit.AtkBonus += _atkBonus;
+            unit.Atk.Bonus += _atkBonus;
         }
         else 
         {
-            unit.AtkFirstAttackBonus += _atkBonus;
+            unit.Atk.FirstAttackBonus += _atkBonus;
         }
     }
 }

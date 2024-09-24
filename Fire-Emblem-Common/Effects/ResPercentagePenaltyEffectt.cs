@@ -12,6 +12,6 @@ public class ResPercentagePenaltyEffectt:Effectt
 
     public override void ApplyEffect(Unit unit)
     {
-        unit.ResFirstAttackPenalty += Convert.ToInt32(Math.Floor(_percentage * unit.Res));
+        unit.Res.FirstAttackPenalty += Convert.ToInt32(Math.Floor(_percentage * unit.Res.BaseValue));
     }
 }

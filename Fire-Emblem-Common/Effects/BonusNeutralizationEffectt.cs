@@ -16,19 +16,19 @@ public class BonusNeutralizationEffectt:Effectt
         {
             if (stat == "Atk")
             {
-                unit.AtkBonusNeutralization = true;
+                unit.Atk.BonusNeutralized = true;
             }
             else if (stat == "Def")
             {
-                unit.DefBonusNeutralization = true;
+                unit.Def.BonusNeutralized = true;
             }
             else if (stat == "Spd")
             {
-                unit.SpdBonusNeutralization = true;
+                unit.Spd.BonusNeutralized = true;
             }
             else
             {
-                unit.ResBonusNeutralization = true;
+                unit.Res.BonusNeutralized = true;
             }
         }
     }
