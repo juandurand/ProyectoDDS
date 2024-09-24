@@ -4,18 +4,16 @@ namespace Fire_Emblem_Common;
 
 public class Skill
 {
-    private readonly List<Effectt> _effects;
+    private readonly Dictionary<string, List<Effectt>> _effects;
     private readonly List<Condition> _conditions;
     private readonly string _conditionsConnector;
-    private readonly string _typeOfUnit;
     private readonly string _unitOwnerName;
 
-    public Skill(List<Effectt> effects, List<Condition> conditions, string conditionsConnector, string typeOfUnit, string unitOwnerName)
+    public Skill(Dictionary<string, List<Effectt>> effects, List<Condition> conditions, string conditionsConnector, string unitOwnerName)
     {
         _effects = effects;
         _conditions = conditions;
         _conditionsConnector = conditionsConnector;
-        _typeOfUnit = typeOfUnit;
         _unitOwnerName = unitOwnerName;
     }
 
@@ -61,27 +59,34 @@ public class Skill
 
         if (effectType != "Neutralization")
         {
-            foreach (Effectt effect in _effects.Where(effect => effect.EffectType != "Neutralization"))
+            foreach (var effectList in _effects.Values)
             {
-                ApplyEffectToAppropriateUnit(effect, unit, rival);
+                foreach (Effectt effect in effectList.Where(effect => effect.EffectType != "Neutralization"))
+                {
+                    ApplyEffectToAppropriateUnit(effect, unit, rival);
+                }
             }
         }
         else
         {
-            foreach (Effectt effect in _effects.Where(effect => effect.EffectType == "Neutralization"))
+            foreach (var effectList in _effects.Values)
             {
-                ApplyEffectToAppropriateUnit(effect, unit, rival);
+                foreach (Effectt effect in effectList.Where(effect => effect.EffectType == "Neutralization"))
+                {
+                    ApplyEffectToAppropriateUnit(effect, unit, rival);
+                }
             }
         }
     }
 
     private void ApplyEffectToAppropriateUnit(Effectt effect, Unit unit, Unit rival)
     {
-        if (_typeOfUnit == "Unit")
+        string typeOfUnit = _effects.FirstOrDefault(kvp => kvp.Value.Contains(effect)).Key;
+        if (typeOfUnit == "Unit")
         {
             effect.ApplyEffect(unit);
         }
-        else if (_typeOfUnit == "Rival")
+        else if (typeOfUnit == "Rival")
         {
             effect.ApplyEffect(rival);
         }
@@ -91,8 +96,6 @@ public class Skill
             effect.ApplyEffect(rival);
         }
     }
-
-    
 
     private bool OrCondition(Dictionary<string, object> roundInfo)
     {
