@@ -1,6 +1,6 @@
 namespace Fire_Emblem_Common;
 
-public abstract class UnitStat
+public class UnitStat
 {
     public readonly int BaseValue;
     
@@ -14,7 +14,7 @@ public abstract class UnitStat
     public bool BonusNeutralized;
     public bool PenaltyNeutralized;
 
-    protected UnitStat(int baseValue)
+    public UnitStat(int baseValue)
     {
         BaseValue = baseValue;
         ResetEffects();

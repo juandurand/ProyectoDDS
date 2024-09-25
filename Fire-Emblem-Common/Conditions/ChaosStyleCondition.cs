@@ -10,11 +10,11 @@ public class ChaosStyleCondition:Condition
         {
             return false;
         }
-
-        return IsSatisfied(starter, rival) || IsSatisfied(rival, starter);
+        
+        return IsChaosStyleConditionSatisfied(starter, rival) || IsChaosStyleConditionSatisfied(rival, starter);
     }
 
-    private bool IsSatisfied(Unit unit, Unit rival)
+    private bool IsChaosStyleConditionSatisfied(Unit unit, Unit rival)
     {
         List<string> requiredWeaponType = new List<string> { "Sword", "Bow", "Lance", "Axe" };
         if (requiredWeaponType.Contains(unit.Weapon) && rival.Weapon == "Magic")

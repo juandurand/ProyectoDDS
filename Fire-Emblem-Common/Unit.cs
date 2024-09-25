@@ -12,10 +12,10 @@ public class Unit
     
     public Hp Hp;
     
-    public AtkStat Atk;
-    public SpdStat Spd;
-    public DefStat Def;
-    public ResStat Res;
+    public UnitStat Atk;
+    public UnitStat Spd;
+    public UnitStat Def;
+    public UnitStat Res;
 
     public Unit(Dictionary<string, object> unitData)
     {
@@ -27,10 +27,10 @@ public class Unit
         Hp = new Hp((int)unitData["HP"]);
         LastOpponent = null;
         
-        Atk = new AtkStat((int)unitData["Atk"]);
-        Spd = new SpdStat((int)unitData["Spd"]);
-        Def = new DefStat((int)unitData["Def"]);
-        Res = new ResStat((int)unitData["Res"]);
+        Atk = new UnitStat((int)unitData["Atk"]);
+        Spd = new UnitStat((int)unitData["Spd"]);
+        Def = new UnitStat((int)unitData["Def"]);
+        Res = new UnitStat((int)unitData["Res"]);
         
         Skills = SkillFactory.GetSkills((List<string>)unitData["Skills"], this);
     }

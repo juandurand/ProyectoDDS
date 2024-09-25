@@ -6,9 +6,9 @@ public abstract class Condition
     
     protected (Unit unit, Unit rival, Unit skillOwner) GetUnits(Dictionary<string, Unit> roundInfo)
     {
-        Unit starter = roundInfo["Attacker"] as Unit;
-        Unit rival = roundInfo["Rival"] as Unit;
-        Unit skillOwner = roundInfo["SkillOwner"] as Unit;
+        Unit starter = roundInfo["Attacker"];
+        Unit rival = roundInfo["Rival"];
+        Unit skillOwner = roundInfo["SkillOwner"];
         return (starter, rival, skillOwner);
     }
 }

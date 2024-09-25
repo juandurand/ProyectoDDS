@@ -12,6 +12,10 @@
       <Compile Remove="Effects\Res.cs" />
       <Compile Remove="Conditions\HpLossCondition.cs" />
       <Compile Remove="ActualHp.cs" />
+      <Compile Remove="AtkStat.cs" />
+      <Compile Remove="DefStat.cs" />
+      <Compile Remove="ResStat.cs" />
+      <Compile Remove="SpdStat.cs" />
     </ItemGroup>
 
 </Project>

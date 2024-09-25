@@ -4,19 +4,31 @@ namespace Fire_Emblem;
 
 public static class UnitsLoader
 {
-    public static Unit CreateUnit(string unitName, List<string> skills)
+    public static List<Unit> LoadUnits(List<Tuple<string, List<string>>> playerInfo)
+    {
+        var playerUnits = new List<Unit>();
+        
+        foreach (var unitInfo in playerInfo)
+        {
+            var unit = CreateUnit(unitInfo);
+            playerUnits.Add(unit);
+        }
+        
+        return playerUnits;
+    }
+    private static Unit CreateUnit(Tuple<string, List<string>> unitInfo)
     {
         using JsonDocument doc = JsonDocument.Parse(File.ReadAllText("characters.json"));
         JsonElement rootElement = doc.RootElement;
+        JsonElement unitElement = FindUnitElement(rootElement, unitInfo.Item1);
+        
+        return new Unit(GetUnitData(unitElement, unitInfo.Item2));
+    }
+
+    private static Dictionary<string, object> GetUnitData(JsonElement unitElement, List<string> skills)
+    {
         Dictionary<string, object> unitData = new Dictionary<string, object>();
-
-        JsonElement unitElement = FindUnitElement(rootElement, unitName);
-    
-        if (unitElement.ValueKind == JsonValueKind.Undefined)
-        {
-            throw new ArgumentException($"Unit '{unitName}' not found in characters.json");
-        }
-
+        
         unitData["Name"] = GetJsonString(unitElement, "Name");
         unitData["Weapon"] = GetJsonString(unitElement, "Weapon");
         unitData["Gender"] = GetJsonString(unitElement, "Gender");
@@ -27,8 +39,8 @@ public static class UnitsLoader
         unitData["Def"] = GetJsonInt(unitElement, "Def");
         unitData["Res"] = GetJsonInt(unitElement, "Res");
         unitData["Skills"] = skills;
-
-        return new Unit(unitData);
+        
+        return unitData;
     }
     
     private static JsonElement FindUnitElement(JsonElement rootElement, string unitName)
@@ -51,18 +63,5 @@ public static class UnitsLoader
     private static int GetJsonInt(JsonElement element, string propertyName)
     {
         return int.Parse(element.GetProperty(propertyName).GetString());
-    }
-
-    public static List<Unit> LoadUnits(List<Tuple<string, List<string>>> playerInfo)
-    {
-        var playerUnits = new List<Unit>();
-        
-        foreach (var unitInfo in playerInfo)
-        {
-            var unit = CreateUnit(unitInfo.Item1, unitInfo.Item2);
-            playerUnits.Add(unit);
-        }
-        
-        return playerUnits;
     }
 }

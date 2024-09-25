@@ -16,7 +16,7 @@ public class Round
     
     public void SimulateRound(Dictionary<string, Unit> roundInfo)
     {
-        RoundManager.ApplySkills(roundInfo);
+        RoundManager.ApplyAllSkills(roundInfo);
         _view.AnnounceSkills(roundInfo);
         
         if (_attackManager.SimulateAttack(roundInfo["Attacker"], roundInfo["Defender"],"First Attack") ||

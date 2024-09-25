@@ -24,8 +24,7 @@ public static class SkillFactory
             { "Both", new List<Effectt>() }
         };
         
-        // DEFAULT VALUES
-        List<string> statType = new List<string> { "Atk", "Def", "Res", "Spd" };
+        // DEFAULT VALUE
         string conditionConnector = "No Connector";
         
         if (skillName == "HP +15")
@@ -316,12 +315,12 @@ public static class SkillFactory
         
         if (skillName == "Beorc's Blessing")
         {
-            effectsByUnitType["Rival"].Add(new BonusNeutralizationEffectt(statType));
+            effectsByUnitType["Rival"].Add(new BonusNeutralizationEffectt(new List<string> { "Atk", "Def", "Res", "Spd" }));
         }
         
         if (skillName == "Agnea's Arrow")
         {
-            effectsByUnitType["Unit"].Add(new PenaltyNeutralizationEffectt(statType));
+            effectsByUnitType["Unit"].Add(new PenaltyNeutralizationEffectt(new List<string> { "Atk", "Def", "Res", "Spd" }));
         }
         
         if (skillName == "Soulblade")
@@ -397,7 +396,7 @@ public static class SkillFactory
             conditions.Add(new FirstAttackCondition("Rival"));
             effectsByUnitType["Unit"].Add(new DefBonusEffectt(8));
             effectsByUnitType["Unit"].Add(new ResBonusEffectt(8));
-            effectsByUnitType["Rival"].Add(new BonusNeutralizationEffectt(statType));
+            effectsByUnitType["Rival"].Add(new BonusNeutralizationEffectt(new List<string> { "Atk", "Def", "Res", "Spd" }));
 
             conditionConnector = "And";
         }
@@ -408,7 +407,7 @@ public static class SkillFactory
             conditions.Add(new FirstAttackCondition("Rival"));
             effectsByUnitType["Unit"].Add(new DefBonusEffectt(8));
             effectsByUnitType["Unit"].Add(new ResBonusEffectt(8));
-            effectsByUnitType["Rival"].Add(new BonusNeutralizationEffectt(statType));
+            effectsByUnitType["Rival"].Add(new BonusNeutralizationEffectt(new List<string> { "Atk", "Def", "Res", "Spd" }));
 
             conditionConnector = "And";
         }
@@ -417,48 +416,42 @@ public static class SkillFactory
         {
             effectsByUnitType["Rival"].Add(new AtkPenaltyEffectt(3));
             effectsByUnitType["Rival"].Add(new SpdPenaltyEffectt(3));
-            statType = new List<string> { "Atk", "Spd" };
-            effectsByUnitType["Rival"].Add(new BonusNeutralizationEffectt(statType));
+            effectsByUnitType["Rival"].Add(new BonusNeutralizationEffectt(new List<string> { "Atk", "Spd" }));
         }
 
         if (skillName == "Lull Atk/Def")
         {
             effectsByUnitType["Rival"].Add(new AtkPenaltyEffectt(3));
             effectsByUnitType["Rival"].Add(new DefPenaltyEffectt(3));
-            statType = new List<string> { "Atk", "Def" };
-            effectsByUnitType["Rival"].Add(new BonusNeutralizationEffectt(statType));
+            effectsByUnitType["Rival"].Add(new BonusNeutralizationEffectt(new List<string> { "Atk", "Def" }));
         }
 
         if (skillName == "Lull Atk/Res")
         {
             effectsByUnitType["Rival"].Add(new AtkPenaltyEffectt(3));
             effectsByUnitType["Rival"].Add(new ResPenaltyEffectt(3));
-            statType = new List<string> { "Atk", "Res" };
-            effectsByUnitType["Rival"].Add(new BonusNeutralizationEffectt(statType));
+            effectsByUnitType["Rival"].Add(new BonusNeutralizationEffectt(new List<string> { "Atk", "Res" }));
         }
 
         if (skillName == "Lull Spd/Def")
         {
             effectsByUnitType["Rival"].Add(new SpdPenaltyEffectt(3));
             effectsByUnitType["Rival"].Add(new DefPenaltyEffectt(3));
-            statType = new List<string> { "Spd", "Def" };
-            effectsByUnitType["Rival"].Add(new BonusNeutralizationEffectt(statType));
+            effectsByUnitType["Rival"].Add(new BonusNeutralizationEffectt(new List<string> { "Spd", "Def" }));
         }
 
         if (skillName == "Lull Spd/Res")
         {
             effectsByUnitType["Rival"].Add(new SpdPenaltyEffectt(3));
             effectsByUnitType["Rival"].Add(new ResPenaltyEffectt(3));
-            statType = new List<string> { "Spd", "Res" };
-            effectsByUnitType["Rival"].Add(new BonusNeutralizationEffectt(statType));
+            effectsByUnitType["Rival"].Add(new BonusNeutralizationEffectt(new List<string> { "Spd", "Res" }));
         }
 
         if (skillName == "Lull Def/Res")
         {
             effectsByUnitType["Rival"].Add(new DefPenaltyEffectt(3));
             effectsByUnitType["Rival"].Add(new ResPenaltyEffectt(3));
-            statType = new List<string> { "Def", "Res" };
-            effectsByUnitType["Rival"].Add(new BonusNeutralizationEffectt(statType));
+            effectsByUnitType["Rival"].Add(new BonusNeutralizationEffectt(new List<string> { "Def", "Res" }));
         }
 
         if (skillName == "Fort. Def/Res")
@@ -498,7 +491,7 @@ public static class SkillFactory
             effectsByUnitType["Unit"].Add(new ResBonusEffectt(6));
             effectsByUnitType["Unit"].Add(new AtkBonusEffectt(6));
             effectsByUnitType["Unit"].Add(new SpdBonusEffectt(6));
-            effectsByUnitType["Rival"].Add(new BonusNeutralizationEffectt(statType));
+            effectsByUnitType["Rival"].Add(new BonusNeutralizationEffectt(new List<string> { "Atk", "Def", "Res", "Spd" }));
 
             conditionConnector = "Or";
         }
@@ -509,8 +502,8 @@ public static class SkillFactory
             effectsByUnitType["Rival"].Add(new ResPenaltyEffectt(5));
             effectsByUnitType["Rival"].Add(new AtkPenaltyEffectt(5));
             effectsByUnitType["Rival"].Add(new SpdPenaltyEffectt(5));
-            effectsByUnitType["Rival"].Add(new BonusNeutralizationEffectt(statType));
-            effectsByUnitType["Unit"].Add(new PenaltyNeutralizationEffectt(statType));
+            effectsByUnitType["Rival"].Add(new BonusNeutralizationEffectt(new List<string> { "Atk", "Def", "Res", "Spd" }));
+            effectsByUnitType["Unit"].Add(new PenaltyNeutralizationEffectt(new List<string> { "Atk", "Def", "Res", "Spd" }));
         }
 
         ConditionEvaluator conditionEvaluator = new ConditionEvaluator(conditions, conditionConnector);

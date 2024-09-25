@@ -3,7 +3,7 @@ namespace Fire_Emblem;
 
 public static class RoundManager
 {
-    public static void ApplySkills(Dictionary<string, Unit> roundInfo)
+    public static void ApplyAllSkills(Dictionary<string, Unit> roundInfo)
     {
         ApplySkillsPerUnit(roundInfo["Attacker"], roundInfo["Defender"], roundInfo);
         ApplySkillsPerUnit(roundInfo["Defender"], roundInfo["Attacker"], roundInfo);
