@@ -9,11 +9,9 @@ public class Game
     
     public Game(View view, string teamsFolder)
     {
-        TeamParser parser = new TeamParser(teamsFolder);
-        
         _view = view;
         _teamsFolder = teamsFolder;
-        _teamLoader = new TeamLoader(_view, parser);
+        _teamLoader = new TeamLoader(_view, new TeamParser(teamsFolder));
     }
 
     public void Play()

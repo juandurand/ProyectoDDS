@@ -4,7 +4,7 @@ namespace Fire_Emblem;
 
 public static class UnitsLoader
 {
-    public static Unit CreateUnit(string unitName, List<string> skills, string playerNumber)
+    public static Unit CreateUnit(string unitName, List<string> skills)
     {
         using JsonDocument doc = JsonDocument.Parse(File.ReadAllText("characters.json"));
         JsonElement rootElement = doc.RootElement;
@@ -17,7 +17,6 @@ public static class UnitsLoader
             throw new ArgumentException($"Unit '{unitName}' not found in characters.json");
         }
 
-        unitData["PersonalizedName"] = GetJsonString(unitElement, "Name") + playerNumber;
         unitData["Name"] = GetJsonString(unitElement, "Name");
         unitData["Weapon"] = GetJsonString(unitElement, "Weapon");
         unitData["Gender"] = GetJsonString(unitElement, "Gender");
@@ -54,13 +53,13 @@ public static class UnitsLoader
         return int.Parse(element.GetProperty(propertyName).GetString());
     }
 
-    public static List<Unit> LoadUnits(List<Tuple<string, List<string>>> playerInfo, string playerNumber)
+    public static List<Unit> LoadUnits(List<Tuple<string, List<string>>> playerInfo)
     {
         var playerUnits = new List<Unit>();
         
         foreach (var unitInfo in playerInfo)
         {
-            var unit = CreateUnit(unitInfo.Item1, unitInfo.Item2, playerNumber);
+            var unit = CreateUnit(unitInfo.Item1, unitInfo.Item2);
             playerUnits.Add(unit);
         }
         

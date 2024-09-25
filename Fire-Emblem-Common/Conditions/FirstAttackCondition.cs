@@ -9,14 +9,14 @@ public class FirstAttackCondition:Condition
         _analyzedUnit = analyzedUnit;
     }
     
-    public override bool IsConditionSatisfied(Dictionary<string, object> roundInfo)
+    public override bool IsConditionSatisfied(Dictionary<string, Unit> roundInfo)
     {
         (Unit starter, Unit rival, Unit skillOwner) = GetUnits(roundInfo);
         
         if (_analyzedUnit == "Unit")
         {
-            return starter.PersonalizedName == skillOwner.PersonalizedName;
+            return starter == skillOwner;
         }
-        return starter.PersonalizedName != skillOwner.PersonalizedName;
+        return starter != skillOwner;
     }
 }

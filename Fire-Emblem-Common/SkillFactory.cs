@@ -5,7 +5,16 @@ namespace Fire_Emblem_Common;
 
 public static class SkillFactory
 {
-    public static Skill CreateSkill(string skillName, Unit unit)
+    public static List<Skill> GetSkills(List<String> skillNames, Unit unit)
+    {
+        List<Skill> skills = new List<Skill>();
+        foreach (string skillName in skillNames)
+        {
+            skills.Add(CreateSkill(skillName, unit));
+        }
+        return skills;
+    }
+    private static Skill CreateSkill(string skillName, Unit unit)
     {
         List<Condition> conditions = new List<Condition>();
         Dictionary<string, List<Effectt>> effectsByUnitType = new Dictionary<string, List<Effectt>>()
@@ -503,8 +512,11 @@ public static class SkillFactory
             effectsByUnitType["Rival"].Add(new BonusNeutralizationEffectt(statType));
             effectsByUnitType["Unit"].Add(new PenaltyNeutralizationEffectt(statType));
         }
+
+        ConditionEvaluator conditionEvaluator = new ConditionEvaluator(conditions, conditionConnector);
+        EffectApplier effectApplier = new EffectApplier(effectsByUnitType);
         
-        Skill skill = new Skill(effectsByUnitType, conditions, conditionConnector);
+        Skill skill = new Skill(conditionEvaluator, effectApplier);
         return skill;
     }
 }

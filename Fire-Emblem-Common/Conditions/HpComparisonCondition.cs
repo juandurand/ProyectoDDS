@@ -9,7 +9,7 @@ public class HpComparisonCondition:Condition
         _requiredDifference = requiredDifference;
     }
     
-    public override bool IsConditionSatisfied(Dictionary<string, object> roundInfo)
+    public override bool IsConditionSatisfied(Dictionary<string, Unit> roundInfo)
     {
         (Unit starter, Unit rival, Unit skillOwner) = GetUnits(roundInfo);
         

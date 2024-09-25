@@ -18,11 +18,7 @@ public class Hp
     
     public void DealDamage(int damage)
     {
-        ActualHpValue -= damage;
-        if (ActualHpValue < 0)
-        {
-            ActualHpValue = 0;
-        }
+        ActualHpValue = Math.Max(0, ActualHpValue - damage);
     }
     
     public double GetHpPercentage()

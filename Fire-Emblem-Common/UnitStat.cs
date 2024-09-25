@@ -25,7 +25,7 @@ public abstract class UnitStat
         ResetPenalty();
     }
 
-    protected void ResetBonus()
+    private void ResetBonus()
     {
         Bonus = 0;
         FirstAttackBonus = 0;
@@ -33,7 +33,7 @@ public abstract class UnitStat
         BonusNeutralized = false;
     }
     
-    protected void ResetPenalty()
+    private void ResetPenalty()
     {
         Penalty = 0;
         FirstAttackPenalty = 0;
@@ -41,7 +41,7 @@ public abstract class UnitStat
         PenaltyNeutralized = false;
     }
     
-    public virtual int GetTotalStat(string attackType)
+    public int GetTotalStat(string attackType)
     {
         int totalStat = BaseValue;
     

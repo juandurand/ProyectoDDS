@@ -1,5 +1,6 @@
-namespace Fire_Emblem;
 using Fire_Emblem_Common;
+
+namespace Fire_Emblem;
 
 public static class Damage
 {
@@ -7,10 +8,20 @@ public static class Damage
     {
         double weaponTriangleBonus = WeaponTriangle.CalculateWtb(attacker.Weapon, defender.Weapon);
         
-        int defense = attacker.Weapon == "Magic" ? defender.GetTotalRes(attackType) : defender.GetTotalDef(attackType);
+        int defense = GetDefenseByWeapon(attacker, defender, attackType);
         
         int damage = Convert.ToInt32(Math.Floor(attacker.GetTotalAtk(attackType) * weaponTriangleBonus)) - defense;
         
         return Math.Max(damage, 0);
+    }
+
+    private static int GetDefenseByWeapon(Unit attacker, Unit defender, string attackType)
+    {
+        if (attacker.Weapon == "Magic")
+        {
+            return defender.GetTotalRes(attackType);
+        }
+
+        return defender.GetTotalDef(attackType);
     }
 }

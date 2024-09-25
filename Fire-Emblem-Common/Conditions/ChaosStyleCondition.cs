@@ -2,11 +2,11 @@ namespace Fire_Emblem_Common.Conditions;
 
 public class ChaosStyleCondition:Condition
 {
-    public override bool IsConditionSatisfied(Dictionary<string, object> roundInfo)
+    public override bool IsConditionSatisfied(Dictionary<string, Unit> roundInfo)
     {
         (Unit starter, Unit rival, Unit skillOwner) = GetUnits(roundInfo);
         
-        if (starter.PersonalizedName != skillOwner.PersonalizedName)
+        if (starter != skillOwner)
         {
             return false;
         }
