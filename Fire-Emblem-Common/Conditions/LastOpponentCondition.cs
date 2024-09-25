@@ -2,11 +2,10 @@ namespace Fire_Emblem_Common.Conditions;
 
 public class LastOpponentCondition:Condition
 {
-    public LastOpponentCondition(string skillOwnerName):base(skillOwnerName){}
     public override bool IsConditionSatisfied(Dictionary<string, object> roundInfo)
     {
-        (Unit unit, Unit rival) = GetUnits(roundInfo);
+        (Unit starter, Unit rival, Unit skillOwner) = GetUnits(roundInfo);
 
-        return unit.LastOpponent.PersonalizedName == rival.PersonalizedName;
+        return skillOwner.LastOpponent.PersonalizedName == rival.PersonalizedName;
     }
 }

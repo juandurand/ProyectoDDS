@@ -7,8 +7,6 @@ public static class SkillFactory
 {
     public static Skill CreateSkill(string skillName, Unit unit)
     {
-        List<string> statType = new List<string> { "Atk", "Def", "Res", "Spd" };
-        
         List<Condition> conditions = new List<Condition>();
         Dictionary<string, List<Effectt>> effectsByUnitType = new Dictionary<string, List<Effectt>>()
         {
@@ -16,6 +14,9 @@ public static class SkillFactory
             { "Unit", new List<Effectt>() },
             { "Both", new List<Effectt>() }
         };
+        
+        // DEFAULT VALUES
+        List<string> statType = new List<string> { "Atk", "Def", "Res", "Spd" };
         string conditionConnector = "No Connector";
         
         if (skillName == "HP +15")
@@ -25,19 +26,19 @@ public static class SkillFactory
 
         if (skillName == "Fair Fight")
         {
-            conditions.Add(new FirstAttackCondition(unit.PersonalizedName, "Unit"));
+            conditions.Add(new FirstAttackCondition("Unit"));
             effectsByUnitType["Both"].Add(new AtkBonusEffectt(6));
         }
 
         if (skillName == "Will to Win")
         {
-            conditions.Add(new HpPercentageCondition(unit.PersonalizedName, 0.5, "Unit"));
+            conditions.Add(new HpPercentageCondition(0.5, "Unit"));
             effectsByUnitType["Unit"].Add(new AtkBonusEffectt(8));
         }
 
         if (skillName == "Single-Minded")
         {
-            conditions.Add(new LastOpponentCondition(unit.PersonalizedName));
+            conditions.Add(new LastOpponentCondition());
             effectsByUnitType["Unit"].Add(new AtkBonusEffectt(8));
         }
 
@@ -48,13 +49,13 @@ public static class SkillFactory
 
         if (skillName == "Perceptive")
         {
-            conditions.Add(new FirstAttackCondition(unit.PersonalizedName, "Unit"));
+            conditions.Add(new FirstAttackCondition("Unit"));
             effectsByUnitType["Unit"].Add(new SpdBonusEffectt(12 + unit.Spd.BaseValue / 4));
         }
 
         if (skillName == "Tome Precision")
         {
-            conditions.Add(new WeaponTypeCondition(unit.PersonalizedName, "Unit", new List<string> { "Magic" }));
+            conditions.Add(new WeaponTypeCondition("Unit", new List<string> { "Magic" }));
             effectsByUnitType["Unit"].Add(new SpdBonusEffectt(6));
             effectsByUnitType["Unit"].Add(new AtkBonusEffectt(6));
         }
@@ -81,7 +82,7 @@ public static class SkillFactory
 
         if (skillName == "Resolve")
         {
-            conditions.Add(new HpPercentageCondition(unit.PersonalizedName, 0.75, "Unit"));
+            conditions.Add(new HpPercentageCondition(0.75, "Unit"));
             effectsByUnitType["Unit"].Add(new DefBonusEffectt(7));
             effectsByUnitType["Unit"].Add(new ResBonusEffectt(7));
         }
@@ -111,8 +112,8 @@ public static class SkillFactory
         
         if (skillName == "Deadly Blade")
         {
-            conditions.Add(new WeaponTypeCondition(unit.PersonalizedName, "Unit", new List<string> { "Sword" }));
-            conditions.Add(new FirstAttackCondition(unit.PersonalizedName, "Unit"));
+            conditions.Add(new WeaponTypeCondition("Unit", new List<string> { "Sword" }));
+            conditions.Add(new FirstAttackCondition("Unit"));
 
             effectsByUnitType["Unit"].Add(new SpdBonusEffectt(8));
             effectsByUnitType["Unit"].Add(new AtkBonusEffectt(8));
@@ -122,169 +123,169 @@ public static class SkillFactory
 
         if (skillName == "Death Blow")
         {
-            conditions.Add(new FirstAttackCondition(unit.PersonalizedName, "Unit"));
+            conditions.Add(new FirstAttackCondition("Unit"));
             effectsByUnitType["Unit"].Add(new AtkBonusEffectt(8));
         }
 
         if (skillName == "Armored Blow")
         {
-            conditions.Add(new FirstAttackCondition(unit.PersonalizedName, "Unit"));
+            conditions.Add(new FirstAttackCondition("Unit"));
             effectsByUnitType["Unit"].Add(new DefBonusEffectt(8));
         }
 
         if (skillName == "Darting Blow")
         {
-            conditions.Add(new FirstAttackCondition(unit.PersonalizedName, "Unit"));
+            conditions.Add(new FirstAttackCondition("Unit"));
             effectsByUnitType["Unit"].Add(new SpdBonusEffectt(8));
         }
 
         if (skillName == "Warding Blow")
         {
-            conditions.Add(new FirstAttackCondition(unit.PersonalizedName, "Unit"));
+            conditions.Add(new FirstAttackCondition("Unit"));
             effectsByUnitType["Unit"].Add(new ResBonusEffectt(8));
         }
 
         if (skillName == "Swift Sparrow")
         {
-            conditions.Add(new FirstAttackCondition(unit.PersonalizedName, "Unit"));
+            conditions.Add(new FirstAttackCondition("Unit"));
             effectsByUnitType["Unit"].Add(new AtkBonusEffectt(6));
             effectsByUnitType["Unit"].Add(new SpdBonusEffectt(6));
         }
 
         if (skillName == "Sturdy Blow")
         {
-            conditions.Add(new FirstAttackCondition(unit.PersonalizedName, "Unit"));
+            conditions.Add(new FirstAttackCondition("Unit"));
             effectsByUnitType["Unit"].Add(new AtkBonusEffectt(6));
             effectsByUnitType["Unit"].Add(new DefBonusEffectt(6));
         }
 
         if (skillName == "Mirror Strike")
         {
-            conditions.Add(new FirstAttackCondition(unit.PersonalizedName, "Unit"));
+            conditions.Add(new FirstAttackCondition("Unit"));
             effectsByUnitType["Unit"].Add(new AtkBonusEffectt(6));
             effectsByUnitType["Unit"].Add(new ResBonusEffectt(6));
         }
 
         if (skillName == "Steady Blow")
         {
-            conditions.Add(new FirstAttackCondition(unit.PersonalizedName, "Unit"));
+            conditions.Add(new FirstAttackCondition("Unit"));
             effectsByUnitType["Unit"].Add(new DefBonusEffectt(6));
             effectsByUnitType["Unit"].Add(new SpdBonusEffectt(6));
         }
 
         if (skillName == "Swift Strike")
         {
-            conditions.Add(new FirstAttackCondition(unit.PersonalizedName, "Unit"));
+            conditions.Add(new FirstAttackCondition("Unit"));
             effectsByUnitType["Unit"].Add(new ResBonusEffectt(6));
             effectsByUnitType["Unit"].Add(new SpdBonusEffectt(6));
         }
 
         if (skillName == "Bracing Blow")
         {
-            conditions.Add(new FirstAttackCondition(unit.PersonalizedName, "Unit"));
+            conditions.Add(new FirstAttackCondition("Unit"));
             effectsByUnitType["Unit"].Add(new ResBonusEffectt(6));
             effectsByUnitType["Unit"].Add(new DefBonusEffectt(6));
         }
 
         if (skillName == "Brazen Atk/Spd")
         {
-            conditions.Add(new HpPercentageCondition(unit.PersonalizedName, 0.8, "Unit"));
+            conditions.Add(new HpPercentageCondition(0.8, "Unit"));
             effectsByUnitType["Unit"].Add(new AtkBonusEffectt(10));
             effectsByUnitType["Unit"].Add(new SpdBonusEffectt(10));
         }
 
         if (skillName == "Brazen Atk/Def")
         {
-            conditions.Add(new HpPercentageCondition(unit.PersonalizedName, 0.8, "Unit"));
+            conditions.Add(new HpPercentageCondition(0.8, "Unit"));
             effectsByUnitType["Unit"].Add(new AtkBonusEffectt(10));
             effectsByUnitType["Unit"].Add(new DefBonusEffectt(10));
         }
 
         if (skillName == "Brazen Atk/Res")
         {
-            conditions.Add(new HpPercentageCondition(unit.PersonalizedName, 0.8, "Unit"));
+            conditions.Add(new HpPercentageCondition(0.8, "Unit"));
             effectsByUnitType["Unit"].Add(new AtkBonusEffectt(10));
             effectsByUnitType["Unit"].Add(new ResBonusEffectt(10));
         }
 
         if (skillName == "Brazen Spd/Def")
         {
-            conditions.Add(new HpPercentageCondition(unit.PersonalizedName, 0.8, "Unit"));
+            conditions.Add(new HpPercentageCondition(0.8, "Unit"));
             effectsByUnitType["Unit"].Add(new SpdBonusEffectt(10));
             effectsByUnitType["Unit"].Add(new DefBonusEffectt(10));
         }
 
         if (skillName == "Brazen Spd/Res")
         {
-            conditions.Add(new HpPercentageCondition(unit.PersonalizedName, 0.8, "Unit"));
+            conditions.Add(new HpPercentageCondition(0.8, "Unit"));
             effectsByUnitType["Unit"].Add(new SpdBonusEffectt(10));
             effectsByUnitType["Unit"].Add(new ResBonusEffectt(10));
         }
 
         if (skillName == "Brazen Def/Res")
         {
-            conditions.Add(new HpPercentageCondition(unit.PersonalizedName, 0.8, "Unit"));
+            conditions.Add(new HpPercentageCondition(0.8, "Unit"));
             effectsByUnitType["Unit"].Add(new DefBonusEffectt(10));
             effectsByUnitType["Unit"].Add(new ResBonusEffectt(10));
         }
         
         if (skillName == "Fire Boost")
         {
-            conditions.Add(new HpComparisonCondition(unit.PersonalizedName, 3));
+            conditions.Add(new HpComparisonCondition(3));
             effectsByUnitType["Unit"].Add(new AtkBonusEffectt(6));
         }
         
         if (skillName == "Wind Boost")
         {
-            conditions.Add(new HpComparisonCondition(unit.PersonalizedName, 3));
+            conditions.Add(new HpComparisonCondition(3));
             effectsByUnitType["Unit"].Add(new SpdBonusEffectt(6));
         }
         
         if (skillName == "Earth Boost")
         {
-            conditions.Add(new HpComparisonCondition(unit.PersonalizedName, 3));
+            conditions.Add(new HpComparisonCondition(3));
             effectsByUnitType["Unit"].Add(new DefBonusEffectt(6));
         }
         
         if (skillName == "Water Boost")
         {
-            conditions.Add(new HpComparisonCondition(unit.PersonalizedName, 3));
+            conditions.Add(new HpComparisonCondition(3));
             effectsByUnitType["Unit"].Add(new ResBonusEffectt(6));
         }
         
         if (skillName == "Chaos Style")
         {
-            conditions.Add(new ChaosStyleCondition(unit.PersonalizedName));
+            conditions.Add(new ChaosStyleCondition());
             effectsByUnitType["Unit"].Add(new SpdBonusEffectt(3));
         }
         
         if (skillName == "Blinding Flash")
         {
-            conditions.Add(new FirstAttackCondition(unit.PersonalizedName, "Unit"));
+            conditions.Add(new FirstAttackCondition("Unit"));
             effectsByUnitType["Rival"].Add(new SpdPenaltyEffectt(4));
         }
         
         if (skillName == "Not *Quite*")
         {
-            conditions.Add(new FirstAttackCondition(unit.PersonalizedName, "Rival"));
+            conditions.Add(new FirstAttackCondition("Rival"));
             effectsByUnitType["Rival"].Add(new AtkPenaltyEffectt(4));
         }
         
         if (skillName == "Stunning Smile")
         {
-            conditions.Add(new ManRivalCondition(unit.PersonalizedName));
+            conditions.Add(new ManRivalCondition());
             effectsByUnitType["Rival"].Add(new SpdPenaltyEffectt(8));
         }
         
         if (skillName == "Disarming Sigh")
         {
-            conditions.Add(new ManRivalCondition(unit.PersonalizedName));
+            conditions.Add(new ManRivalCondition());
             effectsByUnitType["Rival"].Add(new AtkPenaltyEffectt(8));
         }
 
         if (skillName == "Charmer")
         {
-            conditions.Add(new LastOpponentCondition(unit.PersonalizedName));
+            conditions.Add(new LastOpponentCondition());
             effectsByUnitType["Rival"].Add(new AtkPenaltyEffectt(3));
             effectsByUnitType["Rival"].Add(new SpdPenaltyEffectt(3));
         }
@@ -297,8 +298,8 @@ public static class SkillFactory
         
         if (skillName == "Belief in Love")
         {
-            conditions.Add(new FirstAttackCondition(unit.PersonalizedName, "Rival"));
-            conditions.Add(new HpPercentageCondition(unit.PersonalizedName, 1.0, "Rival"));
+            conditions.Add(new FirstAttackCondition("Rival"));
+            conditions.Add(new HpPercentageCondition(1.0, "Rival"));
             effectsByUnitType["Rival"].Add(new AtkPenaltyEffectt(5));
             effectsByUnitType["Rival"].Add(new DefPenaltyEffectt(5));
             conditionConnector = "Or";
@@ -316,7 +317,7 @@ public static class SkillFactory
         
         if (skillName == "Soulblade")
         {
-            conditions.Add(new WeaponTypeCondition(unit.PersonalizedName, "Unit", new List<string> { "Sword" }));
+            conditions.Add(new WeaponTypeCondition("Unit", new List<string> { "Sword" }));
             effectsByUnitType["Rival"].Add(new AverageDefResEffectt());
         }
         
@@ -327,75 +328,75 @@ public static class SkillFactory
         
         if (skillName == "Sword Agility")
         {
-            conditions.Add(new WeaponTypeCondition(unit.PersonalizedName, "Unit", new List<string> { "Sword" }));
+            conditions.Add(new WeaponTypeCondition("Unit", new List<string> { "Sword" }));
             effectsByUnitType["Unit"].Add(new SpdBonusEffectt(12));
             effectsByUnitType["Unit"].Add(new AtkPenaltyEffectt(6));
         }
         
         if (skillName == "Lance Power")
         {
-            conditions.Add(new WeaponTypeCondition(unit.PersonalizedName, "Unit", new List<string> { "Lance" }));
+            conditions.Add(new WeaponTypeCondition("Unit", new List<string> { "Lance" }));
             effectsByUnitType["Unit"].Add(new AtkBonusEffectt(10));
             effectsByUnitType["Unit"].Add(new DefPenaltyEffectt(10));
         }
         
         if (skillName == "Sword Power")
         {
-            conditions.Add(new WeaponTypeCondition(unit.PersonalizedName, "Unit", new List<string> { "Sword" }));
+            conditions.Add(new WeaponTypeCondition("Unit", new List<string> { "Sword" }));
             effectsByUnitType["Unit"].Add(new AtkBonusEffectt(10));
             effectsByUnitType["Unit"].Add(new DefPenaltyEffectt(10));
         }
         
         if (skillName == "Bow Focus")
         {
-            conditions.Add(new WeaponTypeCondition(unit.PersonalizedName, "Unit", new List<string> { "Bow" }));
+            conditions.Add(new WeaponTypeCondition("Unit", new List<string> { "Bow" }));
             effectsByUnitType["Unit"].Add(new AtkBonusEffectt(10));
             effectsByUnitType["Unit"].Add(new ResPenaltyEffectt(10));
         }
 
         if (skillName == "Lance Agility")
         {
-            conditions.Add(new WeaponTypeCondition(unit.PersonalizedName, "Unit", new List<string> { "Lance" }));
+            conditions.Add(new WeaponTypeCondition("Unit", new List<string> { "Lance" }));
             effectsByUnitType["Unit"].Add(new SpdBonusEffectt(12));
             effectsByUnitType["Unit"].Add(new AtkPenaltyEffectt(6));
         }
 
         if (skillName == "Axe Power")
         {
-            conditions.Add(new WeaponTypeCondition(unit.PersonalizedName, "Unit", new List<string> { "Axe" }));
+            conditions.Add(new WeaponTypeCondition("Unit", new List<string> { "Axe" }));
             effectsByUnitType["Unit"].Add(new AtkBonusEffectt(10));
             effectsByUnitType["Unit"].Add(new DefPenaltyEffectt(10));
         }
 
         if (skillName == "Bow Agility")
         {
-            conditions.Add(new WeaponTypeCondition(unit.PersonalizedName, "Unit", new List<string> { "Bow" }));
+            conditions.Add(new WeaponTypeCondition("Unit", new List<string> { "Bow" }));
             effectsByUnitType["Unit"].Add(new SpdBonusEffectt(12));
             effectsByUnitType["Unit"].Add(new AtkPenaltyEffectt(6));
         }
 
         if (skillName == "Sword Focus")
         {
-            conditions.Add(new WeaponTypeCondition(unit.PersonalizedName, "Unit", new List<string> { "Sword" }));
+            conditions.Add(new WeaponTypeCondition("Unit", new List<string> { "Sword" }));
             effectsByUnitType["Unit"].Add(new AtkBonusEffectt(10));
             effectsByUnitType["Unit"].Add(new ResPenaltyEffectt(10));
         }
 
         if (skillName == "Close Def")
         {
-            conditions.Add(new WeaponTypeCondition(unit.PersonalizedName, "Rival", new List<string> { "Sword", "Lance", "Axe" }));
-            conditions.Add(new FirstAttackCondition("Rival", unit.PersonalizedName));
+            conditions.Add(new WeaponTypeCondition("Rival", new List<string> { "Sword", "Lance", "Axe" }));
+            conditions.Add(new FirstAttackCondition("Rival"));
             effectsByUnitType["Unit"].Add(new DefBonusEffectt(8));
             effectsByUnitType["Unit"].Add(new ResBonusEffectt(8));
-            effectsByUnitType["Rival"].Add(new BonusNeutralizationEffectt(statType)); // Este efecto aplica al rival
+            effectsByUnitType["Rival"].Add(new BonusNeutralizationEffectt(statType));
 
             conditionConnector = "And";
         }
 
         if (skillName == "Distant Def")
         {
-            conditions.Add(new WeaponTypeCondition(unit.PersonalizedName, "Rival", new List<string> { "Magic", "Bow" }));
-            conditions.Add(new FirstAttackCondition("Rival", unit.PersonalizedName));
+            conditions.Add(new WeaponTypeCondition("Rival", new List<string> { "Magic", "Bow" }));
+            conditions.Add(new FirstAttackCondition("Rival"));
             effectsByUnitType["Unit"].Add(new DefBonusEffectt(8));
             effectsByUnitType["Unit"].Add(new ResBonusEffectt(8));
             effectsByUnitType["Rival"].Add(new BonusNeutralizationEffectt(statType));
@@ -482,8 +483,8 @@ public static class SkillFactory
 
         if (skillName == "Dragonskin")
         {
-            conditions.Add(new HpPercentageCondition(unit.PersonalizedName, 0.75, "Rival"));
-            conditions.Add(new FirstAttackCondition(unit.PersonalizedName, "Rival"));
+            conditions.Add(new HpPercentageCondition(0.75, "Rival"));
+            conditions.Add(new FirstAttackCondition("Rival"));
             effectsByUnitType["Unit"].Add(new DefBonusEffectt(6));
             effectsByUnitType["Unit"].Add(new ResBonusEffectt(6));
             effectsByUnitType["Unit"].Add(new AtkBonusEffectt(6));

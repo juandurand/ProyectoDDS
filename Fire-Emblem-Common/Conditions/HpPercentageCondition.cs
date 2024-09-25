@@ -5,8 +5,7 @@ public class HpPercentageCondition:Condition
     private readonly double _requiredPercentage;
     private readonly string _analyzedUnit;
     
-    public HpPercentageCondition(string skillOwnerName, double requiredPercentage, string analyzedUnit) 
-        :base(skillOwnerName)
+    public HpPercentageCondition(double requiredPercentage, string analyzedUnit) 
     {
         _analyzedUnit = analyzedUnit;
         _requiredPercentage = requiredPercentage;
@@ -14,11 +13,11 @@ public class HpPercentageCondition:Condition
     
     public override bool IsConditionSatisfied(Dictionary<string, object> roundInfo)
     {
-        (Unit unit, Unit rival) = GetUnits(roundInfo);
+        (Unit starter, Unit rival, Unit skillOwner) = GetUnits(roundInfo);
         
         if (_analyzedUnit == "Unit")
         {
-            return unit.Hp.GetHpPercentage() <= _requiredPercentage;
+            return skillOwner.Hp.GetHpPercentage() <= _requiredPercentage;
         }
         return rival.Hp.GetHpPercentage() >= _requiredPercentage;
         

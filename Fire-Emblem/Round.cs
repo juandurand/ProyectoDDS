@@ -36,23 +36,30 @@ public class Round
     private void ApplySkills(Unit attackerUnit, Unit defenderUnit)
     {
         Dictionary<string, object> roundInfo = new Dictionary<string, object>();
-        roundInfo["Unit"] = attackerUnit;
-        roundInfo["Rival"] = defenderUnit;
+        roundInfo["Starter"] = attackerUnit;
 
         foreach (Skill skill in attackerUnit.Skills)
         {
+            roundInfo["SkillOwner"] = attackerUnit;
+            roundInfo["Rival"] = defenderUnit;
             skill.Apply(roundInfo, "AnyButNeutralization");
         }
         foreach (Skill skill in defenderUnit.Skills)
         {
+            roundInfo["SkillOwner"] = defenderUnit;
+            roundInfo["Rival"] = attackerUnit;
             skill.Apply(roundInfo, "AnyButNeutralization");
         }
         foreach (Skill skill in attackerUnit.Skills)
         {
+            roundInfo["SkillOwner"] = attackerUnit;
+            roundInfo["Rival"] = defenderUnit;
             skill.Apply(roundInfo, "Neutralization");
         }
         foreach (Skill skill in defenderUnit.Skills)
         {
+            roundInfo["SkillOwner"] = defenderUnit;
+            roundInfo["Rival"] = attackerUnit;
             skill.Apply(roundInfo, "Neutralization");
         }
     }

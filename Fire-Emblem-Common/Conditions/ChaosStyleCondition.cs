@@ -2,19 +2,16 @@ namespace Fire_Emblem_Common.Conditions;
 
 public class ChaosStyleCondition:Condition
 {
-    private readonly string _skillOwnerName;
-    public ChaosStyleCondition(string skillOwnerName):base(skillOwnerName){}
     public override bool IsConditionSatisfied(Dictionary<string, object> roundInfo)
     {
-        Unit unit = roundInfo["Unit"] as Unit;
-        Unit rival = roundInfo["Rival"] as Unit;
+        (Unit starter, Unit rival, Unit skillOwner) = GetUnits(roundInfo);
         
-        if (unit.PersonalizedName != _skillOwnerName)
+        if (starter.PersonalizedName != skillOwner.PersonalizedName)
         {
             return false;
         }
 
-        return IsSatisfied(unit, rival) || IsSatisfied(rival, unit);
+        return IsSatisfied(starter, rival) || IsSatisfied(rival, starter);
     }
 
     private bool IsSatisfied(Unit unit, Unit rival)

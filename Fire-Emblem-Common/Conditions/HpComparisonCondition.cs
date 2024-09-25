@@ -4,16 +4,15 @@ public class HpComparisonCondition:Condition
 {
     private readonly int _requiredDifference;
     
-    public HpComparisonCondition(string skillOwnerName, int requiredDifference) 
-        :base(skillOwnerName)
+    public HpComparisonCondition(int requiredDifference) 
     {
         _requiredDifference = requiredDifference;
     }
     
     public override bool IsConditionSatisfied(Dictionary<string, object> roundInfo)
     {
-        (Unit unit, Unit rival) = GetUnits(roundInfo);
+        (Unit starter, Unit rival, Unit skillOwner) = GetUnits(roundInfo);
         
-        return unit.Hp.ActualHpValue >= _requiredDifference + rival.Hp.ActualHpValue;
+        return skillOwner.Hp.ActualHpValue >= _requiredDifference + rival.Hp.ActualHpValue;
     }
 }

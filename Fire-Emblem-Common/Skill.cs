@@ -46,14 +46,8 @@ public class Skill
 
     private void ApplyEffects(Dictionary<string, object> roundInfo, string effectType)
     {
-        Unit unit = roundInfo["Unit"] as Unit;
+        Unit unit = roundInfo["SkillOwner"] as Unit;
         Unit rival = roundInfo["Rival"] as Unit;
-
-        if (unit.PersonalizedName != _unitOwnerName)
-        {
-            unit = roundInfo["Rival"] as Unit;
-            rival = roundInfo["Unit"] as Unit;
-        }
 
         if (effectType != "Neutralization")
         {

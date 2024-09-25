@@ -3,23 +3,20 @@ namespace Fire_Emblem_Common.Conditions;
 public class FirstAttackCondition:Condition
 {
     private readonly string _analyzedUnit;
-    private readonly string _skillOwnerName;
     
-    public FirstAttackCondition(string skillOwnerName, string analyzedUnit)
-        :base(skillOwnerName)
+    public FirstAttackCondition(string analyzedUnit)
     {
         _analyzedUnit = analyzedUnit;
     }
     
     public override bool IsConditionSatisfied(Dictionary<string, object> roundInfo)
     {
-        Unit unit = roundInfo["Unit"] as Unit;
-        Unit rival = roundInfo["Rival"] as Unit;
+        (Unit starter, Unit rival, Unit skillOwner) = GetUnits(roundInfo);
         
         if (_analyzedUnit == "Unit")
         {
-            return unit.PersonalizedName == _skillOwnerName;
+            return starter.PersonalizedName == skillOwner.PersonalizedName;
         }
-        return rival.PersonalizedName == _skillOwnerName;
+        return starter.PersonalizedName != skillOwner.PersonalizedName;
     }
 }
