@@ -5,7 +5,7 @@ public class SpdPenaltyEffectt:Effectt
     private readonly int _spdPenalty;
 
     public SpdPenaltyEffectt(int spdPenalty)
-        : base("Bonus")
+        : base("Bonus", 1)
     {
         _spdPenalty = spdPenalty;
     }

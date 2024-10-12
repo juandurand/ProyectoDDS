@@ -4,7 +4,7 @@ namespace Fire_Emblem_Common.Effects;
 public class AverageDefResEffectt:Effectt
 {
     public AverageDefResEffectt()
-        : base("Bonus/Penalty"){}
+        : base("Bonus/Penalty", 1){}
     public override void ApplyEffect(Unit unit)
     {
         int average = (unit.Def.BaseValue + unit.Res.BaseValue) / 2;

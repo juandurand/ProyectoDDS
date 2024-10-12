@@ -5,7 +5,7 @@ public class SpdBonusEffectt:Effectt
     private readonly int _spdBonus;
 
     public SpdBonusEffectt(int spdBonus)
-        : base("Bonus")
+        : base("Bonus", 1)
     {
         _spdBonus = spdBonus;
     }

@@ -5,21 +5,31 @@ public static class RoundManager
 {
     public static void ApplyAllSkills(Dictionary<string, Unit> roundInfo)
     {
-        ApplySkillsPerUnit(roundInfo["Attacker"], roundInfo["Defender"], roundInfo);
-        ApplySkillsPerUnit(roundInfo["Defender"], roundInfo["Attacker"], roundInfo);
+        for (int applyOrder = 1; applyOrder < 3; applyOrder++)
+        {
+            ApplySkillsPerUnit(roundInfo["Attacker"], roundInfo["Defender"], roundInfo, applyOrder);
+            ApplySkillsPerUnit(roundInfo["Defender"], roundInfo["Attacker"], roundInfo, applyOrder);
+        }
     }
 
-    private static void ApplySkillsPerUnit(Unit skillOwner, Unit rival, Dictionary<string, Unit> roundInfo)
+    private static void ApplySkillsPerUnit(Unit skillOwner, Unit rival, Dictionary<string, Unit> roundInfo, int applyOrder)
     {
         roundInfo["SkillOwner"] = skillOwner;
         roundInfo["Rival"] = rival;
 
         foreach (Skill skill in skillOwner.Skills)
         {
-            skill.Apply(roundInfo);
+            skill.Apply(roundInfo, applyOrder);
+            
         }
     }
 
+    public static void RoundStarted(Dictionary<string, Unit> roundInfo)
+    {
+        roundInfo["Attacker"].ActualOpponent = roundInfo["Defender"];
+        roundInfo["Defender"].ActualOpponent = roundInfo["Attacker"];
+    }
+    
     public static void RoundEnded(Dictionary<string, Unit> roundInfo)
     {
         ResetSkills(roundInfo);

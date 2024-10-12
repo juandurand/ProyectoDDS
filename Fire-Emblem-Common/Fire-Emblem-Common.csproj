@@ -16,6 +16,8 @@
       <Compile Remove="DefStat.cs" />
       <Compile Remove="ResStat.cs" />
       <Compile Remove="SpdStat.cs" />
+      <Compile Remove="Conditions\ResComparisonCondition.cs" />
+      <Compile Remove="Conditions\HpComparisonCondition.cs" />
     </ItemGroup>
 
 </Project>

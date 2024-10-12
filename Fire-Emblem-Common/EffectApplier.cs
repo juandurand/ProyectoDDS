@@ -10,16 +10,19 @@ public class EffectApplier
         _effects = effects;
     }
 
-    public void ApplyEffects(Dictionary<string, Unit> roundInfo)
+    public void ApplyEffects(Dictionary<string, Unit> roundInfo, int applyOrder)
     {
-        Unit unit = roundInfo["SkillOwner"] as Unit;
-        Unit rival = roundInfo["Rival"] as Unit;
+        Unit unit = roundInfo["SkillOwner"];
+        Unit rival = roundInfo["Rival"];
 
         var allEffects = _effects.Values.SelectMany(list => list);
 
         foreach (var effect in allEffects)
         {
-            ApplyEffectToAppropiateUnit(effect, unit, rival);
+            if (effect.ApplyOrder == applyOrder)
+            {
+                ApplyEffectToAppropiateUnit(effect, unit, rival);
+            }
         }
     }
 

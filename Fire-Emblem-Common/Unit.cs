@@ -8,6 +8,7 @@ public class Unit
     public readonly string DeathQuote;
     
     public List<Skill> Skills;
+    public Unit ActualOpponent;
     public Unit LastOpponent;
     
     public Hp Hp;
@@ -17,6 +18,8 @@ public class Unit
     public UnitStat Def;
     public UnitStat Res;
 
+    public UnitDamageInfo Damage;
+
     public Unit(Dictionary<string, object> unitData)
     {
         Name = (string)unitData["Name"];
@@ -25,12 +28,14 @@ public class Unit
         DeathQuote = (string)unitData["DeathQuote"];
         
         Hp = new Hp((int)unitData["HP"]);
+        ActualOpponent = null;
         LastOpponent = null;
         
         Atk = new UnitStat((int)unitData["Atk"]);
         Spd = new UnitStat((int)unitData["Spd"]);
         Def = new UnitStat((int)unitData["Def"]);
         Res = new UnitStat((int)unitData["Res"]);
+        Damage = new UnitDamageInfo();
         
         Skills = SkillFactory.GetSkills((List<string>)unitData["Skills"], this);
     }
@@ -41,24 +46,34 @@ public class Unit
         Spd.ResetEffects();
         Def.ResetEffects();
         Res.ResetEffects();
+        Damage.ResetEffects();
+    }
+
+    public int GetTotalStat(string stat, string attackType)
+    {
+        if (stat == "Atk") return GetTotalAtk(attackType);
+        if (stat == "Spd") return GetTotalSpd();
+        if (stat == "Res") return GetTotalRes(attackType);
+        if (stat == "Def") return GetTotalDef(attackType);
+        return Hp.ActualHpValue;
     }
     
-    public int GetTotalAtk(string attackType)
+    private int GetTotalAtk(string attackType)
     {
         return Atk.GetTotalStat(attackType);
     }
 
-    public int GetTotalSpd()
+    private int GetTotalSpd()
     {
         return Spd.GetTotalStat(string.Empty); // No se necesita tipo de ataque para la velocidad
     }
 
-    public int GetTotalDef(string attackType)
+    private int GetTotalDef(string attackType)
     {
         return Def.GetTotalStat(attackType);
     }
 
-    public int GetTotalRes(string attackType)
+    private int GetTotalRes(string attackType)
     {
         return Res.GetTotalStat(attackType);
     }

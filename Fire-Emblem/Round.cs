@@ -16,6 +16,7 @@ public class Round
     
     public void SimulateRound(Dictionary<string, Unit> roundInfo)
     {
+        RoundManager.RoundStarted(roundInfo);
         RoundManager.ApplyAllSkills(roundInfo);
         _view.AnnounceSkills(roundInfo);
         

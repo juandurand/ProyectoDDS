@@ -239,25 +239,25 @@ public static class SkillFactory
         
         if (skillName == "Fire Boost")
         {
-            conditions.Add(new HpComparisonCondition(3));
+            conditions.Add(new StatComparisonCondition(3, "Hp", "Hp"));
             effectsByUnitType["Unit"].Add(new AtkBonusEffectt(6));
         }
         
         if (skillName == "Wind Boost")
         {
-            conditions.Add(new HpComparisonCondition(3));
+            conditions.Add(new StatComparisonCondition(3, "Hp", "Hp"));
             effectsByUnitType["Unit"].Add(new SpdBonusEffectt(6));
         }
         
         if (skillName == "Earth Boost")
         {
-            conditions.Add(new HpComparisonCondition(3));
+            conditions.Add(new StatComparisonCondition(3, "Hp", "Hp"));
             effectsByUnitType["Unit"].Add(new DefBonusEffectt(6));
         }
         
         if (skillName == "Water Boost")
         {
-            conditions.Add(new HpComparisonCondition(3));
+            conditions.Add(new StatComparisonCondition(3, "Hp", "Hp"));
             effectsByUnitType["Unit"].Add(new ResBonusEffectt(6));
         }
         
@@ -300,8 +300,8 @@ public static class SkillFactory
         
         if (skillName == "Luna")
         {
-            effectsByUnitType["Rival"].Add(new DefPercentagePenaltyEffectt(0.5));
-            effectsByUnitType["Rival"].Add(new ResPercentagePenaltyEffectt(0.5));
+            effectsByUnitType["Rival"].Add(new DefPercentagePenaltyEffectt(0.5, "First Attack"));
+            effectsByUnitType["Rival"].Add(new ResPercentagePenaltyEffectt(0.5, "First Attack"));
         }
         
         if (skillName == "Belief in Love")
@@ -504,6 +504,260 @@ public static class SkillFactory
             effectsByUnitType["Rival"].Add(new SpdPenaltyEffectt(5));
             effectsByUnitType["Rival"].Add(new BonusNeutralizationEffectt(new List<string> { "Atk", "Def", "Res", "Spd" }));
             effectsByUnitType["Unit"].Add(new PenaltyNeutralizationEffectt(new List<string> { "Atk", "Def", "Res", "Spd" }));
+        }
+
+        if (skillName == "Dragon Wall")
+        {
+            conditions.Add(new StatComparisonCondition(1, "Res", "Res"));
+            effectsByUnitType["Unit"].Add(new ComparisonPercentageReductionEffectt(0.4, "Res", "Res", 4));
+        }
+        
+        if (skillName == "Dodge")
+        {
+            conditions.Add(new StatComparisonCondition(1, "Spd", "Spd"));
+            effectsByUnitType["Unit"].Add(new ComparisonPercentageReductionEffectt(0.4, "Spd", "Spd", 4));
+        }
+        
+        if (skillName == "Golden Lotus")
+        {
+            conditions.Add(new WeaponTypeCondition("Rival", new List<string> { "Sword", "Bow", "Lance", "Axe" }));
+            effectsByUnitType["Unit"].Add(new ConstantPercentageReductionEffectt(0.5, "First Attack"));
+        }
+        
+        if (skillName == "Gentility")
+        {
+            effectsByUnitType["Unit"].Add(new DamageReductionEffectt(5));
+        }
+        
+        if (skillName == "Bow Guard")
+        {
+            conditions.Add(new WeaponTypeCondition("Rival", new List<string> { "Bow" }));
+            effectsByUnitType["Unit"].Add(new DamageReductionEffectt(5));
+        }
+        
+        if (skillName == "Arms Shield")
+        {
+            conditions.Add(new WeaponAdvantageCondition("Unit"));
+            effectsByUnitType["Unit"].Add(new DamageReductionEffectt(7));
+        }
+        
+        if (skillName == "Axe Guard")
+        {
+            conditions.Add(new WeaponTypeCondition("Rival", new List<string> { "Axe" }));
+            effectsByUnitType["Unit"].Add(new DamageReductionEffectt(5));
+        }
+        
+        if (skillName == "Magic Guard")
+        {
+            conditions.Add(new WeaponTypeCondition("Rival", new List<string> { "Magic" }));
+            effectsByUnitType["Unit"].Add(new DamageReductionEffectt(5));
+        }
+        
+        if (skillName == "Lance Guard")
+        {
+            conditions.Add(new WeaponTypeCondition("Rival", new List<string> { "Lance" }));
+            effectsByUnitType["Unit"].Add(new DamageReductionEffectt(5));
+        }
+        
+        if (skillName == "Sympathetic")
+        {
+            conditions.Add(new FirstAttackCondition("Rival"));
+            conditions.Add(new HpPercentageCondition(0.5, "Unit"));
+            effectsByUnitType["Unit"].Add(new DamageReductionEffectt(5));
+
+            conditionConnector = "And";
+        }
+
+        if (skillName == "Back at You")
+        {
+            conditions.Add(new FirstAttackCondition("Rival"));
+            effectsByUnitType["Unit"].Add(new SpecificExtraDamageEffect("Unit", "Hp", 0.5));
+        }
+        
+        if (skillName == "Lunar Brace")
+        {
+            conditions.Add(new FirstAttackCondition("Unit"));
+            conditions.Add(new WeaponTypeCondition("Unit", new List<string> { "Sword", "Bow", "Lance", "Axe" }));
+            effectsByUnitType["Unit"].Add(new SpecificExtraDamageEffect("Rival", "Def", 0.3));
+            
+            conditionConnector = "And";
+        }
+        
+        if (skillName == "Bravery")
+        {
+            effectsByUnitType["Unit"].Add(new ConstantExtraDamageEffectt(5));
+        }
+
+        if (skillName == "Bushido")
+        {
+           
+        }
+        
+        if (skillName == "Moon-Twin Wing")
+        {
+            
+        }
+        
+        if (skillName == "Blue Skies")
+        {
+            effectsByUnitType["Unit"].Add(new DamageReductionEffectt(5));
+            effectsByUnitType["Unit"].Add(new ConstantExtraDamageEffectt(5));
+        }
+        
+        if (skillName == "Aegis Shield")
+        {
+            effectsByUnitType["Unit"].Add(new DefBonusEffectt(6));
+            effectsByUnitType["Unit"].Add(new ResBonusEffectt(3));
+            effectsByUnitType["Unit"].Add(new ConstantPercentageReductionEffectt(0.5, "First Attack"));
+        }
+        
+        if (skillName == "Remote Sparrow")
+        {
+            conditions.Add(new FirstAttackCondition("Unit"));
+            effectsByUnitType["Unit"].Add(new AtkBonusEffectt(7));
+            effectsByUnitType["Unit"].Add(new SpdBonusEffectt(7));
+            effectsByUnitType["Unit"].Add(new ConstantPercentageReductionEffectt(0.3, "First Attack"));
+        }
+        
+        if (skillName == "Remote Mirror")
+        {
+            conditions.Add(new FirstAttackCondition("Unit"));
+            effectsByUnitType["Unit"].Add(new AtkBonusEffectt(7));
+            effectsByUnitType["Unit"].Add(new ResBonusEffectt(10));
+            effectsByUnitType["Unit"].Add(new ConstantPercentageReductionEffectt(0.3, "First Attack"));
+        }
+        
+        if (skillName == "Remote Sturdy")
+        {
+            conditions.Add(new FirstAttackCondition("Unit"));
+            effectsByUnitType["Unit"].Add(new AtkBonusEffectt(7));
+            effectsByUnitType["Unit"].Add(new DefBonusEffectt(10));
+            effectsByUnitType["Unit"].Add(new ConstantPercentageReductionEffectt(0.3, "First Attack"));
+        }
+        
+        if (skillName == "Fierce Stance")
+        {
+            conditions.Add(new FirstAttackCondition("Rival"));
+            effectsByUnitType["Unit"].Add(new AtkBonusEffectt(8));
+            effectsByUnitType["Unit"].Add(new ConstantPercentageReductionEffectt(0.1, "Follow Up"));
+        }
+        
+        if (skillName == "Darting Stance")
+        {
+            conditions.Add(new FirstAttackCondition("Rival"));
+            effectsByUnitType["Unit"].Add(new SpdBonusEffectt(8));
+            effectsByUnitType["Unit"].Add(new ConstantPercentageReductionEffectt(0.1, "Follow Up"));
+        }
+        
+        if (skillName == "Steady Stance")
+        {
+            conditions.Add(new FirstAttackCondition("Rival"));
+            effectsByUnitType["Unit"].Add(new DefBonusEffectt(8));
+            effectsByUnitType["Unit"].Add(new ConstantPercentageReductionEffectt(0.1, "Follow Up"));
+        }
+        
+        if (skillName == "Warding Stance")
+        {
+            conditions.Add(new FirstAttackCondition("Rival"));
+            effectsByUnitType["Unit"].Add(new ResBonusEffectt(8));
+            effectsByUnitType["Unit"].Add(new ConstantPercentageReductionEffectt(0.1, "Follow Up"));
+        }
+        
+        if (skillName == "Kestrel Stance")
+        {
+            conditions.Add(new FirstAttackCondition("Rival"));
+            effectsByUnitType["Unit"].Add(new AtkBonusEffectt(6));
+            effectsByUnitType["Unit"].Add(new SpdBonusEffectt(6));
+            effectsByUnitType["Unit"].Add(new ConstantPercentageReductionEffectt(0.1, "Follow Up"));
+        }
+        
+        if (skillName == "Sturdy Stance")
+        {
+            conditions.Add(new FirstAttackCondition("Rival"));
+            effectsByUnitType["Unit"].Add(new AtkBonusEffectt(6));
+            effectsByUnitType["Unit"].Add(new DefBonusEffectt(6));
+            effectsByUnitType["Unit"].Add(new ConstantPercentageReductionEffectt(0.1, "Follow Up"));
+        }
+        
+        if (skillName == "Mirror Stance")
+        {
+            conditions.Add(new FirstAttackCondition("Rival"));
+            effectsByUnitType["Unit"].Add(new AtkBonusEffectt(6));
+            effectsByUnitType["Unit"].Add(new ResBonusEffectt(6));
+            effectsByUnitType["Unit"].Add(new ConstantPercentageReductionEffectt(0.1, "Follow Up"));
+        }
+        
+        if (skillName == "Steady Posture")
+        {
+            conditions.Add(new FirstAttackCondition("Rival"));
+            effectsByUnitType["Unit"].Add(new SpdBonusEffectt(6));
+            effectsByUnitType["Unit"].Add(new DefBonusEffectt(6));
+            effectsByUnitType["Unit"].Add(new ConstantPercentageReductionEffectt(0.1, "Follow Up"));
+        }
+        
+        if (skillName == "Swift Stance")
+        {
+            conditions.Add(new FirstAttackCondition("Rival"));
+            effectsByUnitType["Unit"].Add(new SpdBonusEffectt(6));
+            effectsByUnitType["Unit"].Add(new ResBonusEffectt(6));
+            effectsByUnitType["Unit"].Add(new ConstantPercentageReductionEffectt(0.1, "Follow Up"));
+        }
+        
+        if (skillName == "Bracing Stance")
+        {
+            conditions.Add(new FirstAttackCondition("Rival"));
+            effectsByUnitType["Unit"].Add(new DefBonusEffectt(6));
+            effectsByUnitType["Unit"].Add(new ResBonusEffectt(6));
+            effectsByUnitType["Unit"].Add(new ConstantPercentageReductionEffectt(0.1, "Follow Up"));
+        }
+        
+        if (skillName == "Poetic Justice")
+        {
+            effectsByUnitType["Rival"].Add(new SpdPenaltyEffectt(4));
+            effectsByUnitType["Unit"].Add(new SpecificExtraDamageEffect("Rival", "Atk", 0.15));
+        }
+        
+        if (skillName == "Laguz Friend")
+        {
+            effectsByUnitType["Unit"].Add(new ConstantPercentageReductionEffectt(0.5));
+            effectsByUnitType["Unit"].Add(new BonusNeutralizationEffectt(new List<string> { "Def", "Res" }));
+            effectsByUnitType["Unit"].Add(new DefPercentagePenaltyEffectt(0.5));
+            effectsByUnitType["Unit"].Add(new ResPercentagePenaltyEffectt(0.5));
+        }
+
+        if (skillName == "Chivalry")
+        {
+            conditions.Add(new HpPercentageCondition(1.0, "Rival"));
+            conditions.Add(new FirstAttackCondition("Unit"));
+            effectsByUnitType["Unit"].Add(new ConstantExtraDamageEffectt(2));
+            effectsByUnitType["Unit"].Add(new DamageReductionEffectt(2));
+
+            conditionConnector = "And";
+        }
+        
+        if (skillName == "Dragon's Wrath")
+        {
+            
+        }
+        
+        if (skillName == "Prescience")
+        {
+            
+        }
+        
+        if (skillName == "Extra Chivalry")
+        {
+            
+        }
+        
+        if (skillName == "Guard Bearing")
+        {
+            
+        }
+        
+        if (skillName == "Divine Recreation")
+        {
+            
         }
 
         ConditionEvaluator conditionEvaluator = new ConditionEvaluator(conditions, conditionConnector);

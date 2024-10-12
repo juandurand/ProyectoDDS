@@ -11,11 +11,11 @@ public class Skill
         _effectApplier = effectApplier;
     }
 
-    public void Apply(Dictionary<string, Unit> roundInfo)
+    public void Apply(Dictionary<string, Unit> roundInfo, int applyOrder)
     {
         if (_conditionEvaluator.AreConditionsSatisfied(roundInfo))
         {
-            _effectApplier.ApplyEffects(roundInfo);
+            _effectApplier.ApplyEffects(roundInfo, applyOrder);
         }
     }
 }

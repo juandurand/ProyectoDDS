@@ -5,7 +5,7 @@ public class AtkBonusEffectt:Effectt
     private readonly string _attackType;
 
     public AtkBonusEffectt(int atkBonus, string attackType = "All")
-        : base("Bonus")
+        : base("Bonus", 1)
     {
         _atkBonus = atkBonus;
         _attackType = attackType;

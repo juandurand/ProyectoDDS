@@ -5,7 +5,7 @@ public class BonusNeutralizationEffectt:Effectt
     private readonly List<string> _statsTypes;
 
     public BonusNeutralizationEffectt(List<String> statsTypes)
-        : base("Neutralization")
+        : base("Neutralization", 1)
     {
         _statsTypes = statsTypes;
     }

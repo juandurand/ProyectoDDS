@@ -4,7 +4,7 @@ public class AlterBaseStatsEffectt:Effectt
     private bool _isEffectUsed;
 
     public AlterBaseStatsEffectt(string effectType)
-        : base(effectType)
+        : base(effectType, 1)
     {
         _isEffectUsed = false;
         
