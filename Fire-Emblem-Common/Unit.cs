@@ -20,6 +20,9 @@ public class Unit
 
     public UnitDamageInfo Damage;
 
+    public int FirstAttack;
+    public int FirstDefense;
+
     public Unit(Dictionary<string, object> unitData)
     {
         Name = (string)unitData["Name"];
@@ -38,6 +41,9 @@ public class Unit
         Damage = new UnitDamageInfo();
         
         Skills = SkillFactory.GetSkills((List<string>)unitData["Skills"], this);
+
+        FirstAttack = 0;
+        FirstDefense = 0;
     }
     
     public void ResetEffects()
@@ -47,6 +53,22 @@ public class Unit
         Def.ResetEffects();
         Res.ResetEffects();
         Damage.ResetEffects();
+    }
+
+    public void SetFirstAttack()
+    {
+        if (FirstAttack == 0 || FirstAttack == 1)
+        {
+            FirstAttack += 1;
+        }
+    }
+    
+    public void SetFirstDefense()
+    {
+        if (FirstDefense == 0 || FirstDefense == 1)
+        {
+            FirstDefense += 1;
+        }
     }
 
     public int GetTotalStat(string stat, string attackType)

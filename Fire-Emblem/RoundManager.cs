@@ -26,6 +26,12 @@ public static class RoundManager
 
     public static void RoundStarted(Dictionary<string, Unit> roundInfo)
     {
+        SetActualOpponent(roundInfo);
+        SetFirstAttackDefense(roundInfo);
+    }
+
+    private static void SetActualOpponent(Dictionary<string, Unit> roundInfo)
+    {
         roundInfo["Attacker"].ActualOpponent = roundInfo["Defender"];
         roundInfo["Defender"].ActualOpponent = roundInfo["Attacker"];
     }
@@ -34,6 +40,7 @@ public static class RoundManager
     {
         ResetSkills(roundInfo);
         SetLastOpponent(roundInfo);
+        SetFirstAttackDefense(roundInfo);
     }
     
     private static void ResetSkills(Dictionary<string, Unit> roundInfo)
@@ -46,5 +53,11 @@ public static class RoundManager
     {
         roundInfo["Attacker"].LastOpponent = roundInfo["Defender"];
         roundInfo["Defender"].LastOpponent = roundInfo["Attacker"];
+    }
+    
+    private static void SetFirstAttackDefense(Dictionary<string, Unit> roundInfo)
+    {
+        roundInfo["Attacker"].SetFirstAttack();
+        roundInfo["Defender"].SetFirstDefense();
     }
 }

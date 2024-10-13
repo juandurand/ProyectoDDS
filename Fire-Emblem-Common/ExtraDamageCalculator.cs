@@ -4,13 +4,15 @@ public class ExtraDamageCalculator
 {
     private readonly string _analizedUnit;
     private readonly string _analizedStat;
+    private readonly string _analizedStat2;
     private readonly double _percentage;
     
-    public ExtraDamageCalculator(string analizedUnit, string analizedStat, double percentage)
+    public ExtraDamageCalculator(string analizedUnit, string analizedStat, string analizedStat2, double percentage)
         
     {
         _analizedUnit = analizedUnit;
         _analizedStat = analizedStat;
+        _analizedStat2 = analizedStat2;
         _percentage = percentage;
     }
     
@@ -21,9 +23,13 @@ public class ExtraDamageCalculator
         {
             extraDamage = unit.Hp.HpBaseValue - unit.Hp.ActualHpValue;
         }
-        else
+        else if (_analizedUnit == "Rival")
         {
             extraDamage = unit.ActualOpponent.GetTotalStat(_analizedStat, "");
+        }
+        else
+        {
+            extraDamage = unit.GetTotalStat(_analizedStat, "") - unit.ActualOpponent.GetTotalStat(_analizedStat2, "");
         }
         
         return Convert.ToInt32(Math.Floor(extraDamage * _percentage));

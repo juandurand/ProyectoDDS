@@ -5,10 +5,10 @@ public class SpecificExtraDamageEffect:Effectt
     private readonly ExtraDamageCalculator _extraDamageCalculator;
     private readonly string _attackType;
 
-    public SpecificExtraDamageEffect(string analizedUnit, string analizedStat, double percentage, string attackType = "All")
+    public SpecificExtraDamageEffect(string analizedUnit, string analizedStat, double percentage, string analizedStat2 = "", string attackType = "All")
         : base("Extra Damage", 2)
     {
-        _extraDamageCalculator = new ExtraDamageCalculator(analizedUnit, analizedStat, percentage);
+        _extraDamageCalculator = new ExtraDamageCalculator(analizedUnit, analizedStat, analizedStat2, percentage);
         _attackType = attackType;
     }
 

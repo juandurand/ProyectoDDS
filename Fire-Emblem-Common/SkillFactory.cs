@@ -5,12 +5,20 @@ namespace Fire_Emblem_Common;
 
 public static class SkillFactory
 {
+    private static readonly List<string> _specialSkills = new List<string>
+    {
+        "Bushido", "Moon-Twin Wing", "Dragon's Wrath", "Prescience", "Extra Chivalry"
+    };
     public static List<Skill> GetSkills(List<String> skillNames, Unit unit)
     {
         List<Skill> skills = new List<Skill>();
         foreach (string skillName in skillNames)
         {
             skills.Add(CreateSkill(skillName, unit));
+            if (_specialSkills.Contains(skillName))
+            {
+                skills.Add(CreateSkill(skillName + "2", unit));
+            }
         }
         return skills;
     }
@@ -590,12 +598,28 @@ public static class SkillFactory
 
         if (skillName == "Bushido")
         {
-           
+           effectsByUnitType["Unit"].Add(new ConstantExtraDamageEffectt(7));
+        }
+
+        if (skillName == "Bushido2")
+        {
+            conditions.Add(new StatComparisonCondition(1, "Spd", "Spd"));
+            effectsByUnitType["Unit"].Add(new ComparisonPercentageReductionEffectt(0.4, "Spd", "Spd", 4));
         }
         
         if (skillName == "Moon-Twin Wing")
         {
-            
+            conditions.Add(new HpPercentageCondition(-0.25, "Unit")); // El menor igual al reves
+            effectsByUnitType["Rival"].Add(new AtkPenaltyEffectt(5));
+            effectsByUnitType["Rival"].Add(new SpdPenaltyEffectt(5));
+        }
+        
+        if (skillName == "Moon-Twin Wing2")
+        {
+            conditions.Add(new HpPercentageCondition(-0.25, "Unit"));
+            conditions.Add(new StatComparisonCondition(1, "Spd", "Spd"));
+            effectsByUnitType["Unit"].Add(new ComparisonPercentageReductionEffectt(0.4, "Spd", "Spd", 4));
+            conditionConnector = "And"; 
         }
         
         if (skillName == "Blue Skies")
@@ -737,26 +761,58 @@ public static class SkillFactory
         
         if (skillName == "Dragon's Wrath")
         {
-            
+            effectsByUnitType["Unit"].Add(new ConstantPercentageReductionEffectt(0.25, "First Attack"));
+        }
+        
+        if (skillName == "Dragon's Wrath2")
+        {
+            conditions.Add(new StatComparisonCondition(1, "Atk", "Res"));
+            effectsByUnitType["Unit"].Add(new SpecificExtraDamageEffect("Both", "Atk", 0.25, "Res", "First Attack"));
         }
         
         if (skillName == "Prescience")
         {
+            effectsByUnitType["Rival"].Add(new AtkPenaltyEffectt(5));
+            effectsByUnitType["Rival"].Add(new ResPenaltyEffectt(5));
+        }
+        
+        if (skillName == "Prescience2")
+        {
+            conditions.Add(new FirstAttackCondition("Unit"));
+            conditions.Add(new WeaponTypeCondition("Rival", new List<string> { "Magic", "Bow" }));
+            effectsByUnitType["Unit"].Add(new ConstantPercentageReductionEffectt(0.3, "First Attack"));
             
+            conditionConnector = "Or";
         }
         
         if (skillName == "Extra Chivalry")
         {
-            
+            conditions.Add(new HpPercentageCondition(0.5, "Rival"));
+            effectsByUnitType["Rival"].Add(new AtkPenaltyEffectt(5));
+            effectsByUnitType["Rival"].Add(new SpdPenaltyEffectt(5));
+            effectsByUnitType["Rival"].Add(new DefPenaltyEffectt(5));
+        }
+        
+        if (skillName == "Extra Chivalry2")
+        {
+            effectsByUnitType["Unit"].Add(new PercentageReductionByHpEffectt(0.5));
         }
         
         if (skillName == "Guard Bearing")
         {
-            
+            effectsByUnitType["Rival"].Add(new SpdPenaltyEffectt(4));
+            effectsByUnitType["Rival"].Add(new DefPenaltyEffectt(4));
+            effectsByUnitType["Unit"].Add(new GuardBearingEffectt());
         }
         
         if (skillName == "Divine Recreation")
         {
+            conditions.Add(new HpPercentageCondition(0.5, "Rival"));
+            effectsByUnitType["Rival"].Add(new AtkPenaltyEffectt(4));
+            effectsByUnitType["Rival"].Add(new SpdPenaltyEffectt(4));
+            effectsByUnitType["Rival"].Add(new DefPenaltyEffectt(4));
+            effectsByUnitType["Rival"].Add(new ResPenaltyEffectt(4));
+            effectsByUnitType["Unit"].Add(new ConstantPercentageReductionEffectt(0.3, "First Attack"));
             
         }
 
