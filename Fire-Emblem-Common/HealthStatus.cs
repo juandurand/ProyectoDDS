@@ -1,11 +1,11 @@
 namespace Fire_Emblem_Common;
 
-public class Hp
+public class HealthStatus
 {
     public int HpBaseValue;
     public int ActualHpValue;
     
-    public Hp(int initialValue)
+    public HealthStatus(int initialValue)
     {
         HpBaseValue = initialValue;
         ActualHpValue = initialValue;

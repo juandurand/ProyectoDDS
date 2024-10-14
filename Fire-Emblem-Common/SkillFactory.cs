@@ -813,7 +813,7 @@ public static class SkillFactory
             effectsByUnitType["Rival"].Add(new DefPenaltyEffectt(4));
             effectsByUnitType["Rival"].Add(new ResPenaltyEffectt(4));
             effectsByUnitType["Unit"].Add(new ConstantPercentageReductionEffectt(0.3, "First Attack"));
-            
+            effectsByUnitType["Unit"].Add(new DivineRecreationEffectt());
         }
 
         ConditionEvaluator conditionEvaluator = new ConditionEvaluator(conditions, conditionConnector);

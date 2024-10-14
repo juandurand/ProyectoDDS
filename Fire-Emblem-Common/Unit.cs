@@ -11,7 +11,7 @@ public class Unit
     public Unit ActualOpponent;
     public Unit LastOpponent;
     
-    public Hp Hp;
+    public HealthStatus HealthStatus;
     
     public UnitStat Atk;
     public UnitStat Spd;
@@ -22,6 +22,7 @@ public class Unit
 
     public int FirstAttack;
     public int FirstDefense;
+    public bool Attacking; // True si empieza atacando || False si empieza defendiendo
 
     public Unit(Dictionary<string, object> unitData)
     {
@@ -30,7 +31,7 @@ public class Unit
         Gender = (string)unitData["Gender"];
         DeathQuote = (string)unitData["DeathQuote"];
         
-        Hp = new Hp((int)unitData["HP"]);
+        HealthStatus = new HealthStatus((int)unitData["HP"]);
         ActualOpponent = null;
         LastOpponent = null;
         
@@ -77,7 +78,7 @@ public class Unit
         if (stat == "Spd") return GetTotalSpd();
         if (stat == "Res") return GetTotalRes(attackType);
         if (stat == "Def") return GetTotalDef(attackType);
-        return Hp.ActualHpValue;
+        return HealthStatus.ActualHpValue;
     }
     
     private int GetTotalAtk(string attackType)

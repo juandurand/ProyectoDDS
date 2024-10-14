@@ -24,13 +24,13 @@ public class TeamManager
 
     public void CheckUnitsHealth(Dictionary<string, Unit> roundInfo, int attackerIndex, int defenderIndex)
     {
-        CheckHealthByUnit(roundInfo["Attacker"], attackerIndex);
-        CheckHealthByUnit(roundInfo["Defender"], defenderIndex);
+        RemoveUnitIfDead(roundInfo["Attacker"], attackerIndex);
+        RemoveUnitIfDead(roundInfo["Defender"], defenderIndex);
     }
 
-    private void CheckHealthByUnit(Unit unit, int playerIndex)
+    private void RemoveUnitIfDead(Unit unit, int playerIndex)
     {
-        if (!unit.Hp.IsUnitAlive())
+        if (!unit.HealthStatus.IsUnitAlive())
         {
             _playersUnits[playerIndex].Remove(unit);
         }

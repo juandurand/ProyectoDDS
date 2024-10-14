@@ -5,10 +5,10 @@ public static class RoundManager
 {
     public static void ApplyAllSkills(Dictionary<string, Unit> roundInfo)
     {
-        for (int applyOrder = 1; applyOrder < 3; applyOrder++)
+        for (int applyOrder = 1; applyOrder < 4; applyOrder++)
         {
-            ApplySkillsPerUnit(roundInfo["Attacker"], roundInfo["Defender"], roundInfo, applyOrder);
             ApplySkillsPerUnit(roundInfo["Defender"], roundInfo["Attacker"], roundInfo, applyOrder);
+            ApplySkillsPerUnit(roundInfo["Attacker"], roundInfo["Defender"], roundInfo, applyOrder);
         }
     }
 
@@ -27,7 +27,14 @@ public static class RoundManager
     public static void RoundStarted(Dictionary<string, Unit> roundInfo)
     {
         SetActualOpponent(roundInfo);
+        SetAttacker(roundInfo);
         SetFirstAttackDefense(roundInfo);
+    }
+
+    private static void SetAttacker(Dictionary<string, Unit> roundInfo)
+    {
+        roundInfo["Attacker"].Attacking = true;
+        roundInfo["Defender"].Attacking = false;
     }
 
     private static void SetActualOpponent(Dictionary<string, Unit> roundInfo)

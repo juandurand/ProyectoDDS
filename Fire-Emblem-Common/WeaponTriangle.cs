@@ -14,10 +14,13 @@ public static class WeaponTriangle
     public static double CalculateWtb(string attackerWeapon, string defenderWeapon)
     {
         var (advantage, disadvantage) = WeaponTriangleDic[attackerWeapon];
+
+        double advantageValue = 1.2;
+        double noadvantageValue = 1.0;
+        double disadvantageValue = 0.8;
         
-        // QUE PASA CON ESE 1.2 0.8 (Naming)
-        return advantage == defenderWeapon ? 1.2 :
-            disadvantage == defenderWeapon ? 0.8 : 1.0;
+        return advantage == defenderWeapon ? advantageValue :
+            disadvantage == defenderWeapon ? disadvantageValue : noadvantageValue;
     }
     
 }

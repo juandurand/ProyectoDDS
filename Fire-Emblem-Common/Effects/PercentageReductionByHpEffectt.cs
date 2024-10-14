@@ -14,7 +14,7 @@ public class PercentageReductionByHpEffectt:Effectt
 
     public override void ApplyEffect(Unit unit)
     {
-        double reductionFactor = _percentage * unit.ActualOpponent.Hp.GetHpPercentage();
+        double reductionFactor = _percentage * unit.ActualOpponent.HealthStatus.GetHpPercentage();
         reductionFactor = Math.Truncate(reductionFactor * 100) / 100;
         
         

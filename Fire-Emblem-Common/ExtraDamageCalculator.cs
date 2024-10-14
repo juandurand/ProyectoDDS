@@ -21,7 +21,7 @@ public class ExtraDamageCalculator
         int extraDamage;
         if (_analizedUnit == "Unit")
         {
-            extraDamage = unit.Hp.HpBaseValue - unit.Hp.ActualHpValue;
+            extraDamage = unit.HealthStatus.HpBaseValue - unit.HealthStatus.ActualHpValue;
         }
         else if (_analizedUnit == "Rival")
         {

@@ -14,11 +14,11 @@ public class AttackManager
     // Si el defensor muere, retorna True para que no se sigan atacando en esa ronda
     public bool SimulateAttack(Unit attackerUnit, Unit defenderUnit, string attackType)
     {
-        int damage = Damage.GetDamage(attackerUnit, defenderUnit, attackType);
-        defenderUnit.Hp.DealDamage(damage);
+        int damage = DamageCalculator.GetDamage(attackerUnit, defenderUnit, attackType);
+        defenderUnit.HealthStatus.DealDamage(damage);
         
         _view.ReportAttack(attackerUnit, defenderUnit, damage);
-        return !defenderUnit.Hp.IsUnitAlive();
+        return !defenderUnit.HealthStatus.IsUnitAlive();
     }
 
     public void SimulateFollowUp(Unit attackerUnit, Unit defenderUnit)
