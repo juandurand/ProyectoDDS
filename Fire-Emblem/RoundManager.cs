@@ -3,19 +3,19 @@ namespace Fire_Emblem;
 
 public static class RoundManager
 {
-    public static void ApplyAllSkills(Dictionary<string, Unit> roundInfo)
+    public static void ApplyAllSkills(RoundInfo roundInfo)
     {
         for (int applyOrder = 1; applyOrder < 4; applyOrder++)
         {
-            ApplySkillsPerUnit(roundInfo["Defender"], roundInfo["Attacker"], roundInfo, applyOrder);
-            ApplySkillsPerUnit(roundInfo["Attacker"], roundInfo["Defender"], roundInfo, applyOrder);
+            ApplySkillsPerUnit(roundInfo.Defender, roundInfo.Attacker, roundInfo, applyOrder);
+            ApplySkillsPerUnit(roundInfo.Attacker, roundInfo.Defender, roundInfo, applyOrder);
         }
     }
 
-    private static void ApplySkillsPerUnit(Unit skillOwner, Unit rival, Dictionary<string, Unit> roundInfo, int applyOrder)
+    private static void ApplySkillsPerUnit(Unit skillOwner, Unit rival, RoundInfo roundInfo, int applyOrder)
     {
-        roundInfo["SkillOwner"] = skillOwner;
-        roundInfo["Rival"] = rival;
+        roundInfo.SkillOwner = skillOwner;
+        roundInfo.Rival = rival;
 
         foreach (Skill skill in skillOwner.Skills)
         {
@@ -24,47 +24,47 @@ public static class RoundManager
         }
     }
 
-    public static void RoundStarted(Dictionary<string, Unit> roundInfo)
+    public static void RoundStarted(RoundInfo roundInfo)
     {
         SetActualOpponent(roundInfo);
         SetAttacker(roundInfo);
         SetFirstAttackDefense(roundInfo);
     }
 
-    private static void SetAttacker(Dictionary<string, Unit> roundInfo)
+    private static void SetAttacker(RoundInfo roundInfo)
     {
-        roundInfo["Attacker"].Attacking = true;
-        roundInfo["Defender"].Attacking = false;
+        roundInfo.Attacker.Attacking = true;
+        roundInfo.Defender.Attacking = false;
     }
 
-    private static void SetActualOpponent(Dictionary<string, Unit> roundInfo)
+    private static void SetActualOpponent(RoundInfo roundInfo)
     {
-        roundInfo["Attacker"].ActualOpponent = roundInfo["Defender"];
-        roundInfo["Defender"].ActualOpponent = roundInfo["Attacker"];
+        roundInfo.Attacker.ActualOpponent = roundInfo.Defender;
+        roundInfo.Defender.ActualOpponent = roundInfo.Attacker;
     }
     
-    public static void RoundEnded(Dictionary<string, Unit> roundInfo)
+    public static void RoundEnded(RoundInfo roundInfo)
     {
         ResetSkills(roundInfo);
         SetLastOpponent(roundInfo);
         SetFirstAttackDefense(roundInfo);
     }
     
-    private static void ResetSkills(Dictionary<string, Unit> roundInfo)
+    private static void ResetSkills(RoundInfo roundInfo)
     {
-        roundInfo["Attacker"].ResetEffects();
-        roundInfo["Defender"].ResetEffects();
+        roundInfo.Attacker.ResetEffects();
+        roundInfo.Defender.ResetEffects();
     }
 
-    private static void SetLastOpponent(Dictionary<string, Unit> roundInfo)
+    private static void SetLastOpponent(RoundInfo roundInfo)
     {
-        roundInfo["Attacker"].LastOpponent = roundInfo["Defender"];
-        roundInfo["Defender"].LastOpponent = roundInfo["Attacker"];
+        roundInfo.Attacker.LastOpponent = roundInfo.Defender;
+        roundInfo.Defender.LastOpponent = roundInfo.Attacker;
     }
     
-    private static void SetFirstAttackDefense(Dictionary<string, Unit> roundInfo)
+    private static void SetFirstAttackDefense(RoundInfo roundInfo)
     {
-        roundInfo["Attacker"].SetFirstAttack();
-        roundInfo["Defender"].SetFirstDefense();
+        roundInfo.Attacker.SetFirstAttack();
+        roundInfo.Defender.SetFirstDefense();
     }
 }

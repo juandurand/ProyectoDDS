@@ -29,18 +29,42 @@ public class Combat
 
     private void ProcessCombatRound()
     {
+        RoundInfo roundInfo = GetRoundInfo();
+        
+        AnnounceRoundStart(roundInfo);
+        SimulateRound(roundInfo);
+        AnnounceRoundEnd(roundInfo);
+    }
+    
+    private RoundInfo GetRoundInfo()
+    {
         (int attackerIndex, int defenderIndex) = CombatHelper.GetAttackerDefenderIndex(_roundCounter);
         
-        Dictionary<string, Unit> roundInfo = new Dictionary<string, Unit>
-        {
-            { "Attacker", _teamManager.ChooseUnit(attackerIndex, _view) }, 
-            { "Defender", _teamManager.ChooseUnit(defenderIndex, _view) }
-        };
+        Unit attacker = _teamManager.ChooseUnit(attackerIndex, _view);
+        Unit defender = _teamManager.ChooseUnit(defenderIndex, _view);
         
+        return new RoundInfo(attacker, defender);
+    }
+    
+    private void AnnounceRoundStart(RoundInfo roundInfo)
+    {
+        int attackerIndex = CombatHelper.GetAttackerDefenderIndex(_roundCounter).Item1;
         _view.AnnounceRound(_roundCounter, roundInfo, CombatHelper.GetPlayerName(attackerIndex));
+    }
+
+    private void SimulateRound(RoundInfo roundInfo)
+    {
         _round.SimulateRound(roundInfo);
-        
+    }
+
+    private void AnnounceRoundEnd(RoundInfo roundInfo)
+    {
+        (int attackerIndex, int defenderIndex) = CombatHelper.GetAttackerDefenderIndex(_roundCounter);
         _view.ReportRoundSummary(roundInfo);
         _teamManager.CheckUnitsHealth(roundInfo, attackerIndex, defenderIndex);
     }
+    
+    
+    
+    
 }

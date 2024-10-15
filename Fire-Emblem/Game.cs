@@ -18,14 +18,19 @@ public class Game
     {
         _view.DisplayTeamSelection(_teamsFolder);
         
-        if (!_teamLoader.IsTeamValid(_teamLoader.ChargePlayersInfo()))
-        {
-            _view.WriteLine(("Archivo de equipos no válido"));
-        }
-        else
+        if (IsTeamFileValid())
         {
             StartCombat();
         }
+        else
+        {
+            _view.AnnounceInvalidTeamSelection();
+        }
+    }
+    
+    private bool IsTeamFileValid()
+    {
+        return _teamLoader.IsTeamValid(_teamLoader.ChargePlayersInfo());
     }
 
     private void StartCombat()

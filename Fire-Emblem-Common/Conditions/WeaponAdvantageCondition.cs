@@ -9,7 +9,7 @@ public class WeaponAdvantageCondition:Condition
         _analyzedUnit = analyzedUnit;
     }
     
-    public override bool IsConditionSatisfied(Dictionary<string, Unit> roundInfo)
+    public override bool IsConditionSatisfied(RoundInfo roundInfo)
     {
         (Unit starter, Unit rival, Unit skillOwner) = GetUnits(roundInfo);
         

@@ -16,11 +16,11 @@ public static class WeaponTriangle
         var (advantage, disadvantage) = WeaponTriangleDic[attackerWeapon];
 
         double advantageValue = 1.2;
-        double noadvantageValue = 1.0;
+        double noAdvantageValue = 1.0;
         double disadvantageValue = 0.8;
         
         return advantage == defenderWeapon ? advantageValue :
-            disadvantage == defenderWeapon ? disadvantageValue : noadvantageValue;
+            disadvantage == defenderWeapon ? disadvantageValue : noAdvantageValue;
     }
     
 }

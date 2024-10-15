@@ -22,10 +22,10 @@ public class TeamManager
         return _playersUnits[playerIndex][unitIndex];
     }
 
-    public void CheckUnitsHealth(Dictionary<string, Unit> roundInfo, int attackerIndex, int defenderIndex)
+    public void CheckUnitsHealth(RoundInfo roundInfo, int attackerIndex, int defenderIndex)
     {
-        RemoveUnitIfDead(roundInfo["Attacker"], attackerIndex);
-        RemoveUnitIfDead(roundInfo["Defender"], defenderIndex);
+        RemoveUnitIfDead(roundInfo.Attacker, attackerIndex);
+        RemoveUnitIfDead(roundInfo.Defender, defenderIndex);
     }
 
     private void RemoveUnitIfDead(Unit unit, int playerIndex)

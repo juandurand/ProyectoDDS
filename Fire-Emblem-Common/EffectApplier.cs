@@ -10,10 +10,10 @@ public class EffectApplier
         _effects = effects;
     }
 
-    public void ApplyEffects(Dictionary<string, Unit> roundInfo, int applyOrder)
+    public void ApplyEffects(RoundInfo roundInfo, int applyOrder)
     {
-        Unit unit = roundInfo["SkillOwner"];
-        Unit rival = roundInfo["Rival"];
+        Unit unit = roundInfo.SkillOwner;
+        Unit rival = roundInfo.Rival;
 
         var allEffects = _effects.Values.SelectMany(list => list);
 

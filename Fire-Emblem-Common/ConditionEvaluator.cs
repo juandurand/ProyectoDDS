@@ -12,7 +12,7 @@ public class ConditionEvaluator
         _conditionsConnector = conditionsConnector;
     }
 
-    public bool AreConditionsSatisfied(Dictionary<string, Unit> roundInfo)
+    public bool AreConditionsSatisfied(RoundInfo roundInfo)
     {
         if (_conditionsConnector == "Or")
         {
@@ -25,17 +25,17 @@ public class ConditionEvaluator
         return DefaultCondition(roundInfo);
     }
 
-    private bool OrCondition(Dictionary<string, Unit> roundInfo)
+    private bool OrCondition(RoundInfo roundInfo)
     {
         return _conditions.Any(condition => condition.IsConditionSatisfied(roundInfo));
     }
 
-    private bool AndCondition(Dictionary<string, Unit> roundInfo)
+    private bool AndCondition(RoundInfo roundInfo)
     {
         return _conditions.All(condition => condition.IsConditionSatisfied(roundInfo));
     }
 
-    private bool DefaultCondition(Dictionary<string, Unit> roundInfo)
+    private bool DefaultCondition(RoundInfo roundInfo)
     {
         return _conditions.Count == 0 || _conditions[0].IsConditionSatisfied(roundInfo);
     }

@@ -14,11 +14,20 @@ public class AttackManager
     // Si el defensor muere, retorna True para que no se sigan atacando en esa ronda
     public bool SimulateAttack(Unit attackerUnit, Unit defenderUnit, string attackType)
     {
-        int damage = DamageCalculator.GetDamage(attackerUnit, defenderUnit, attackType);
-        defenderUnit.HealthStatus.DealDamage(damage);
-        
-        _view.ReportAttack(attackerUnit, defenderUnit, damage);
+        int damage = CalculateDamage(attackerUnit, defenderUnit, attackType);
+        ApplyDamage(attackerUnit, defenderUnit, damage);
         return !defenderUnit.HealthStatus.IsUnitAlive();
+    }
+    
+    private int CalculateDamage(Unit attackerUnit, Unit defenderUnit, string attackType)
+    {
+        return DamageCalculator.GetDamage(attackerUnit, defenderUnit, attackType);
+    }
+
+    private void ApplyDamage(Unit attackerUnit, Unit defenderUnit, int damage)
+    {
+        defenderUnit.HealthStatus.DealDamage(damage);
+        _view.ReportAttack(attackerUnit, defenderUnit, damage);
     }
 
     public void SimulateFollowUp(Unit attackerUnit, Unit defenderUnit)
@@ -33,7 +42,7 @@ public class AttackManager
         }
         else
         {
-            _view.WriteLine("Ninguna unidad puede hacer un follow up");
+            _view.AnnounceNoFollowUp();
         }
     }
 

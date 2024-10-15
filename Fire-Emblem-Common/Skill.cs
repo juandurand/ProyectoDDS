@@ -11,7 +11,7 @@ public class Skill
         _effectApplier = effectApplier;
     }
 
-    public void Apply(Dictionary<string, Unit> roundInfo, int applyOrder)
+    public void Apply(RoundInfo roundInfo, int applyOrder)
     {
         if (_conditionEvaluator.AreConditionsSatisfied(roundInfo))
         {

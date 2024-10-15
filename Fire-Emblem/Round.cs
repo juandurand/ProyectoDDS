@@ -14,20 +14,20 @@ public class Round
         _attackManager = new AttackManager(view);
     }
     
-    public void SimulateRound(Dictionary<string, Unit> roundInfo)
+    public void SimulateRound(RoundInfo roundInfo)
     {
         RoundManager.RoundStarted(roundInfo);
         RoundManager.ApplyAllSkills(roundInfo);
         _view.AnnounceSkills(roundInfo);
         
-        if (_attackManager.SimulateAttack(roundInfo["Attacker"], roundInfo["Defender"],"First Attack") ||
-            _attackManager.SimulateAttack( roundInfo["Defender"], roundInfo["Attacker"], "First Attack"))
+        if (_attackManager.SimulateAttack(roundInfo.Attacker, roundInfo.Defender,"First Attack") ||
+            _attackManager.SimulateAttack( roundInfo.Defender, roundInfo.Attacker, "First Attack"))
         {
             RoundManager.RoundEnded(roundInfo);
             return;
         }
         
-        _attackManager.SimulateFollowUp(roundInfo["Attacker"], roundInfo["Defender"]);
+        _attackManager.SimulateFollowUp(roundInfo.Attacker, roundInfo.Defender);
         RoundManager.RoundEnded(roundInfo);
     }
 }
