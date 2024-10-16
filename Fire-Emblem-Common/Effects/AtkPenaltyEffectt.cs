@@ -4,7 +4,7 @@ public class AtkPenaltyEffectt:Effectt
     private readonly int _atkPenalty;
 
     public AtkPenaltyEffectt(int atkPenalty)
-        : base("Penalty", 1)
+        : base(1)
     {
         _atkPenalty = atkPenalty;
     }

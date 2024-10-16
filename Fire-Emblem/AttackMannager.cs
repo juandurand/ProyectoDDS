@@ -49,6 +49,6 @@ public class AttackManager
     private static bool CanFollowUp(Unit attackerUnit, Unit defenderUnit)
     {
         int followUpSpeedThreshold = 4;
-        return attackerUnit.GetTotalStat(StatType.Spd, AttackType.None) - defenderUnit.GetTotalStat(StatType.Spd, AttackType.None) > followUpSpeedThreshold;
+        return UnitController.GetTotalStat(attackerUnit, StatType.Spd, AttackType.None) - UnitController.GetTotalStat(defenderUnit, StatType.Spd, AttackType.None) > followUpSpeedThreshold;
     }
 }

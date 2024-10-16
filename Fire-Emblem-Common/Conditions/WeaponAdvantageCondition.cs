@@ -12,11 +12,12 @@ public class WeaponAdvantageCondition:Condition
     public override bool IsConditionSatisfied(RoundInfo roundInfo)
     {
         (Unit starter, Unit rival, Unit skillOwner) = GetUnits(roundInfo);
+        double advantageValue = 1.2;
         
         if (_analyzedUnit == UnitRole.Unit)
         {
-            return WeaponTriangle.CalculateWtb(skillOwner.Weapon, rival.Weapon) == 1.2;
+            return WeaponTriangle.CalculateWtb(skillOwner.Weapon, rival.Weapon) == advantageValue;
         }
-        return WeaponTriangle.CalculateWtb(rival.Weapon, skillOwner.Weapon) == 1.2;
+        return WeaponTriangle.CalculateWtb(rival.Weapon, skillOwner.Weapon) == advantageValue;
     }
 }

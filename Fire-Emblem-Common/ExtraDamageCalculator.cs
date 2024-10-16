@@ -24,11 +24,11 @@ public class ExtraDamageCalculator
         }
         else if (_analizedUnit == UnitRole.Rival)
         {
-            extraDamage = unit.ActualOpponent.GetTotalStat(_analizedStat, AttackType.None);
+            extraDamage = UnitController.GetTotalStat(unit.ActualOpponent, _analizedStat, AttackType.None);
         }
         else // if (_analizedUnit == UnitRole.Both)
         {
-            extraDamage = unit.GetTotalStat(_analizedStat, AttackType.None) - unit.ActualOpponent.GetTotalStat(_analizedStat2, AttackType.None);
+            extraDamage = UnitController.GetTotalStat(unit, _analizedStat, AttackType.None) - UnitController.GetTotalStat(unit.ActualOpponent, _analizedStat2, AttackType.None);
         }
         
         return Convert.ToInt32(Math.Floor(extraDamage * _percentage));

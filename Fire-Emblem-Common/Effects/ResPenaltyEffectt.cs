@@ -5,7 +5,7 @@ public class ResPenaltyEffectt:Effectt
     private readonly int _resPenalty;
 
     public ResPenaltyEffectt(int resPenalty)
-        : base("Penalty", 1)
+        : base(1)
     {
         _resPenalty = resPenalty;
     }

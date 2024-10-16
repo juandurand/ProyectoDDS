@@ -2,10 +2,10 @@ namespace Fire_Emblem_Common.Effects;
 
 public class GuardBearingEffectt:Effectt
 {
-    private readonly string _attackType;
+    private readonly AttackType _attackType;
 
-    public GuardBearingEffectt(string attackType = "All")
-        : base("Percentage Reduction", 1)
+    public GuardBearingEffectt(AttackType attackType = AttackType.None)
+        : base(1)
     {
         _attackType = attackType;
     }
@@ -19,15 +19,15 @@ public class GuardBearingEffectt:Effectt
             reductionFactor = 0.6;
         }
         
-        if (_attackType == "All")
+        if (_attackType == AttackType.None)
         {
             unit.Damage.PercentageReduction *= (1 - reductionFactor);
         }
-        else if (_attackType == "First Attack")
+        else if (_attackType == AttackType.FirstAttack)
         {
             unit.Damage.FirstAttackPercentageReduction *= (1 - reductionFactor);
         }
-        else
+        else if (_attackType == AttackType.FollowUp)
         {
             unit.Damage.FollowUpPercentageReduction *= (1 - reductionFactor);
         }

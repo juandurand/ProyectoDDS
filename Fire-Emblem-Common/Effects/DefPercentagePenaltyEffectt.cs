@@ -6,7 +6,7 @@ public class DefPercentagePenaltyEffectt:Effectt
     private readonly AttackType _attackType;
 
     public DefPercentagePenaltyEffectt(double percentage, AttackType attackType = AttackType.None)
-        : base("Penalty", 1)
+        : base(1)
     {
         _percentage = percentage;
         _attackType = attackType;

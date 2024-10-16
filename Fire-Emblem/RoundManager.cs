@@ -20,7 +20,6 @@ public static class RoundManager
         foreach (Skill skill in skillOwner.Skills)
         {
             skill.Apply(roundInfo, applyOrder);
-            
         }
     }
 
@@ -52,8 +51,8 @@ public static class RoundManager
     
     private static void ResetSkills(RoundInfo roundInfo)
     {
-        roundInfo.Attacker.ResetEffects();
-        roundInfo.Defender.ResetEffects();
+        UnitController.ResetEffects(roundInfo.Attacker);
+        UnitController.ResetEffects(roundInfo.Defender);
     }
 
     private static void SetLastOpponent(RoundInfo roundInfo)
@@ -64,7 +63,7 @@ public static class RoundManager
     
     private static void SetFirstAttackDefense(RoundInfo roundInfo)
     {
-        roundInfo.Attacker.SetFirstAttack();
-        roundInfo.Defender.SetFirstDefense();
+        UnitController.SetFirstAttack(roundInfo.Attacker);
+        UnitController.SetFirstDefense(roundInfo.Defender);
     }
 }

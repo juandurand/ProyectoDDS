@@ -10,7 +10,7 @@ public static class DamageCalculator
         
         int defense = GetDefenseByWeapon(attacker, defender, attackType);
         
-        int damage = Convert.ToInt32(Math.Floor(attacker.GetTotalStat(StatType.Atk, attackType) * weaponTriangleBonus)) - defense;
+        int damage = Convert.ToInt32(Math.Floor(UnitController.GetTotalStat(attacker, StatType.Atk, attackType) * weaponTriangleBonus)) - defense;
         
         damage = Math.Max(damage, 0) + attacker.Damage.GetTotalBonus(attackType);
         
@@ -29,7 +29,7 @@ public static class DamageCalculator
         
         int defense = GetDefenseByWeapon(attacker, defender, attackType);
         
-        int damage = Convert.ToInt32(Math.Floor(attacker.GetTotalStat(StatType.Atk, attackType) * weaponTriangleBonus)) - defense;
+        int damage = Convert.ToInt32(Math.Floor(UnitController.GetTotalStat(attacker, StatType.Atk, attackType) * weaponTriangleBonus)) - defense;
 
         damage = Math.Max(damage, 0) + attacker.Damage.GetTotalBonus(attackType);
         
@@ -40,9 +40,9 @@ public static class DamageCalculator
     {
         if (attacker.Weapon == WeaponType.Magic)
         {
-            return defender.GetTotalStat(StatType.Res, attackType);
+            return UnitController.GetTotalStat(defender, StatType.Res, attackType);
         }
 
-        return defender.GetTotalStat(StatType.Def, attackType);
+        return UnitController.GetTotalStat(defender, StatType.Def, attackType);
     }
 }

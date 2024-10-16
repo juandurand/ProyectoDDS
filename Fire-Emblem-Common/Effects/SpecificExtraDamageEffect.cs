@@ -6,7 +6,7 @@ public class SpecificExtraDamageEffect:Effectt
     private readonly AttackType _attackType;
 
     public SpecificExtraDamageEffect(UnitRole analizedUnit, StatType analizedStat, double percentage, StatType analizedStat2 = StatType.None, AttackType attackType = AttackType.None)
-        : base("Extra Damage", 2)
+        : base(2)
     {
         _extraDamageCalculator = new ExtraDamageCalculator(analizedUnit, analizedStat, analizedStat2, percentage);
         _attackType = attackType;

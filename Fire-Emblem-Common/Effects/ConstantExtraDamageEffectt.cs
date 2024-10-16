@@ -6,7 +6,7 @@ public class ConstantExtraDamageEffectt:Effectt
     private readonly string _attackType;
 
     public ConstantExtraDamageEffectt(int damageBonus, string attackType = "All")
-        : base("Extra Damage", 2)
+        : base(2)
     {
         _damageBonus = damageBonus;
         _attackType = attackType;

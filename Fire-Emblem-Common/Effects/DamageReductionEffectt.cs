@@ -5,7 +5,7 @@ public class DamageReductionEffectt:Effectt
     private readonly int _damagePenalty;
 
     public DamageReductionEffectt(int damagePenalty)
-        : base("Damage Reduction", 2)
+        : base(2)
     {
         _damagePenalty = damagePenalty;
     }

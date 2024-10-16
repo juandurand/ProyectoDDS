@@ -6,7 +6,7 @@ public class ConstantPercentageReductionEffectt:Effectt
     private readonly AttackType _attackType;
 
     public ConstantPercentageReductionEffectt(double reduction, AttackType attackType = AttackType.None)
-        :base("Percentage Reduction", 2)
+        :base(2)
     {
         _reduction = reduction;
         _attackType = attackType;

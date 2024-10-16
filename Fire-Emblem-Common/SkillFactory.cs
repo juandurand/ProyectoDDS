@@ -5,19 +5,17 @@ namespace Fire_Emblem_Common;
 
 public static class SkillFactory
 {
-    private static readonly List<string> _specialSkills = new List<string>
-    {
-        "Bushido", "Moon-Twin Wing", "Dragon's Wrath", "Prescience", "Extra Chivalry"
-    };
     public static List<Skill> GetSkills(List<String> skillNames, Unit unit)
     {
         List<Skill> skills = new List<Skill>();
         foreach (string skillName in skillNames)
         {
             skills.Add(CreateSkill(skillName, unit));
-            if (_specialSkills.Contains(skillName))
+            
+            SpecialSkill? specialSkill = SpecialSkillMapper.FromString(skillName);
+            if (specialSkill != null)
             {
-                skills.Add(CreateSkill(skillName + "2", unit));
+                skills.Add(CreateSpecialSkill(skillName , unit));
             }
         }
         return skills;
@@ -25,800 +23,921 @@ public static class SkillFactory
     private static Skill CreateSkill(string skillName, Unit unit)
     {
         List<Condition> conditions = new List<Condition>();
-        Dictionary<string, List<Effectt>> effectsByUnitType = new Dictionary<string, List<Effectt>>()
+        Dictionary<UnitRole, List<Effectt>> effectsByUnitType = new Dictionary<UnitRole, List<Effectt>>()
         {
-            { "Rival", new List<Effectt>() },
-            { "Unit", new List<Effectt>() },
-            { "Both", new List<Effectt>() }
+            { UnitRole.Unit, new List<Effectt>() },
+            { UnitRole.Rival, new List<Effectt>() },
+            { UnitRole.Both, new List<Effectt>() }
         };
         
-        // DEFAULT VALUE
-        string conditionConnector = "No Connector";
+        ConditionEvaluator conditionEvaluator;
         
         if (skillName == "HP +15")
         {
-            effectsByUnitType["Unit"].Add(new AlterBaseStatsEffectt(skillName));
+            effectsByUnitType[UnitRole.Unit].Add(new HpPlusFifteenEffectt());
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
 
-        if (skillName == "Fair Fight")
+        else if (skillName == "Fair Fight")
         {
             conditions.Add(new FirstAttackCondition(UnitRole.Unit));
-            effectsByUnitType["Both"].Add(new AtkBonusEffectt(6));
+            effectsByUnitType[UnitRole.Both].Add(new AtkBonusEffectt(6));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
 
-        if (skillName == "Will to Win")
+        else if (skillName == "Will to Win")
         {
             conditions.Add(new HpPercentageCondition(0.5, UnitRole.Unit));
-            effectsByUnitType["Unit"].Add(new AtkBonusEffectt(8));
+            effectsByUnitType[UnitRole.Unit].Add(new AtkBonusEffectt(8));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
 
-        if (skillName == "Single-Minded")
+        else if (skillName == "Single-Minded")
         {
             conditions.Add(new LastOpponentCondition());
-            effectsByUnitType["Unit"].Add(new AtkBonusEffectt(8));
+            effectsByUnitType[UnitRole.Unit].Add(new AtkBonusEffectt(8));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
 
-        if (skillName == "Ignis")
+        else if (skillName == "Ignis")
         {
-            effectsByUnitType["Unit"].Add(new AtkBonusEffectt(unit.Atk.BaseValue / 2, AttackType.FirstAttack));
+            effectsByUnitType[UnitRole.Unit].Add(new AtkBonusEffectt(unit.Atk.BaseValue / 2, AttackType.FirstAttack));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
 
-        if (skillName == "Perceptive")
+        else if (skillName == "Perceptive")
         {
             conditions.Add(new FirstAttackCondition(UnitRole.Unit));
-            effectsByUnitType["Unit"].Add(new SpdBonusEffectt(12 + unit.Spd.BaseValue / 4));
+            effectsByUnitType[UnitRole.Unit].Add(new SpdBonusEffectt(12 + unit.Spd.BaseValue / 4));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
 
-        if (skillName == "Tome Precision")
+        else if (skillName == "Tome Precision")
         {
             conditions.Add(new WeaponTypeCondition(UnitRole.Unit, new List<WeaponType> { WeaponType.Magic }));
-            effectsByUnitType["Unit"].Add(new SpdBonusEffectt(6));
-            effectsByUnitType["Unit"].Add(new AtkBonusEffectt(6));
+            effectsByUnitType[UnitRole.Unit].Add(new SpdBonusEffectt(6));
+            effectsByUnitType[UnitRole.Unit].Add(new AtkBonusEffectt(6));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
 
-        if (skillName == "Attack +6")
+        else if (skillName == "Attack +6")
         {
-            effectsByUnitType["Unit"].Add(new AtkBonusEffectt(6));
+            effectsByUnitType[UnitRole.Unit].Add(new AtkBonusEffectt(6));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
 
-        if (skillName == "Speed +5")
+        else if (skillName == "Speed +5")
         {
-            effectsByUnitType["Unit"].Add(new SpdBonusEffectt(5));
+            effectsByUnitType[UnitRole.Unit].Add(new SpdBonusEffectt(5));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
 
-        if (skillName == "Defense +5")
+        else if (skillName == "Defense +5")
         {
-            effectsByUnitType["Unit"].Add(new DefBonusEffectt(5));
+            effectsByUnitType[UnitRole.Unit].Add(new DefBonusEffectt(5));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
 
-        if (skillName == "Wrath")
+        else if (skillName == "Wrath")
         {
-            effectsByUnitType["Unit"].Add(new AlterBaseStatsEffectt("Wrath")); // Cambiar
+            effectsByUnitType[UnitRole.Unit].Add(new WrathEffectt());
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
 
-        if (skillName == "Resolve")
+        else if (skillName == "Resolve")
         {
             conditions.Add(new HpPercentageCondition(0.75, UnitRole.Unit));
-            effectsByUnitType["Unit"].Add(new DefBonusEffectt(7));
-            effectsByUnitType["Unit"].Add(new ResBonusEffectt(7));
+            effectsByUnitType[UnitRole.Unit].Add(new DefBonusEffectt(7));
+            effectsByUnitType[UnitRole.Unit].Add(new ResBonusEffectt(7));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
 
-        if (skillName == "Resistance +5")
+        else if (skillName == "Resistance +5")
         {
-            effectsByUnitType["Unit"].Add(new ResBonusEffectt(5));
+            effectsByUnitType[UnitRole.Unit].Add(new ResBonusEffectt(5));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
 
-        if (skillName == "Atk/Def +5")
+        else if (skillName == "Atk/Def +5")
         {
-            effectsByUnitType["Unit"].Add(new AtkBonusEffectt(5));
-            effectsByUnitType["Unit"].Add(new DefBonusEffectt(5));
+            effectsByUnitType[UnitRole.Unit].Add(new AtkBonusEffectt(5));
+            effectsByUnitType[UnitRole.Unit].Add(new DefBonusEffectt(5));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
 
-        if (skillName == "Atk/Res +5")
+        else if (skillName == "Atk/Res +5")
         {
-            effectsByUnitType["Unit"].Add(new AtkBonusEffectt(5));
-            effectsByUnitType["Unit"].Add(new ResBonusEffectt(5));
+            effectsByUnitType[UnitRole.Unit].Add(new AtkBonusEffectt(5));
+            effectsByUnitType[UnitRole.Unit].Add(new ResBonusEffectt(5));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
 
-        if (skillName == "Spd/Res +5")
+        else if (skillName == "Spd/Res +5")
         {
-            effectsByUnitType["Unit"].Add(new SpdBonusEffectt(5));
-            effectsByUnitType["Unit"].Add(new ResBonusEffectt(5));
+            effectsByUnitType[UnitRole.Unit].Add(new SpdBonusEffectt(5));
+            effectsByUnitType[UnitRole.Unit].Add(new ResBonusEffectt(5));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
         
-        if (skillName == "Deadly Blade")
+        else if (skillName == "Deadly Blade")
         {
             conditions.Add(new WeaponTypeCondition(UnitRole.Unit, new List<WeaponType> { WeaponType.Sword }));
             conditions.Add(new FirstAttackCondition(UnitRole.Unit));
 
-            effectsByUnitType["Unit"].Add(new SpdBonusEffectt(8));
-            effectsByUnitType["Unit"].Add(new AtkBonusEffectt(8));
-
-            conditionConnector = "And";
+            effectsByUnitType[UnitRole.Unit].Add(new SpdBonusEffectt(8));
+            effectsByUnitType[UnitRole.Unit].Add(new AtkBonusEffectt(8));
+            conditionEvaluator = new AndConditionEvaluator(conditions); 
         }
 
-        if (skillName == "Death Blow")
+        else if (skillName == "Death Blow")
         {
             conditions.Add(new FirstAttackCondition(UnitRole.Unit));
-            effectsByUnitType["Unit"].Add(new AtkBonusEffectt(8));
+            effectsByUnitType[UnitRole.Unit].Add(new AtkBonusEffectt(8));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
 
-        if (skillName == "Armored Blow")
+        else if (skillName == "Armored Blow")
         {
             conditions.Add(new FirstAttackCondition(UnitRole.Unit));
-            effectsByUnitType["Unit"].Add(new DefBonusEffectt(8));
+            effectsByUnitType[UnitRole.Unit].Add(new DefBonusEffectt(8));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
 
-        if (skillName == "Darting Blow")
+        else if (skillName == "Darting Blow")
         {
             conditions.Add(new FirstAttackCondition(UnitRole.Unit));
-            effectsByUnitType["Unit"].Add(new SpdBonusEffectt(8));
+            effectsByUnitType[UnitRole.Unit].Add(new SpdBonusEffectt(8));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
 
-        if (skillName == "Warding Blow")
+        else if (skillName == "Warding Blow")
         {
             conditions.Add(new FirstAttackCondition(UnitRole.Unit));
-            effectsByUnitType["Unit"].Add(new ResBonusEffectt(8));
+            effectsByUnitType[UnitRole.Unit].Add(new ResBonusEffectt(8));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
 
-        if (skillName == "Swift Sparrow")
+        else if (skillName == "Swift Sparrow")
         {
             conditions.Add(new FirstAttackCondition(UnitRole.Unit));
-            effectsByUnitType["Unit"].Add(new AtkBonusEffectt(6));
-            effectsByUnitType["Unit"].Add(new SpdBonusEffectt(6));
+            effectsByUnitType[UnitRole.Unit].Add(new AtkBonusEffectt(6));
+            effectsByUnitType[UnitRole.Unit].Add(new SpdBonusEffectt(6));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
 
-        if (skillName == "Sturdy Blow")
+        else if (skillName == "Sturdy Blow")
         {
             conditions.Add(new FirstAttackCondition(UnitRole.Unit));
-            effectsByUnitType["Unit"].Add(new AtkBonusEffectt(6));
-            effectsByUnitType["Unit"].Add(new DefBonusEffectt(6));
+            effectsByUnitType[UnitRole.Unit].Add(new AtkBonusEffectt(6));
+            effectsByUnitType[UnitRole.Unit].Add(new DefBonusEffectt(6));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
 
-        if (skillName == "Mirror Strike")
+        else if (skillName == "Mirror Strike")
         {
             conditions.Add(new FirstAttackCondition(UnitRole.Unit));
-            effectsByUnitType["Unit"].Add(new AtkBonusEffectt(6));
-            effectsByUnitType["Unit"].Add(new ResBonusEffectt(6));
+            effectsByUnitType[UnitRole.Unit].Add(new AtkBonusEffectt(6));
+            effectsByUnitType[UnitRole.Unit].Add(new ResBonusEffectt(6));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
 
-        if (skillName == "Steady Blow")
+        else if (skillName == "Steady Blow")
         {
             conditions.Add(new FirstAttackCondition(UnitRole.Unit));
-            effectsByUnitType["Unit"].Add(new DefBonusEffectt(6));
-            effectsByUnitType["Unit"].Add(new SpdBonusEffectt(6));
+            effectsByUnitType[UnitRole.Unit].Add(new DefBonusEffectt(6));
+            effectsByUnitType[UnitRole.Unit].Add(new SpdBonusEffectt(6));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
 
-        if (skillName == "Swift Strike")
+        else if (skillName == "Swift Strike")
         {
             conditions.Add(new FirstAttackCondition(UnitRole.Unit));
-            effectsByUnitType["Unit"].Add(new ResBonusEffectt(6));
-            effectsByUnitType["Unit"].Add(new SpdBonusEffectt(6));
+            effectsByUnitType[UnitRole.Unit].Add(new ResBonusEffectt(6));
+            effectsByUnitType[UnitRole.Unit].Add(new SpdBonusEffectt(6));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
 
-        if (skillName == "Bracing Blow")
+        else if (skillName == "Bracing Blow")
         {
             conditions.Add(new FirstAttackCondition(UnitRole.Unit));
-            effectsByUnitType["Unit"].Add(new ResBonusEffectt(6));
-            effectsByUnitType["Unit"].Add(new DefBonusEffectt(6));
+            effectsByUnitType[UnitRole.Unit].Add(new ResBonusEffectt(6));
+            effectsByUnitType[UnitRole.Unit].Add(new DefBonusEffectt(6));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
 
-        if (skillName == "Brazen Atk/Spd")
+        else if (skillName == "Brazen Atk/Spd")
         {
             conditions.Add(new HpPercentageCondition(0.8, UnitRole.Unit));
-            effectsByUnitType["Unit"].Add(new AtkBonusEffectt(10));
-            effectsByUnitType["Unit"].Add(new SpdBonusEffectt(10));
+            effectsByUnitType[UnitRole.Unit].Add(new AtkBonusEffectt(10));
+            effectsByUnitType[UnitRole.Unit].Add(new SpdBonusEffectt(10));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
 
-        if (skillName == "Brazen Atk/Def")
+        else if (skillName == "Brazen Atk/Def")
         {
             conditions.Add(new HpPercentageCondition(0.8, UnitRole.Unit));
-            effectsByUnitType["Unit"].Add(new AtkBonusEffectt(10));
-            effectsByUnitType["Unit"].Add(new DefBonusEffectt(10));
+            effectsByUnitType[UnitRole.Unit].Add(new AtkBonusEffectt(10));
+            effectsByUnitType[UnitRole.Unit].Add(new DefBonusEffectt(10));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
 
-        if (skillName == "Brazen Atk/Res")
+        else if (skillName == "Brazen Atk/Res")
         {
             conditions.Add(new HpPercentageCondition(0.8, UnitRole.Unit));
-            effectsByUnitType["Unit"].Add(new AtkBonusEffectt(10));
-            effectsByUnitType["Unit"].Add(new ResBonusEffectt(10));
+            effectsByUnitType[UnitRole.Unit].Add(new AtkBonusEffectt(10));
+            effectsByUnitType[UnitRole.Unit].Add(new ResBonusEffectt(10));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
 
-        if (skillName == "Brazen Spd/Def")
+        else if (skillName == "Brazen Spd/Def")
         {
             conditions.Add(new HpPercentageCondition(0.8, UnitRole.Unit));
-            effectsByUnitType["Unit"].Add(new SpdBonusEffectt(10));
-            effectsByUnitType["Unit"].Add(new DefBonusEffectt(10));
+            effectsByUnitType[UnitRole.Unit].Add(new SpdBonusEffectt(10));
+            effectsByUnitType[UnitRole.Unit].Add(new DefBonusEffectt(10));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
 
-        if (skillName == "Brazen Spd/Res")
+        else if (skillName == "Brazen Spd/Res")
         {
             conditions.Add(new HpPercentageCondition(0.8, UnitRole.Unit));
-            effectsByUnitType["Unit"].Add(new SpdBonusEffectt(10));
-            effectsByUnitType["Unit"].Add(new ResBonusEffectt(10));
+            effectsByUnitType[UnitRole.Unit].Add(new SpdBonusEffectt(10));
+            effectsByUnitType[UnitRole.Unit].Add(new ResBonusEffectt(10));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
 
-        if (skillName == "Brazen Def/Res")
+        else if (skillName == "Brazen Def/Res")
         {
             conditions.Add(new HpPercentageCondition(0.8, UnitRole.Unit));
-            effectsByUnitType["Unit"].Add(new DefBonusEffectt(10));
-            effectsByUnitType["Unit"].Add(new ResBonusEffectt(10));
+            effectsByUnitType[UnitRole.Unit].Add(new DefBonusEffectt(10));
+            effectsByUnitType[UnitRole.Unit].Add(new ResBonusEffectt(10));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
         
-        if (skillName == "Fire Boost")
+        else if (skillName == "Fire Boost")
         {
             conditions.Add(new StatComparisonCondition(3, StatType.Hp, StatType.Hp));
-            effectsByUnitType["Unit"].Add(new AtkBonusEffectt(6));
+            effectsByUnitType[UnitRole.Unit].Add(new AtkBonusEffectt(6));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
         
-        if (skillName == "Wind Boost")
+        else if (skillName == "Wind Boost")
         {
             conditions.Add(new StatComparisonCondition(3, StatType.Hp, StatType.Hp));
-            effectsByUnitType["Unit"].Add(new SpdBonusEffectt(6));
+            effectsByUnitType[UnitRole.Unit].Add(new SpdBonusEffectt(6));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
         
-        if (skillName == "Earth Boost")
+        else if (skillName == "Earth Boost")
         {
             conditions.Add(new StatComparisonCondition(3, StatType.Hp, StatType.Hp));
-            effectsByUnitType["Unit"].Add(new DefBonusEffectt(6));
+            effectsByUnitType[UnitRole.Unit].Add(new DefBonusEffectt(6));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
         
-        if (skillName == "Water Boost")
+        else if (skillName == "Water Boost")
         {
             conditions.Add(new StatComparisonCondition(3, StatType.Hp, StatType.Hp));
-            effectsByUnitType["Unit"].Add(new ResBonusEffectt(6));
+            effectsByUnitType[UnitRole.Unit].Add(new ResBonusEffectt(6));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
         
-        if (skillName == "Chaos Style")
+        else if (skillName == "Chaos Style")
         {
             conditions.Add(new ChaosStyleCondition());
-            effectsByUnitType["Unit"].Add(new SpdBonusEffectt(3));
+            effectsByUnitType[UnitRole.Unit].Add(new SpdBonusEffectt(3));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
         
-        if (skillName == "Blinding Flash")
+        else if (skillName == "Blinding Flash")
         {
             conditions.Add(new FirstAttackCondition(UnitRole.Unit));
-            effectsByUnitType["Rival"].Add(new SpdPenaltyEffectt(4));
+            effectsByUnitType[UnitRole.Rival].Add(new SpdPenaltyEffectt(4));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
         
-        if (skillName == "Not *Quite*")
+        else if (skillName == "Not *Quite*")
         {
             conditions.Add(new FirstAttackCondition(UnitRole.Rival));
-            effectsByUnitType["Rival"].Add(new AtkPenaltyEffectt(4));
+            effectsByUnitType[UnitRole.Rival].Add(new AtkPenaltyEffectt(4));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
         
-        if (skillName == "Stunning Smile")
+        else if (skillName == "Stunning Smile")
         {
             conditions.Add(new ManRivalCondition());
-            effectsByUnitType["Rival"].Add(new SpdPenaltyEffectt(8));
+            effectsByUnitType[UnitRole.Rival].Add(new SpdPenaltyEffectt(8));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
         
-        if (skillName == "Disarming Sigh")
+        else if (skillName == "Disarming Sigh")
         {
             conditions.Add(new ManRivalCondition());
-            effectsByUnitType["Rival"].Add(new AtkPenaltyEffectt(8));
+            effectsByUnitType[UnitRole.Rival].Add(new AtkPenaltyEffectt(8));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
 
-        if (skillName == "Charmer")
+        else if (skillName == "Charmer")
         {
             conditions.Add(new LastOpponentCondition());
-            effectsByUnitType["Rival"].Add(new AtkPenaltyEffectt(3));
-            effectsByUnitType["Rival"].Add(new SpdPenaltyEffectt(3));
+            effectsByUnitType[UnitRole.Rival].Add(new AtkPenaltyEffectt(3));
+            effectsByUnitType[UnitRole.Rival].Add(new SpdPenaltyEffectt(3));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
         
-        if (skillName == "Luna")
+        else if (skillName == "Luna")
         {
-            effectsByUnitType["Rival"].Add(new DefPercentagePenaltyEffectt(0.5, AttackType.FirstAttack));
-            effectsByUnitType["Rival"].Add(new ResPercentagePenaltyEffectt(0.5, AttackType.FirstAttack));
+            effectsByUnitType[UnitRole.Rival].Add(new DefPercentagePenaltyEffectt(0.5, AttackType.FirstAttack));
+            effectsByUnitType[UnitRole.Rival].Add(new ResPercentagePenaltyEffectt(0.5, AttackType.FirstAttack));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
         
-        if (skillName == "Belief in Love")
+        else if (skillName == "Belief in Love")
         {
             conditions.Add(new FirstAttackCondition(UnitRole.Rival));
             conditions.Add(new HpPercentageCondition(1.0, UnitRole.Rival));
-            effectsByUnitType["Rival"].Add(new AtkPenaltyEffectt(5));
-            effectsByUnitType["Rival"].Add(new DefPenaltyEffectt(5));
-            
-            conditionConnector = "Or";
+            effectsByUnitType[UnitRole.Rival].Add(new AtkPenaltyEffectt(5));
+            effectsByUnitType[UnitRole.Rival].Add(new DefPenaltyEffectt(5));
+            conditionEvaluator = new OrConditionEvaluator(conditions); 
         }
         
-        if (skillName == "Beorc's Blessing")
+        else if (skillName == "Beorc's Blessing")
         {
-            effectsByUnitType["Rival"].Add(new BonusNeutralizationEffectt(new List<StatType> { StatType.Atk, StatType.Def, StatType.Res, StatType.Spd }));
+            effectsByUnitType[UnitRole.Rival].Add(new BonusNeutralizationEffectt(new List<StatType> { StatType.Atk, StatType.Def, StatType.Res, StatType.Spd }));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
         
-        if (skillName == "Agnea's Arrow")
+        else if (skillName == "Agnea's Arrow")
         {
-            effectsByUnitType["Unit"].Add(new PenaltyNeutralizationEffectt(new List<StatType> { StatType.Atk, StatType.Def, StatType.Res, StatType.Spd }));
+            effectsByUnitType[UnitRole.Unit].Add(new PenaltyNeutralizationEffectt(new List<StatType> { StatType.Atk, StatType.Def, StatType.Res, StatType.Spd }));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
         
-        if (skillName == "Soulblade")
-        {
-            conditions.Add(new WeaponTypeCondition(UnitRole.Unit, new List<WeaponType> { WeaponType.Sword }));
-            effectsByUnitType["Rival"].Add(new AverageDefResEffectt());
-        }
-        
-        if (skillName == "Sandstorm")
-        {
-            effectsByUnitType["Unit"].Add(new SandstormEffectt());
-        }
-        
-        if (skillName == "Sword Agility")
+        else if (skillName == "Soulblade")
         {
             conditions.Add(new WeaponTypeCondition(UnitRole.Unit, new List<WeaponType> { WeaponType.Sword }));
-            effectsByUnitType["Unit"].Add(new SpdBonusEffectt(12));
-            effectsByUnitType["Unit"].Add(new AtkPenaltyEffectt(6));
+            effectsByUnitType[UnitRole.Rival].Add(new AverageDefResEffectt());
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
         
-        if (skillName == "Lance Power")
+        else if (skillName == "Sandstorm")
+        {
+            effectsByUnitType[UnitRole.Unit].Add(new SandstormEffectt());
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
+        }
+        
+        else if (skillName == "Sword Agility")
+        {
+            conditions.Add(new WeaponTypeCondition(UnitRole.Unit, new List<WeaponType> { WeaponType.Sword }));
+            effectsByUnitType[UnitRole.Unit].Add(new SpdBonusEffectt(12));
+            effectsByUnitType[UnitRole.Unit].Add(new AtkPenaltyEffectt(6));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
+        }
+        
+        else if (skillName == "Lance Power")
         {
             conditions.Add(new WeaponTypeCondition(UnitRole.Unit, new List<WeaponType> { WeaponType.Lance }));
-            effectsByUnitType["Unit"].Add(new AtkBonusEffectt(10));
-            effectsByUnitType["Unit"].Add(new DefPenaltyEffectt(10));
+            effectsByUnitType[UnitRole.Unit].Add(new AtkBonusEffectt(10));
+            effectsByUnitType[UnitRole.Unit].Add(new DefPenaltyEffectt(10));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
         
-        if (skillName == "Sword Power")
+        else if (skillName == "Sword Power")
         {
             conditions.Add(new WeaponTypeCondition(UnitRole.Unit, new List<WeaponType> { WeaponType.Sword }));
-            effectsByUnitType["Unit"].Add(new AtkBonusEffectt(10));
-            effectsByUnitType["Unit"].Add(new DefPenaltyEffectt(10));
+            effectsByUnitType[UnitRole.Unit].Add(new AtkBonusEffectt(10));
+            effectsByUnitType[UnitRole.Unit].Add(new DefPenaltyEffectt(10));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
         
-        if (skillName == "Bow Focus")
+        else if (skillName == "Bow Focus")
         {
             conditions.Add(new WeaponTypeCondition(UnitRole.Unit, new List<WeaponType> { WeaponType.Bow }));
-            effectsByUnitType["Unit"].Add(new AtkBonusEffectt(10));
-            effectsByUnitType["Unit"].Add(new ResPenaltyEffectt(10));
+            effectsByUnitType[UnitRole.Unit].Add(new AtkBonusEffectt(10));
+            effectsByUnitType[UnitRole.Unit].Add(new ResPenaltyEffectt(10));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
 
-        if (skillName == "Lance Agility")
+        else if (skillName == "Lance Agility")
         {
             conditions.Add(new WeaponTypeCondition(UnitRole.Unit, new List<WeaponType> { WeaponType.Lance }));
-            effectsByUnitType["Unit"].Add(new SpdBonusEffectt(12));
-            effectsByUnitType["Unit"].Add(new AtkPenaltyEffectt(6));
+            effectsByUnitType[UnitRole.Unit].Add(new SpdBonusEffectt(12));
+            effectsByUnitType[UnitRole.Unit].Add(new AtkPenaltyEffectt(6));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
 
-        if (skillName == "Axe Power")
+        else if (skillName == "Axe Power")
         {
             conditions.Add(new WeaponTypeCondition(UnitRole.Unit, new List<WeaponType> { WeaponType.Axe }));
-            effectsByUnitType["Unit"].Add(new AtkBonusEffectt(10));
-            effectsByUnitType["Unit"].Add(new DefPenaltyEffectt(10));
+            effectsByUnitType[UnitRole.Unit].Add(new AtkBonusEffectt(10));
+            effectsByUnitType[UnitRole.Unit].Add(new DefPenaltyEffectt(10));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
 
-        if (skillName == "Bow Agility")
+        else if (skillName == "Bow Agility")
         {
             conditions.Add(new WeaponTypeCondition(UnitRole.Unit, new List<WeaponType> { WeaponType.Bow }));
-            effectsByUnitType["Unit"].Add(new SpdBonusEffectt(12));
-            effectsByUnitType["Unit"].Add(new AtkPenaltyEffectt(6));
+            effectsByUnitType[UnitRole.Unit].Add(new SpdBonusEffectt(12));
+            effectsByUnitType[UnitRole.Unit].Add(new AtkPenaltyEffectt(6));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
 
-        if (skillName == "Sword Focus")
+        else if (skillName == "Sword Focus")
         {
             conditions.Add(new WeaponTypeCondition(UnitRole.Unit, new List<WeaponType> { WeaponType.Sword }));
-            effectsByUnitType["Unit"].Add(new AtkBonusEffectt(10));
-            effectsByUnitType["Unit"].Add(new ResPenaltyEffectt(10));
+            effectsByUnitType[UnitRole.Unit].Add(new AtkBonusEffectt(10));
+            effectsByUnitType[UnitRole.Unit].Add(new ResPenaltyEffectt(10));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
 
-        if (skillName == "Close Def")
+        else if (skillName == "Close Def")
         {
             conditions.Add(new WeaponTypeCondition(UnitRole.Rival, new List<WeaponType> { WeaponType.Sword, WeaponType.Lance, WeaponType.Axe }));
             conditions.Add(new FirstAttackCondition(UnitRole.Rival));
-            effectsByUnitType["Unit"].Add(new DefBonusEffectt(8));
-            effectsByUnitType["Unit"].Add(new ResBonusEffectt(8));
-            effectsByUnitType["Rival"].Add(new BonusNeutralizationEffectt(new List<StatType> { StatType.Atk, StatType.Def, StatType.Res, StatType.Spd }));
-
-            conditionConnector = "And";
+            effectsByUnitType[UnitRole.Unit].Add(new DefBonusEffectt(8));
+            effectsByUnitType[UnitRole.Unit].Add(new ResBonusEffectt(8));
+            effectsByUnitType[UnitRole.Rival].Add(new BonusNeutralizationEffectt(new List<StatType> { StatType.Atk, StatType.Def, StatType.Res, StatType.Spd }));
+            conditionEvaluator = new AndConditionEvaluator(conditions); 
         }
 
-        if (skillName == "Distant Def")
+        else if (skillName == "Distant Def")
         {
             conditions.Add(new WeaponTypeCondition(UnitRole.Rival, new List<WeaponType> { WeaponType.Magic, WeaponType.Bow }));
             conditions.Add(new FirstAttackCondition(UnitRole.Rival));
-            effectsByUnitType["Unit"].Add(new DefBonusEffectt(8));
-            effectsByUnitType["Unit"].Add(new ResBonusEffectt(8));
-            effectsByUnitType["Rival"].Add(new BonusNeutralizationEffectt(new List<StatType> { StatType.Atk, StatType.Def, StatType.Res, StatType.Spd }));
-
-            conditionConnector = "And";
+            effectsByUnitType[UnitRole.Unit].Add(new DefBonusEffectt(8));
+            effectsByUnitType[UnitRole.Unit].Add(new ResBonusEffectt(8));
+            effectsByUnitType[UnitRole.Rival].Add(new BonusNeutralizationEffectt(new List<StatType> { StatType.Atk, StatType.Def, StatType.Res, StatType.Spd }));
+            conditionEvaluator = new AndConditionEvaluator(conditions); 
         }
 
-        if (skillName == "Lull Atk/Spd")
+        else if (skillName == "Lull Atk/Spd")
         {
-            effectsByUnitType["Rival"].Add(new AtkPenaltyEffectt(3));
-            effectsByUnitType["Rival"].Add(new SpdPenaltyEffectt(3));
-            effectsByUnitType["Rival"].Add(new BonusNeutralizationEffectt(new List<StatType> { StatType.Atk, StatType.Spd }));
+            effectsByUnitType[UnitRole.Rival].Add(new AtkPenaltyEffectt(3));
+            effectsByUnitType[UnitRole.Rival].Add(new SpdPenaltyEffectt(3));
+            effectsByUnitType[UnitRole.Rival].Add(new BonusNeutralizationEffectt(new List<StatType> { StatType.Atk, StatType.Spd }));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
 
-        if (skillName == "Lull Atk/Def")
+        else if (skillName == "Lull Atk/Def")
         {
-            effectsByUnitType["Rival"].Add(new AtkPenaltyEffectt(3));
-            effectsByUnitType["Rival"].Add(new DefPenaltyEffectt(3));
-            effectsByUnitType["Rival"].Add(new BonusNeutralizationEffectt(new List<StatType> { StatType.Atk, StatType.Def }));
+            effectsByUnitType[UnitRole.Rival].Add(new AtkPenaltyEffectt(3));
+            effectsByUnitType[UnitRole.Rival].Add(new DefPenaltyEffectt(3));
+            effectsByUnitType[UnitRole.Rival].Add(new BonusNeutralizationEffectt(new List<StatType> { StatType.Atk, StatType.Def }));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
 
-        if (skillName == "Lull Atk/Res")
+        else if (skillName == "Lull Atk/Res")
         {
-            effectsByUnitType["Rival"].Add(new AtkPenaltyEffectt(3));
-            effectsByUnitType["Rival"].Add(new ResPenaltyEffectt(3));
-            effectsByUnitType["Rival"].Add(new BonusNeutralizationEffectt(new List<StatType> { StatType.Atk, StatType.Res }));
+            effectsByUnitType[UnitRole.Rival].Add(new AtkPenaltyEffectt(3));
+            effectsByUnitType[UnitRole.Rival].Add(new ResPenaltyEffectt(3));
+            effectsByUnitType[UnitRole.Rival].Add(new BonusNeutralizationEffectt(new List<StatType> { StatType.Atk, StatType.Res }));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
 
-        if (skillName == "Lull Spd/Def")
+        else if (skillName == "Lull Spd/Def")
         {
-            effectsByUnitType["Rival"].Add(new SpdPenaltyEffectt(3));
-            effectsByUnitType["Rival"].Add(new DefPenaltyEffectt(3));
-            effectsByUnitType["Rival"].Add(new BonusNeutralizationEffectt(new List<StatType> { StatType.Spd, StatType.Def }));
+            effectsByUnitType[UnitRole.Rival].Add(new SpdPenaltyEffectt(3));
+            effectsByUnitType[UnitRole.Rival].Add(new DefPenaltyEffectt(3));
+            effectsByUnitType[UnitRole.Rival].Add(new BonusNeutralizationEffectt(new List<StatType> { StatType.Spd, StatType.Def }));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
 
-        if (skillName == "Lull Spd/Res")
+        else if (skillName == "Lull Spd/Res")
         {
-            effectsByUnitType["Rival"].Add(new SpdPenaltyEffectt(3));
-            effectsByUnitType["Rival"].Add(new ResPenaltyEffectt(3));
-            effectsByUnitType["Rival"].Add(new BonusNeutralizationEffectt(new List<StatType> { StatType.Spd, StatType.Res }));
+            effectsByUnitType[UnitRole.Rival].Add(new SpdPenaltyEffectt(3));
+            effectsByUnitType[UnitRole.Rival].Add(new ResPenaltyEffectt(3));
+            effectsByUnitType[UnitRole.Rival].Add(new BonusNeutralizationEffectt(new List<StatType> { StatType.Spd, StatType.Res }));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
 
-        if (skillName == "Lull Def/Res")
+        else if (skillName == "Lull Def/Res")
         {
-            effectsByUnitType["Rival"].Add(new DefPenaltyEffectt(3));
-            effectsByUnitType["Rival"].Add(new ResPenaltyEffectt(3));
-            effectsByUnitType["Rival"].Add(new BonusNeutralizationEffectt(new List<StatType> { StatType.Def, StatType.Res }));
+            effectsByUnitType[UnitRole.Rival].Add(new DefPenaltyEffectt(3));
+            effectsByUnitType[UnitRole.Rival].Add(new ResPenaltyEffectt(3));
+            effectsByUnitType[UnitRole.Rival].Add(new BonusNeutralizationEffectt(new List<StatType> { StatType.Def, StatType.Res }));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
 
-        if (skillName == "Fort. Def/Res")
+        else if (skillName == "Fort. Def/Res")
         {
-            effectsByUnitType["Unit"].Add(new DefBonusEffectt(6));
-            effectsByUnitType["Unit"].Add(new ResBonusEffectt(6));
-            effectsByUnitType["Unit"].Add(new AtkPenaltyEffectt(2));
+            effectsByUnitType[UnitRole.Unit].Add(new DefBonusEffectt(6));
+            effectsByUnitType[UnitRole.Unit].Add(new ResBonusEffectt(6));
+            effectsByUnitType[UnitRole.Unit].Add(new AtkPenaltyEffectt(2));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
 
-        if (skillName == "Life and Death")
+        else if (skillName == "Life and Death")
         {
-            effectsByUnitType["Unit"].Add(new AtkBonusEffectt(6));
-            effectsByUnitType["Unit"].Add(new SpdBonusEffectt(6));
-            effectsByUnitType["Unit"].Add(new DefPenaltyEffectt(5));
-            effectsByUnitType["Unit"].Add(new ResPenaltyEffectt(5));
+            effectsByUnitType[UnitRole.Unit].Add(new AtkBonusEffectt(6));
+            effectsByUnitType[UnitRole.Unit].Add(new SpdBonusEffectt(6));
+            effectsByUnitType[UnitRole.Unit].Add(new DefPenaltyEffectt(5));
+            effectsByUnitType[UnitRole.Unit].Add(new ResPenaltyEffectt(5));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
 
-        if (skillName == "Solid Ground")
+        else if (skillName == "Solid Ground")
         {
-            effectsByUnitType["Unit"].Add(new AtkBonusEffectt(6));
-            effectsByUnitType["Unit"].Add(new DefBonusEffectt(6));
-            effectsByUnitType["Unit"].Add(new ResPenaltyEffectt(5));
+            effectsByUnitType[UnitRole.Unit].Add(new AtkBonusEffectt(6));
+            effectsByUnitType[UnitRole.Unit].Add(new DefBonusEffectt(6));
+            effectsByUnitType[UnitRole.Unit].Add(new ResPenaltyEffectt(5));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
 
-        if (skillName == "Still Water")
+        else if (skillName == "Still Water")
         {
-            effectsByUnitType["Unit"].Add(new AtkBonusEffectt(6));
-            effectsByUnitType["Unit"].Add(new ResBonusEffectt(6));
-            effectsByUnitType["Unit"].Add(new DefPenaltyEffectt(5));
+            effectsByUnitType[UnitRole.Unit].Add(new AtkBonusEffectt(6));
+            effectsByUnitType[UnitRole.Unit].Add(new ResBonusEffectt(6));
+            effectsByUnitType[UnitRole.Unit].Add(new DefPenaltyEffectt(5));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
 
-        if (skillName == "Dragonskin")
+        else if (skillName == "Dragonskin")
         {
             conditions.Add(new HpPercentageCondition(0.75, UnitRole.Rival));
             conditions.Add(new FirstAttackCondition(UnitRole.Rival));
-            effectsByUnitType["Unit"].Add(new DefBonusEffectt(6));
-            effectsByUnitType["Unit"].Add(new ResBonusEffectt(6));
-            effectsByUnitType["Unit"].Add(new AtkBonusEffectt(6));
-            effectsByUnitType["Unit"].Add(new SpdBonusEffectt(6));
-            effectsByUnitType["Rival"].Add(new BonusNeutralizationEffectt(new List<StatType> { StatType.Atk, StatType.Def, StatType.Res, StatType.Spd }));
-
-            conditionConnector = "Or";
+            effectsByUnitType[UnitRole.Unit].Add(new DefBonusEffectt(6));
+            effectsByUnitType[UnitRole.Unit].Add(new ResBonusEffectt(6));
+            effectsByUnitType[UnitRole.Unit].Add(new AtkBonusEffectt(6));
+            effectsByUnitType[UnitRole.Unit].Add(new SpdBonusEffectt(6));
+            effectsByUnitType[UnitRole.Rival].Add(new BonusNeutralizationEffectt(new List<StatType> { StatType.Atk, StatType.Def, StatType.Res, StatType.Spd }));
+            conditionEvaluator = new OrConditionEvaluator(conditions); 
         }
 
-        if (skillName == "Light and Dark")
+        else if (skillName == "Light and Dark")
         {
-            effectsByUnitType["Rival"].Add(new DefPenaltyEffectt(5));
-            effectsByUnitType["Rival"].Add(new ResPenaltyEffectt(5));
-            effectsByUnitType["Rival"].Add(new AtkPenaltyEffectt(5));
-            effectsByUnitType["Rival"].Add(new SpdPenaltyEffectt(5));
-            effectsByUnitType["Rival"].Add(new BonusNeutralizationEffectt(new List<StatType> { StatType.Atk, StatType.Def, StatType.Res, StatType.Spd }));
-            effectsByUnitType["Unit"].Add(new PenaltyNeutralizationEffectt(new List<StatType> { StatType.Atk, StatType.Def, StatType.Res, StatType.Spd }));
+            effectsByUnitType[UnitRole.Rival].Add(new DefPenaltyEffectt(5));
+            effectsByUnitType[UnitRole.Rival].Add(new ResPenaltyEffectt(5));
+            effectsByUnitType[UnitRole.Rival].Add(new AtkPenaltyEffectt(5));
+            effectsByUnitType[UnitRole.Rival].Add(new SpdPenaltyEffectt(5));
+            effectsByUnitType[UnitRole.Rival].Add(new BonusNeutralizationEffectt(new List<StatType> { StatType.Atk, StatType.Def, StatType.Res, StatType.Spd }));
+            effectsByUnitType[UnitRole.Unit].Add(new PenaltyNeutralizationEffectt(new List<StatType> { StatType.Atk, StatType.Def, StatType.Res, StatType.Spd }));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
 
-        if (skillName == "Dragon Wall")
+        else if (skillName == "Dragon Wall")
         {
             conditions.Add(new StatComparisonCondition(1, StatType.Res, StatType.Res));
-            effectsByUnitType["Unit"].Add(new ComparisonPercentageReductionEffectt(0.4, StatType.Res, StatType.Res, 4));
+            effectsByUnitType[UnitRole.Unit].Add(new ComparisonPercentageReductionEffectt(0.4, StatType.Res, StatType.Res, 4));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
         
-        if (skillName == "Dodge")
+        else if (skillName == "Dodge")
         {
             conditions.Add(new StatComparisonCondition(1, StatType.Spd, StatType.Spd));
-            effectsByUnitType["Unit"].Add(new ComparisonPercentageReductionEffectt(0.4, StatType.Spd, StatType.Spd, 4));
+            effectsByUnitType[UnitRole.Unit].Add(new ComparisonPercentageReductionEffectt(0.4, StatType.Spd, StatType.Spd, 4));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
         
-        if (skillName == "Golden Lotus")
+        else if (skillName == "Golden Lotus")
         {
             conditions.Add(new WeaponTypeCondition(UnitRole.Rival, new List<WeaponType> { WeaponType.Sword, WeaponType.Bow, WeaponType.Lance, WeaponType.Axe }));
-            effectsByUnitType["Unit"].Add(new ConstantPercentageReductionEffectt(0.5, AttackType.FirstAttack));
+            effectsByUnitType[UnitRole.Unit].Add(new ConstantPercentageReductionEffectt(0.5, AttackType.FirstAttack));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
         
-        if (skillName == "Gentility")
+        else if (skillName == "Gentility")
         {
-            effectsByUnitType["Unit"].Add(new DamageReductionEffectt(5));
+            effectsByUnitType[UnitRole.Unit].Add(new DamageReductionEffectt(5));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
         
-        if (skillName == "Bow Guard")
+        else if (skillName == "Bow Guard")
         {
             conditions.Add(new WeaponTypeCondition(UnitRole.Rival, new List<WeaponType> { WeaponType.Bow }));
-            effectsByUnitType["Unit"].Add(new DamageReductionEffectt(5));
+            effectsByUnitType[UnitRole.Unit].Add(new DamageReductionEffectt(5));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
         
-        if (skillName == "Arms Shield")
+        else if (skillName == "Arms Shield")
         {
             conditions.Add(new WeaponAdvantageCondition(UnitRole.Unit));
-            effectsByUnitType["Unit"].Add(new DamageReductionEffectt(7));
+            effectsByUnitType[UnitRole.Unit].Add(new DamageReductionEffectt(7));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
         
-        if (skillName == "Axe Guard")
+        else if (skillName == "Axe Guard")
         {
             conditions.Add(new WeaponTypeCondition(UnitRole.Rival, new List<WeaponType> { WeaponType.Axe }));
-            effectsByUnitType["Unit"].Add(new DamageReductionEffectt(5));
+            effectsByUnitType[UnitRole.Unit].Add(new DamageReductionEffectt(5));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
         
-        if (skillName == "Magic Guard")
+        else if (skillName == "Magic Guard")
         {
             conditions.Add(new WeaponTypeCondition(UnitRole.Rival, new List<WeaponType> { WeaponType.Magic }));
-            effectsByUnitType["Unit"].Add(new DamageReductionEffectt(5));
+            effectsByUnitType[UnitRole.Unit].Add(new DamageReductionEffectt(5));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
         
-        if (skillName == "Lance Guard")
+        else if (skillName == "Lance Guard")
         {
             conditions.Add(new WeaponTypeCondition(UnitRole.Rival, new List<WeaponType> { WeaponType.Lance }));
-            effectsByUnitType["Unit"].Add(new DamageReductionEffectt(5));
+            effectsByUnitType[UnitRole.Unit].Add(new DamageReductionEffectt(5));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
         
-        if (skillName == "Sympathetic")
+        else if (skillName == "Sympathetic")
         {
             conditions.Add(new FirstAttackCondition(UnitRole.Rival));
             conditions.Add(new HpPercentageCondition(0.5, UnitRole.Unit));
-            effectsByUnitType["Unit"].Add(new DamageReductionEffectt(5));
-
-            conditionConnector = "And";
+            effectsByUnitType[UnitRole.Unit].Add(new DamageReductionEffectt(5));
+            conditionEvaluator = new AndConditionEvaluator(conditions); 
         }
 
-        if (skillName == "Back at You")
+        else if (skillName == "Back at You")
         {
             conditions.Add(new FirstAttackCondition(UnitRole.Rival));
-            effectsByUnitType["Unit"].Add(new SpecificExtraDamageEffect(UnitRole.Unit, StatType.Hp, 0.5));
+            effectsByUnitType[UnitRole.Unit].Add(new SpecificExtraDamageEffect(UnitRole.Unit, StatType.Hp, 0.5));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
         
-        if (skillName == "Lunar Brace")
+        else if (skillName == "Lunar Brace")
         {
             conditions.Add(new FirstAttackCondition(UnitRole.Unit));
             conditions.Add(new WeaponTypeCondition(UnitRole.Unit, new List<WeaponType> { WeaponType.Sword, WeaponType.Bow, WeaponType.Lance, WeaponType.Axe }));
-            effectsByUnitType["Unit"].Add(new SpecificExtraDamageEffect(UnitRole.Rival, StatType.Def, 0.3));
-            
-            conditionConnector = "And";
+            effectsByUnitType[UnitRole.Unit].Add(new SpecificExtraDamageEffect(UnitRole.Rival, StatType.Def, 0.3));
+            conditionEvaluator = new AndConditionEvaluator(conditions); 
         }
         
-        if (skillName == "Bravery")
+        else if (skillName == "Bravery")
         {
-            effectsByUnitType["Unit"].Add(new ConstantExtraDamageEffectt(5));
+            effectsByUnitType[UnitRole.Unit].Add(new ConstantExtraDamageEffectt(5));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
 
-        if (skillName == "Bushido")
+        else if (skillName == "Bushido")
         {
-           effectsByUnitType["Unit"].Add(new ConstantExtraDamageEffectt(7));
-        }
-
-        if (skillName == "Bushido2")
-        {
-            conditions.Add(new StatComparisonCondition(1, StatType.Spd, StatType.Spd));
-            effectsByUnitType["Unit"].Add(new ComparisonPercentageReductionEffectt(0.4, StatType.Spd, StatType.Spd, 4));
+           effectsByUnitType[UnitRole.Unit].Add(new ConstantExtraDamageEffectt(7));
+           conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
         
-        if (skillName == "Moon-Twin Wing")
+        else if (skillName == "Moon-Twin Wing")
         {
             conditions.Add(new HpPercentageCondition(-0.25, UnitRole.Unit)); // El menor igual al reves por eso el menos
-            effectsByUnitType["Rival"].Add(new AtkPenaltyEffectt(5));
-            effectsByUnitType["Rival"].Add(new SpdPenaltyEffectt(5));
+            effectsByUnitType[UnitRole.Rival].Add(new AtkPenaltyEffectt(5));
+            effectsByUnitType[UnitRole.Rival].Add(new SpdPenaltyEffectt(5));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
         
-        if (skillName == "Moon-Twin Wing2")
+        else if (skillName == "Blue Skies")
         {
-            conditions.Add(new HpPercentageCondition(-0.25, UnitRole.Unit)); // El menor igual al reves por eso el menos
-            conditions.Add(new StatComparisonCondition(1, StatType.Spd, StatType.Spd));
-            effectsByUnitType["Unit"].Add(new ComparisonPercentageReductionEffectt(0.4, StatType.Spd, StatType.Spd, 4));
-            
-            conditionConnector = "And"; 
+            effectsByUnitType[UnitRole.Unit].Add(new DamageReductionEffectt(5));
+            effectsByUnitType[UnitRole.Unit].Add(new ConstantExtraDamageEffectt(5));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
         
-        if (skillName == "Blue Skies")
+        else if (skillName == "Aegis Shield")
         {
-            effectsByUnitType["Unit"].Add(new DamageReductionEffectt(5));
-            effectsByUnitType["Unit"].Add(new ConstantExtraDamageEffectt(5));
+            effectsByUnitType[UnitRole.Unit].Add(new DefBonusEffectt(6));
+            effectsByUnitType[UnitRole.Unit].Add(new ResBonusEffectt(3));
+            effectsByUnitType[UnitRole.Unit].Add(new ConstantPercentageReductionEffectt(0.5, AttackType.FirstAttack));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
         
-        if (skillName == "Aegis Shield")
-        {
-            effectsByUnitType["Unit"].Add(new DefBonusEffectt(6));
-            effectsByUnitType["Unit"].Add(new ResBonusEffectt(3));
-            effectsByUnitType["Unit"].Add(new ConstantPercentageReductionEffectt(0.5, AttackType.FirstAttack));
-        }
-        
-        if (skillName == "Remote Sparrow")
+        else if (skillName == "Remote Sparrow")
         {
             conditions.Add(new FirstAttackCondition(UnitRole.Unit));
-            effectsByUnitType["Unit"].Add(new AtkBonusEffectt(7));
-            effectsByUnitType["Unit"].Add(new SpdBonusEffectt(7));
-            effectsByUnitType["Unit"].Add(new ConstantPercentageReductionEffectt(0.3, AttackType.FirstAttack));
+            effectsByUnitType[UnitRole.Unit].Add(new AtkBonusEffectt(7));
+            effectsByUnitType[UnitRole.Unit].Add(new SpdBonusEffectt(7));
+            effectsByUnitType[UnitRole.Unit].Add(new ConstantPercentageReductionEffectt(0.3, AttackType.FirstAttack));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
         
-        if (skillName == "Remote Mirror")
+        else if (skillName == "Remote Mirror")
         {
             conditions.Add(new FirstAttackCondition(UnitRole.Unit));
-            effectsByUnitType["Unit"].Add(new AtkBonusEffectt(7));
-            effectsByUnitType["Unit"].Add(new ResBonusEffectt(10));
-            effectsByUnitType["Unit"].Add(new ConstantPercentageReductionEffectt(0.3, AttackType.FirstAttack));
+            effectsByUnitType[UnitRole.Unit].Add(new AtkBonusEffectt(7));
+            effectsByUnitType[UnitRole.Unit].Add(new ResBonusEffectt(10));
+            effectsByUnitType[UnitRole.Unit].Add(new ConstantPercentageReductionEffectt(0.3, AttackType.FirstAttack));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
         
-        if (skillName == "Remote Sturdy")
+        else if (skillName == "Remote Sturdy")
         {
             conditions.Add(new FirstAttackCondition(UnitRole.Unit));
-            effectsByUnitType["Unit"].Add(new AtkBonusEffectt(7));
-            effectsByUnitType["Unit"].Add(new DefBonusEffectt(10));
-            effectsByUnitType["Unit"].Add(new ConstantPercentageReductionEffectt(0.3, AttackType.FirstAttack));
+            effectsByUnitType[UnitRole.Unit].Add(new AtkBonusEffectt(7));
+            effectsByUnitType[UnitRole.Unit].Add(new DefBonusEffectt(10));
+            effectsByUnitType[UnitRole.Unit].Add(new ConstantPercentageReductionEffectt(0.3, AttackType.FirstAttack));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
         
-        if (skillName == "Fierce Stance")
+        else if (skillName == "Fierce Stance")
         {
             conditions.Add(new FirstAttackCondition(UnitRole.Rival));
-            effectsByUnitType["Unit"].Add(new AtkBonusEffectt(8));
-            effectsByUnitType["Unit"].Add(new ConstantPercentageReductionEffectt(0.1, AttackType.FollowUp));
+            effectsByUnitType[UnitRole.Unit].Add(new AtkBonusEffectt(8));
+            effectsByUnitType[UnitRole.Unit].Add(new ConstantPercentageReductionEffectt(0.1, AttackType.FollowUp));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
         
-        if (skillName == "Darting Stance")
+        else if (skillName == "Darting Stance")
         {
             conditions.Add(new FirstAttackCondition(UnitRole.Rival));
-            effectsByUnitType["Unit"].Add(new SpdBonusEffectt(8));
-            effectsByUnitType["Unit"].Add(new ConstantPercentageReductionEffectt(0.1, AttackType.FollowUp));
+            effectsByUnitType[UnitRole.Unit].Add(new SpdBonusEffectt(8));
+            effectsByUnitType[UnitRole.Unit].Add(new ConstantPercentageReductionEffectt(0.1, AttackType.FollowUp));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
         
-        if (skillName == "Steady Stance")
+        else if (skillName == "Steady Stance")
         {
             conditions.Add(new FirstAttackCondition(UnitRole.Rival));
-            effectsByUnitType["Unit"].Add(new DefBonusEffectt(8));
-            effectsByUnitType["Unit"].Add(new ConstantPercentageReductionEffectt(0.1, AttackType.FollowUp));
+            effectsByUnitType[UnitRole.Unit].Add(new DefBonusEffectt(8));
+            effectsByUnitType[UnitRole.Unit].Add(new ConstantPercentageReductionEffectt(0.1, AttackType.FollowUp));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
         
-        if (skillName == "Warding Stance")
+        else if (skillName == "Warding Stance")
         {
             conditions.Add(new FirstAttackCondition(UnitRole.Rival));
-            effectsByUnitType["Unit"].Add(new ResBonusEffectt(8));
-            effectsByUnitType["Unit"].Add(new ConstantPercentageReductionEffectt(0.1, AttackType.FollowUp));
+            effectsByUnitType[UnitRole.Unit].Add(new ResBonusEffectt(8));
+            effectsByUnitType[UnitRole.Unit].Add(new ConstantPercentageReductionEffectt(0.1, AttackType.FollowUp));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
         
-        if (skillName == "Kestrel Stance")
+        else if (skillName == "Kestrel Stance")
         {
             conditions.Add(new FirstAttackCondition(UnitRole.Rival));
-            effectsByUnitType["Unit"].Add(new AtkBonusEffectt(6));
-            effectsByUnitType["Unit"].Add(new SpdBonusEffectt(6));
-            effectsByUnitType["Unit"].Add(new ConstantPercentageReductionEffectt(0.1, AttackType.FollowUp));
+            effectsByUnitType[UnitRole.Unit].Add(new AtkBonusEffectt(6));
+            effectsByUnitType[UnitRole.Unit].Add(new SpdBonusEffectt(6));
+            effectsByUnitType[UnitRole.Unit].Add(new ConstantPercentageReductionEffectt(0.1, AttackType.FollowUp));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
         
-        if (skillName == "Sturdy Stance")
+        else if (skillName == "Sturdy Stance")
         {
             conditions.Add(new FirstAttackCondition(UnitRole.Rival));
-            effectsByUnitType["Unit"].Add(new AtkBonusEffectt(6));
-            effectsByUnitType["Unit"].Add(new DefBonusEffectt(6));
-            effectsByUnitType["Unit"].Add(new ConstantPercentageReductionEffectt(0.1, AttackType.FollowUp));
+            effectsByUnitType[UnitRole.Unit].Add(new AtkBonusEffectt(6));
+            effectsByUnitType[UnitRole.Unit].Add(new DefBonusEffectt(6));
+            effectsByUnitType[UnitRole.Unit].Add(new ConstantPercentageReductionEffectt(0.1, AttackType.FollowUp));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
         
-        if (skillName == "Mirror Stance")
+        else if (skillName == "Mirror Stance")
         {
             conditions.Add(new FirstAttackCondition(UnitRole.Rival));
-            effectsByUnitType["Unit"].Add(new AtkBonusEffectt(6));
-            effectsByUnitType["Unit"].Add(new ResBonusEffectt(6));
-            effectsByUnitType["Unit"].Add(new ConstantPercentageReductionEffectt(0.1, AttackType.FollowUp));
+            effectsByUnitType[UnitRole.Unit].Add(new AtkBonusEffectt(6));
+            effectsByUnitType[UnitRole.Unit].Add(new ResBonusEffectt(6));
+            effectsByUnitType[UnitRole.Unit].Add(new ConstantPercentageReductionEffectt(0.1, AttackType.FollowUp));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
         
-        if (skillName == "Steady Posture")
+        else if (skillName == "Steady Posture")
         {
             conditions.Add(new FirstAttackCondition(UnitRole.Rival));
-            effectsByUnitType["Unit"].Add(new SpdBonusEffectt(6));
-            effectsByUnitType["Unit"].Add(new DefBonusEffectt(6));
-            effectsByUnitType["Unit"].Add(new ConstantPercentageReductionEffectt(0.1, AttackType.FollowUp));
+            effectsByUnitType[UnitRole.Unit].Add(new SpdBonusEffectt(6));
+            effectsByUnitType[UnitRole.Unit].Add(new DefBonusEffectt(6));
+            effectsByUnitType[UnitRole.Unit].Add(new ConstantPercentageReductionEffectt(0.1, AttackType.FollowUp));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
         
-        if (skillName == "Swift Stance")
+        else if (skillName == "Swift Stance")
         {
             conditions.Add(new FirstAttackCondition(UnitRole.Rival));
-            effectsByUnitType["Unit"].Add(new SpdBonusEffectt(6));
-            effectsByUnitType["Unit"].Add(new ResBonusEffectt(6));
-            effectsByUnitType["Unit"].Add(new ConstantPercentageReductionEffectt(0.1, AttackType.FollowUp));
+            effectsByUnitType[UnitRole.Unit].Add(new SpdBonusEffectt(6));
+            effectsByUnitType[UnitRole.Unit].Add(new ResBonusEffectt(6));
+            effectsByUnitType[UnitRole.Unit].Add(new ConstantPercentageReductionEffectt(0.1, AttackType.FollowUp));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
         
-        if (skillName == "Bracing Stance")
+        else if (skillName == "Bracing Stance")
         {
             conditions.Add(new FirstAttackCondition(UnitRole.Rival));
-            effectsByUnitType["Unit"].Add(new DefBonusEffectt(6));
-            effectsByUnitType["Unit"].Add(new ResBonusEffectt(6));
-            effectsByUnitType["Unit"].Add(new ConstantPercentageReductionEffectt(0.1, AttackType.FollowUp));
+            effectsByUnitType[UnitRole.Unit].Add(new DefBonusEffectt(6));
+            effectsByUnitType[UnitRole.Unit].Add(new ResBonusEffectt(6));
+            effectsByUnitType[UnitRole.Unit].Add(new ConstantPercentageReductionEffectt(0.1, AttackType.FollowUp));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
         
-        if (skillName == "Poetic Justice")
+        else if (skillName == "Poetic Justice")
         {
-            effectsByUnitType["Rival"].Add(new SpdPenaltyEffectt(4));
-            effectsByUnitType["Unit"].Add(new SpecificExtraDamageEffect(UnitRole.Rival, StatType.Atk, 0.15));
+            effectsByUnitType[UnitRole.Rival].Add(new SpdPenaltyEffectt(4));
+            effectsByUnitType[UnitRole.Unit].Add(new SpecificExtraDamageEffect(UnitRole.Rival, StatType.Atk, 0.15));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
         
-        if (skillName == "Laguz Friend")
+        else if (skillName == "Laguz Friend")
         {
-            effectsByUnitType["Unit"].Add(new ConstantPercentageReductionEffectt(0.5));
-            effectsByUnitType["Unit"].Add(new BonusNeutralizationEffectt(new List<StatType> { StatType.Def, StatType.Res }));
-            effectsByUnitType["Unit"].Add(new DefPercentagePenaltyEffectt(0.5));
-            effectsByUnitType["Unit"].Add(new ResPercentagePenaltyEffectt(0.5));
+            effectsByUnitType[UnitRole.Unit].Add(new ConstantPercentageReductionEffectt(0.5));
+            effectsByUnitType[UnitRole.Unit].Add(new BonusNeutralizationEffectt(new List<StatType> { StatType.Def, StatType.Res }));
+            effectsByUnitType[UnitRole.Unit].Add(new DefPercentagePenaltyEffectt(0.5));
+            effectsByUnitType[UnitRole.Unit].Add(new ResPercentagePenaltyEffectt(0.5));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
 
-        if (skillName == "Chivalry")
+        else if (skillName == "Chivalry")
         {
             conditions.Add(new HpPercentageCondition(1.0, UnitRole.Rival));
             conditions.Add(new FirstAttackCondition(UnitRole.Unit));
-            effectsByUnitType["Unit"].Add(new ConstantExtraDamageEffectt(2));
-            effectsByUnitType["Unit"].Add(new DamageReductionEffectt(2));
-
-            conditionConnector = "And";
+            effectsByUnitType[UnitRole.Unit].Add(new ConstantExtraDamageEffectt(2));
+            effectsByUnitType[UnitRole.Unit].Add(new DamageReductionEffectt(2));
+            conditionEvaluator = new AndConditionEvaluator(conditions); 
         }
         
-        if (skillName == "Dragon's Wrath")
+        else if (skillName == "Dragon's Wrath")
         {
-            effectsByUnitType["Unit"].Add(new ConstantPercentageReductionEffectt(0.25, AttackType.FirstAttack));
+            effectsByUnitType[UnitRole.Unit].Add(new ConstantPercentageReductionEffectt(0.25, AttackType.FirstAttack));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
         
-        if (skillName == "Dragon's Wrath2")
+        else if (skillName == "Prescience")
+        {
+            effectsByUnitType[UnitRole.Rival].Add(new AtkPenaltyEffectt(5));
+            effectsByUnitType[UnitRole.Rival].Add(new ResPenaltyEffectt(5));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
+        }
+        
+        else if (skillName == "Extra Chivalry")
+        {
+            conditions.Add(new HpPercentageCondition(0.5, UnitRole.Rival));
+            effectsByUnitType[UnitRole.Rival].Add(new AtkPenaltyEffectt(5));
+            effectsByUnitType[UnitRole.Rival].Add(new SpdPenaltyEffectt(5));
+            effectsByUnitType[UnitRole.Rival].Add(new DefPenaltyEffectt(5));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
+        }
+        
+        else if (skillName == "Guard Bearing")
+        {
+            effectsByUnitType[UnitRole.Rival].Add(new SpdPenaltyEffectt(4));
+            effectsByUnitType[UnitRole.Rival].Add(new DefPenaltyEffectt(4));
+            effectsByUnitType[UnitRole.Unit].Add(new GuardBearingEffectt());
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
+        }
+        
+        else if (skillName == "Divine Recreation")
+        {
+            conditions.Add(new HpPercentageCondition(0.5, UnitRole.Rival));
+            effectsByUnitType[UnitRole.Rival].Add(new AtkPenaltyEffectt(4));
+            effectsByUnitType[UnitRole.Rival].Add(new SpdPenaltyEffectt(4));
+            effectsByUnitType[UnitRole.Rival].Add(new DefPenaltyEffectt(4));
+            effectsByUnitType[UnitRole.Rival].Add(new ResPenaltyEffectt(4));
+            effectsByUnitType[UnitRole.Unit].Add(new ConstantPercentageReductionEffectt(0.3, AttackType.FirstAttack));
+            effectsByUnitType[UnitRole.Unit].Add(new DivineRecreationEffectt());
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
+        }
+        
+        else
+        {
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
+        }
+        
+        EffectApplier effectApplier = new EffectApplier(effectsByUnitType);
+        
+        Skill skill = new Skill(conditionEvaluator, effectApplier);
+        return skill;
+    }
+
+    private static Skill CreateSpecialSkill(string skillName, Unit unit)
+    {
+        List<Condition> conditions = new List<Condition>();
+        Dictionary<UnitRole, List<Effectt>> effectsByUnitType = new Dictionary<UnitRole, List<Effectt>>()
+        {
+            { UnitRole.Unit, new List<Effectt>() },
+            { UnitRole.Rival, new List<Effectt>() },
+            { UnitRole.Both, new List<Effectt>() }
+        };
+        
+        ConditionEvaluator conditionEvaluator;
+        
+        if (skillName == "Bushido")
+        {
+            conditions.Add(new StatComparisonCondition(1, StatType.Spd, StatType.Spd));
+            effectsByUnitType[UnitRole.Unit].Add(new ComparisonPercentageReductionEffectt(0.4, StatType.Spd, StatType.Spd, 4));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
+        }
+        
+        else if (skillName == "Moon-Twin Wing")
+        {
+            conditions.Add(new HpPercentageCondition(-0.25, UnitRole.Unit)); // El menor igual al reves por eso el menos
+            conditions.Add(new StatComparisonCondition(1, StatType.Spd, StatType.Spd));
+            effectsByUnitType[UnitRole.Unit].Add(new ComparisonPercentageReductionEffectt(0.4, StatType.Spd, StatType.Spd, 4));
+            conditionEvaluator = new AndConditionEvaluator(conditions); 
+        }
+        
+        else if (skillName == "Dragon's Wrath")
         {
             conditions.Add(new StatComparisonCondition(1, StatType.Atk, StatType.Res));
-            effectsByUnitType["Unit"].Add(new SpecificExtraDamageEffect(UnitRole.Both, StatType.Atk, 0.25, StatType.Res, AttackType.FirstAttack));
+            effectsByUnitType[UnitRole.Unit].Add(new SpecificExtraDamageEffect(UnitRole.Both, StatType.Atk, 0.25, StatType.Res, AttackType.FirstAttack));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
         
-        if (skillName == "Prescience")
-        {
-            effectsByUnitType["Rival"].Add(new AtkPenaltyEffectt(5));
-            effectsByUnitType["Rival"].Add(new ResPenaltyEffectt(5));
-        }
-        
-        if (skillName == "Prescience2")
+        else if (skillName == "Prescience")
         {
             conditions.Add(new FirstAttackCondition(UnitRole.Unit));
             conditions.Add(new WeaponTypeCondition(UnitRole.Rival, new List<WeaponType> { WeaponType.Magic, WeaponType.Bow }));
-            effectsByUnitType["Unit"].Add(new ConstantPercentageReductionEffectt(0.3, AttackType.FirstAttack));
-            
-            conditionConnector = "Or";
+            effectsByUnitType[UnitRole.Unit].Add(new ConstantPercentageReductionEffectt(0.3, AttackType.FirstAttack));
+            conditionEvaluator = new OrConditionEvaluator(conditions); 
         }
         
-        if (skillName == "Extra Chivalry")
+        else if (skillName == "Extra Chivalry")
         {
-            conditions.Add(new HpPercentageCondition(0.5, UnitRole.Rival));
-            effectsByUnitType["Rival"].Add(new AtkPenaltyEffectt(5));
-            effectsByUnitType["Rival"].Add(new SpdPenaltyEffectt(5));
-            effectsByUnitType["Rival"].Add(new DefPenaltyEffectt(5));
-        }
-        
-        if (skillName == "Extra Chivalry2")
-        {
-            effectsByUnitType["Unit"].Add(new PercentageReductionByHpEffectt(0.5));
-        }
-        
-        if (skillName == "Guard Bearing")
-        {
-            effectsByUnitType["Rival"].Add(new SpdPenaltyEffectt(4));
-            effectsByUnitType["Rival"].Add(new DefPenaltyEffectt(4));
-            effectsByUnitType["Unit"].Add(new GuardBearingEffectt());
-        }
-        
-        if (skillName == "Divine Recreation")
-        {
-            conditions.Add(new HpPercentageCondition(0.5, UnitRole.Rival));
-            effectsByUnitType["Rival"].Add(new AtkPenaltyEffectt(4));
-            effectsByUnitType["Rival"].Add(new SpdPenaltyEffectt(4));
-            effectsByUnitType["Rival"].Add(new DefPenaltyEffectt(4));
-            effectsByUnitType["Rival"].Add(new ResPenaltyEffectt(4));
-            effectsByUnitType["Unit"].Add(new ConstantPercentageReductionEffectt(0.3, AttackType.FirstAttack));
-            effectsByUnitType["Unit"].Add(new DivineRecreationEffectt());
+            effectsByUnitType[UnitRole.Unit].Add(new PercentageReductionByHpEffectt(0.5));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
 
-        ConditionEvaluator conditionEvaluator = new ConditionEvaluator(conditions, conditionConnector);
+        else
+        {
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
+        }
+        
+        
         EffectApplier effectApplier = new EffectApplier(effectsByUnitType);
         
         Skill skill = new Skill(conditionEvaluator, effectApplier);

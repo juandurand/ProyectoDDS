@@ -5,7 +5,7 @@ public class ResBonusEffectt:Effectt
     private readonly int _resBonus;
 
     public ResBonusEffectt(int resBonus)
-        : base("Bonus", 1)
+        : base(1)
     {
         _resBonus = resBonus;
     }

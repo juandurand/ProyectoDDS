@@ -5,7 +5,7 @@ public class DefBonusEffectt:Effectt
     private readonly int _defBonus;
 
     public DefBonusEffectt(int defBonus)
-        : base("Bonus", 1)
+        : base(1)
     {
         _defBonus = defBonus;
     }

@@ -1,0 +1,23 @@
+namespace Fire_Emblem_Common;
+
+public class Stat
+{
+    public readonly int BaseValue;
+    
+    public int Bonus;
+    public int Penalty;
+    public int FirstAttackBonus;
+    public int FirstAttackPenalty;
+    public int FollowUpBonus;
+    public int FollowUpPenalty;
+    
+    public bool BonusNeutralized;
+    public bool PenaltyNeutralized;
+
+    public Stat(int baseValue)
+    {
+        BaseValue = baseValue;
+        StatController.ResetEffects(this);
+    }
+    
+}

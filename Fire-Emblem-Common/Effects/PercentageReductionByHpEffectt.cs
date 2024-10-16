@@ -6,7 +6,7 @@ public class PercentageReductionByHpEffectt:Effectt
     private readonly string _attackType;
 
     public PercentageReductionByHpEffectt(double percentage, string attackType = "All")
-        :base("Percentage Reduction", 2)
+        :base(2)
     {
         _percentage = percentage;
         _attackType = attackType;

@@ -73,8 +73,4 @@ public class Combat
         _view.ReportRoundSummary(roundInfo);
         _teamManager.CheckUnitsHealth(roundInfo, attackerIndex, defenderIndex);
     }
-    
-    
-    
-    
 }

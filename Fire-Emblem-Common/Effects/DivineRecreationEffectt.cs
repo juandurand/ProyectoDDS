@@ -5,7 +5,7 @@ namespace Fire_Emblem_Common.Effects;
 public class DivineRecreationEffectt:Effectt
 {
     public DivineRecreationEffectt(string attackType = "All")
-        : base("Extra Damage", 3) { }
+        : base(3) { }
 
     public override void ApplyEffect(Unit unit)
     {

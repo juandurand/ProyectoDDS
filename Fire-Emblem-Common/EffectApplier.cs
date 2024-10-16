@@ -3,9 +3,9 @@ namespace Fire_Emblem_Common;
 
 public class EffectApplier
 {
-    private readonly Dictionary<string, List<Effectt>> _effects;
+    private readonly Dictionary<UnitRole, List<Effectt>> _effects;
 
-    public EffectApplier(Dictionary<string, List<Effectt>> effects)
+    public EffectApplier(Dictionary<UnitRole, List<Effectt>> effects)
     {
         _effects = effects;
     }
@@ -28,16 +28,16 @@ public class EffectApplier
 
     private void ApplyEffectToAppropiateUnit(Effectt effect, Unit unit, Unit rival)
     {
-        string typeOfUnit = _effects.FirstOrDefault(kvp => kvp.Value.Contains(effect)).Key;
-        if (typeOfUnit == "Unit")
+        UnitRole typeOfUnit = _effects.FirstOrDefault(kvp => kvp.Value.Contains(effect)).Key;
+        if (typeOfUnit == UnitRole.Unit)
         {
             effect.ApplyEffect(unit);
         }
-        else if (typeOfUnit == "Rival")
+        else if (typeOfUnit == UnitRole.Rival)
         {
             effect.ApplyEffect(rival);
         }
-        else
+        else if (typeOfUnit == UnitRole.Both)
         {
             effect.ApplyEffect(unit);
             effect.ApplyEffect(rival);
