@@ -16,7 +16,7 @@ public class AttackManager
     {
         int damage = CalculateDamage(attackerUnit, defenderUnit, attackType);
         ApplyDamage(attackerUnit, defenderUnit, damage);
-        return !defenderUnit.HealthStatus.IsUnitAlive();
+        return !HealthStatusController.IsUnitAlive(defenderUnit.HealthStatus);
     }
     
     private int CalculateDamage(Unit attackerUnit, Unit defenderUnit, AttackType attackType)
@@ -26,7 +26,7 @@ public class AttackManager
 
     private void ApplyDamage(Unit attackerUnit, Unit defenderUnit, int damage)
     {
-        defenderUnit.HealthStatus.DealDamage(damage);
+        HealthStatusController.DealDamage(defenderUnit.HealthStatus, damage);
         _view.ReportAttack(attackerUnit, defenderUnit, damage);
     }
 

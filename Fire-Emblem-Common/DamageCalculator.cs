@@ -12,13 +12,13 @@ public static class DamageCalculator
         
         int damage = Convert.ToInt32(Math.Floor(UnitController.GetTotalStat(attacker, StatType.Atk, attackType) * weaponTriangleBonus)) - defense;
         
-        damage = Math.Max(damage, 0) + attacker.Damage.GetTotalBonus(attackType);
+        damage = Math.Max(damage, 0) + DamageEffectsController.GetTotalBonus(attacker.DamageEffects, attackType);
         
-        double newDamage = damage * defender.Damage.GetTotalPercentageReduction(attackType);
+        double newDamage = damage * DamageEffectsController.GetTotalPercentageReduction(defender.DamageEffects, attackType);
         
         newDamage = Math.Round(newDamage, 9);
         
-        damage = Convert.ToInt32(Math.Floor(newDamage)) - defender.Damage.Penalty;
+        damage = Convert.ToInt32(Math.Floor(newDamage)) - defender.DamageEffects.Penalty;
         
         return Math.Max(damage, 0);
     }
@@ -31,7 +31,7 @@ public static class DamageCalculator
         
         int damage = Convert.ToInt32(Math.Floor(UnitController.GetTotalStat(attacker, StatType.Atk, attackType) * weaponTriangleBonus)) - defense;
 
-        damage = Math.Max(damage, 0) + attacker.Damage.GetTotalBonus(attackType);
+        damage = Math.Max(damage, 0) + DamageEffectsController.GetTotalBonus(attacker.DamageEffects, attackType);
         
         return Math.Max(damage, 0);
     }

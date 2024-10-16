@@ -16,15 +16,15 @@ public class ConstantPercentageReductionEffectt:Effectt
     {
         if (_attackType == AttackType.None)
         {
-            unit.Damage.PercentageReduction *= (1 - _reduction);
+            unit.DamageEffects.PercentageReduction *= (1 - _reduction);
         }
         else if (_attackType == AttackType.FirstAttack)
         {
-            unit.Damage.FirstAttackPercentageReduction *= (1 - _reduction);
+            unit.DamageEffects.FirstAttackPercentageReduction *= (1 - _reduction);
         }
         else if (_attackType == AttackType.FollowUp)
         {
-            unit.Damage.FollowUpPercentageReduction *= (1 - _reduction);
+            unit.DamageEffects.FollowUpPercentageReduction *= (1 - _reduction);
         }
     }
 }

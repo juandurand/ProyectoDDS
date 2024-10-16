@@ -30,7 +30,7 @@ public class TeamManager
 
     private void RemoveUnitIfDead(Unit unit, int playerIndex)
     {
-        if (!unit.HealthStatus.IsUnitAlive())
+        if (!HealthStatusController.IsUnitAlive(unit.HealthStatus))
         {
             _playersUnits[playerIndex].Remove(unit);
         }

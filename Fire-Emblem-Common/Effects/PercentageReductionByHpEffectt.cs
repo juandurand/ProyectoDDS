@@ -14,21 +14,21 @@ public class PercentageReductionByHpEffectt:Effectt
 
     public override void ApplyEffect(Unit unit)
     {
-        double reductionFactor = _percentage * unit.ActualOpponent.HealthStatus.GetHpPercentage();
+        double reductionFactor = _percentage * HealthStatusController.GetHpPercentage(unit.ActualOpponent.HealthStatus);
         reductionFactor = Math.Truncate(reductionFactor * 100) / 100;
         
         
         if (_attackType == "All")
         {
-            unit.Damage.PercentageReduction *= (1 - reductionFactor);
+            unit.DamageEffects.PercentageReduction *= (1 - reductionFactor);
         }
         else if (_attackType == "First Attack")
         {
-            unit.Damage.FirstAttackPercentageReduction *= (1 - reductionFactor);
+            unit.DamageEffects.FirstAttackPercentageReduction *= (1 - reductionFactor);
         }
         else
         {
-            unit.Damage.FollowUpPercentageReduction *= (1 - reductionFactor);
+            unit.DamageEffects.FollowUpPercentageReduction *= (1 - reductionFactor);
         }
     }
 }

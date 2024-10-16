@@ -16,15 +16,15 @@ public class ConstantExtraDamageEffectt:Effectt
     {
         if (_attackType == "All")
         {
-            unit.Damage.Bonus += _damageBonus;
+            unit.DamageEffects.Bonus += _damageBonus;
         }
         else if (_attackType == "First Attack")
         {
-            unit.Damage.FirstAttackBonus += _damageBonus;
+            unit.DamageEffects.FirstAttackBonus += _damageBonus;
         }
         else
         {
-            unit.Damage.FollowUpBonus += _damageBonus;
+            unit.DamageEffects.FollowUpBonus += _damageBonus;
         }
     }
 }

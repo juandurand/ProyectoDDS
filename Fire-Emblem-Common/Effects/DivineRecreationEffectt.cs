@@ -15,11 +15,11 @@ public class DivineRecreationEffectt:Effectt
 
         if (unit.Attacking)
         {
-            unit.Damage.FollowUpBonus += extraDamage;
+            unit.DamageEffects.FollowUpBonus += extraDamage;
         }
         else
         {
-            unit.Damage.FirstAttackBonus += extraDamage;
+            unit.DamageEffects.FirstAttackBonus += extraDamage;
         }
     }
 }

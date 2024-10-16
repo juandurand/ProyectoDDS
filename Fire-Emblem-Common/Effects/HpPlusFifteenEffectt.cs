@@ -14,7 +14,7 @@ public class HpPlusFifteenEffectt:Effectt
         if (!_isEffectUsed)
         {
             _isEffectUsed = true;
-            unit.HealthStatus.ApplyHpPlus15();
+            HealthStatusController.ApplyHpPlus15(unit.HealthStatus);
         }
     }
 }

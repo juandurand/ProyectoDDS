@@ -17,15 +17,15 @@ public class SpecificExtraDamageEffect:Effectt
         int extraDamage = _extraDamageCalculator.GetExtraDamage(unit);
         if (_attackType == AttackType.None)
         {
-            unit.Damage.Bonus += extraDamage;
+            unit.DamageEffects.Bonus += extraDamage;
         }
         else if (_attackType == AttackType.FirstAttack)
         {
-            unit.Damage.FirstAttackBonus += extraDamage;
+            unit.DamageEffects.FirstAttackBonus += extraDamage;
         }
         else
         {
-            unit.Damage.FollowUpBonus += extraDamage;
+            unit.DamageEffects.FollowUpBonus += extraDamage;
         }
     }
 

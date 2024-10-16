@@ -25,7 +25,7 @@ public static class UnitController
         StatController.ResetEffects(unit.Spd);
         StatController.ResetEffects(unit.Def);
         StatController.ResetEffects(unit.Res);
-        unit.Damage.ResetEffects();
+        DamageEffectsController.ResetEffects(unit.DamageEffects);
     }
     
     public static void SetFirstAttack(Unit unit)

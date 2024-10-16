@@ -21,14 +21,60 @@ public class TeamValidator
     private (string name, List<string> skills) ParseUnit(string line)
     {
         int index1 = line.IndexOf('(');
-        if (index1 == -1) {return (line.Trim(), new List<string>());}
+        if (index1 == -1) 
+        {
+            return (line.Trim(), new List<string>());
+        }
 
-        string name = line.Substring(0, index1).Trim();
-        int index2 = line.IndexOf(')');
-        string skillsString = line.Substring(index1 + 1, index2 - index1 - 1).Trim();
-        var skillsList = skillsString.Split(',').Select(skill => skill.Trim()).ToList();
+        string name = ExtractName(line, index1);
+        string skillsString = ExtractSkillsString(line, index1);
+        List<string> skillsList = ParseSkills(skillsString);
+
         return (name, skillsList);
     }
+
+    private string ExtractName(string line, int index1)
+    {
+        return line.Substring(0, index1).Trim();
+    }
+
+    private string ExtractSkillsString(string line, int index1)
+    {
+        int index2 = line.IndexOf(')', index1);
+        if (index2 == -1) { return string.Empty; }
+
+        return line.Substring(index1 + 1, index2 - index1 - 1).Trim();
+    }
+
+    private List<string> ParseSkills(string skillsString)
+    {
+        var splitSkills = SplitSkills(skillsString);
+        
+        var trimmedSkills = TrimSkills(splitSkills);
+        
+        var skillsList = ConvertToList(trimmedSkills);
+
+        return skillsList;
+    }
+
+    private IEnumerable<string> SplitSkills(string skillsString)
+    {
+        return skillsString.Split(',');
+    }
+
+    private IEnumerable<string> TrimSkills(IEnumerable<string> skills)
+    {
+        foreach (var skill in skills)
+        {
+            yield return skill.Trim();
+        }
+    }
+
+    private List<string> ConvertToList(IEnumerable<string> skills)
+    {
+        return skills.ToList();
+    }
+
     
     private bool AreSkillsValid(List<string> skillsInfo)
     {

@@ -18,10 +18,10 @@ public class HpPercentageCondition:Condition
         if (_analyzedUnit == UnitRole.Unit)
         {
             if (_requiredPercentage > 0)
-                return skillOwner.HealthStatus.GetHpPercentage() <= _requiredPercentage;
-            return Math.Round(skillOwner.HealthStatus.GetHpPercentage(), 2) >= -_requiredPercentage;
+                return HealthStatusController.GetHpPercentage(skillOwner.HealthStatus) <= _requiredPercentage;
+            return Math.Round(HealthStatusController.GetHpPercentage(skillOwner.HealthStatus), 2) >= -_requiredPercentage;
         }
-        return rival.HealthStatus.GetHpPercentage() >= _requiredPercentage;
+        return HealthStatusController.GetHpPercentage(rival.HealthStatus) >= _requiredPercentage;
         
     }
 }

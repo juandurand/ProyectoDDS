@@ -12,6 +12,6 @@ public class DamageReductionEffectt:Effectt
 
     public override void ApplyEffect(Unit unit)
     {
-        unit.Damage.Penalty += _damagePenalty;
+        unit.DamageEffects.Penalty += _damagePenalty;
     }
 }

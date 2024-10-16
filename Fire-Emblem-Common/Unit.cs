@@ -18,7 +18,7 @@ public class Unit
     public Stat Def;
     public Stat Res;
 
-    public UnitDamageInfo Damage;
+    public DamageEffects DamageEffects;
 
     public int FirstAttack;
     public int FirstDefense;
@@ -39,7 +39,7 @@ public class Unit
         Spd = new Stat((int)unitData["Spd"]);
         Def = new Stat((int)unitData["Def"]);
         Res = new Stat((int)unitData["Res"]);
-        Damage = new UnitDamageInfo();
+        DamageEffects = new DamageEffects();
         
         Skills = SkillFactory.GetSkills((List<string>)unitData["Skills"], this);
 

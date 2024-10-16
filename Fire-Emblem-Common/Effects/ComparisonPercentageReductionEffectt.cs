@@ -21,6 +21,6 @@ public class ComparisonPercentageReductionEffectt:Effectt
         int statDifference = UnitController.GetTotalStat(unit, _skillOwnerStat, AttackType.None) - UnitController.GetTotalStat(unit.ActualOpponent, _rivalStat, AttackType.None);
         double reductionFactor = (statDifference * _multiplier) / 100.0;
         reductionFactor = Math.Min(reductionFactor, _max);
-        unit.Damage.PercentageReduction *= (1 - reductionFactor);
+        unit.DamageEffects.PercentageReduction *= (1 - reductionFactor);
     }
 }

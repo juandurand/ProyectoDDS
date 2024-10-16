@@ -21,15 +21,15 @@ public class GuardBearingEffectt:Effectt
         
         if (_attackType == AttackType.None)
         {
-            unit.Damage.PercentageReduction *= (1 - reductionFactor);
+            unit.DamageEffects.PercentageReduction *= (1 - reductionFactor);
         }
         else if (_attackType == AttackType.FirstAttack)
         {
-            unit.Damage.FirstAttackPercentageReduction *= (1 - reductionFactor);
+            unit.DamageEffects.FirstAttackPercentageReduction *= (1 - reductionFactor);
         }
         else if (_attackType == AttackType.FollowUp)
         {
-            unit.Damage.FollowUpPercentageReduction *= (1 - reductionFactor);
+            unit.DamageEffects.FollowUpPercentageReduction *= (1 - reductionFactor);
         }
     }
 }
