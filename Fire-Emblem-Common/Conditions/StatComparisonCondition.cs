@@ -3,10 +3,10 @@ namespace Fire_Emblem_Common.Conditions;
 public class StatComparisonCondition:Condition
 {
     private readonly int _requiredDifference;
-    private readonly string _skillOwnerStat;
-    private readonly string _rivalStat;
+    private readonly StatType _skillOwnerStat;
+    private readonly StatType _rivalStat;
     
-    public StatComparisonCondition(int requiredDifference, string skillOwnerStat, string rivalStat) 
+    public StatComparisonCondition(int requiredDifference, StatType skillOwnerStat, StatType rivalStat) 
     {
         _requiredDifference = requiredDifference;
         _skillOwnerStat = skillOwnerStat;
@@ -17,6 +17,6 @@ public class StatComparisonCondition:Condition
     {
         (Unit starter, Unit rival, Unit skillOwner) = GetUnits(roundInfo);
         
-        return skillOwner.GetTotalStat(_skillOwnerStat, "") >= _requiredDifference + rival.GetTotalStat(_rivalStat, "");
+        return skillOwner.GetTotalStat(_skillOwnerStat, AttackType.None) >= _requiredDifference + rival.GetTotalStat(_rivalStat, AttackType.None);
     }
 }

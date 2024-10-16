@@ -2,9 +2,9 @@ namespace Fire_Emblem_Common.Conditions;
 
 public class WeaponAdvantageCondition:Condition
 {
-    private readonly string _analyzedUnit;
+    private readonly UnitRole _analyzedUnit;
     
-    public WeaponAdvantageCondition(string analyzedUnit)
+    public WeaponAdvantageCondition(UnitRole analyzedUnit)
     {
         _analyzedUnit = analyzedUnit;
     }
@@ -13,7 +13,7 @@ public class WeaponAdvantageCondition:Condition
     {
         (Unit starter, Unit rival, Unit skillOwner) = GetUnits(roundInfo);
         
-        if (_analyzedUnit == "Unit")
+        if (_analyzedUnit == UnitRole.Unit)
         {
             return WeaponTriangle.CalculateWtb(skillOwner.Weapon, rival.Weapon) == 1.2;
         }

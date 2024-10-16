@@ -16,18 +16,41 @@ public class Round
     
     public void SimulateRound(RoundInfo roundInfo)
     {
-        RoundManager.RoundStarted(roundInfo);
-        RoundManager.ApplyAllSkills(roundInfo);
-        _view.AnnounceSkills(roundInfo);
-        
-        if (_attackManager.SimulateAttack(roundInfo.Attacker, roundInfo.Defender,"First Attack") ||
-            _attackManager.SimulateAttack( roundInfo.Defender, roundInfo.Attacker, "First Attack"))
+        StartRound(roundInfo);
+        ApplySkills(roundInfo);
+        if (FirstAttacks(roundInfo))
         {
-            RoundManager.RoundEnded(roundInfo);
+            EndRound(roundInfo);
             return;
         }
-        
+        PerformFollowUp(roundInfo);
+        EndRound(roundInfo);
+    }
+    
+    private void StartRound(RoundInfo roundInfo)
+    {
+        RoundManager.RoundStarted(roundInfo);
+    }
+
+    private void ApplySkills(RoundInfo roundInfo)
+    {
+        RoundManager.ApplyAllSkills(roundInfo);
+        _view.AnnounceSkills(roundInfo);
+    }
+
+    private bool FirstAttacks(RoundInfo roundInfo)
+    {
+        return _attackManager.SimulateAttack(roundInfo.Attacker, roundInfo.Defender, AttackType.FirstAttack) ||
+               _attackManager.SimulateAttack(roundInfo.Defender, roundInfo.Attacker, AttackType.FirstAttack);
+    }
+
+    private void PerformFollowUp(RoundInfo roundInfo)
+    {
         _attackManager.SimulateFollowUp(roundInfo.Attacker, roundInfo.Defender);
+    }
+
+    private void EndRound(RoundInfo roundInfo)
+    {
         RoundManager.RoundEnded(roundInfo);
     }
 }

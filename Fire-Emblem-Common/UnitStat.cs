@@ -41,22 +41,22 @@ public class UnitStat
         PenaltyNeutralized = false;
     }
     
-    public int GetTotalStat(string attackType)
+    public int GetTotalStat(AttackType attackType)
     {
         int totalStat = BaseValue;
     
         if (!BonusNeutralized)
         {
             totalStat += Bonus;
-            if (attackType == "First Attack") totalStat += FirstAttackBonus;
-            if (attackType == "Follow-Up") totalStat += FollowUpBonus;
+            if (attackType == AttackType.FirstAttack) totalStat += FirstAttackBonus;
+            if (attackType == AttackType.FollowUp) totalStat += FollowUpBonus;
         }
         
         if (!PenaltyNeutralized)
         {
             totalStat -= Penalty;
-            if (attackType == "First Attack") totalStat -= FirstAttackPenalty;
-            if (attackType == "Follow-Up") totalStat -= FollowUpPenalty;
+            if (attackType == AttackType.FirstAttack) totalStat -= FirstAttackPenalty;
+            if (attackType == AttackType.FollowUp) totalStat -= FollowUpPenalty;
         }
         
         return totalStat;

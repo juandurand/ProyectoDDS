@@ -3,9 +3,9 @@ namespace Fire_Emblem_Common.Conditions;
 public class HpPercentageCondition:Condition
 {
     private readonly double _requiredPercentage;
-    private readonly string _analyzedUnit;
+    private readonly UnitRole _analyzedUnit;
     
-    public HpPercentageCondition(double requiredPercentage, string analyzedUnit) 
+    public HpPercentageCondition(double requiredPercentage, UnitRole analyzedUnit) 
     {
         _analyzedUnit = analyzedUnit;
         _requiredPercentage = requiredPercentage;
@@ -15,7 +15,7 @@ public class HpPercentageCondition:Condition
     {
         (Unit starter, Unit rival, Unit skillOwner) = GetUnits(roundInfo);
         
-        if (_analyzedUnit == "Unit")
+        if (_analyzedUnit == UnitRole.Unit)
         {
             if (_requiredPercentage > 0)
                 return skillOwner.HealthStatus.GetHpPercentage() <= _requiredPercentage;

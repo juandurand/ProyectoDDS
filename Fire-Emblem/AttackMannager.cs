@@ -12,14 +12,14 @@ public class AttackManager
     }
 
     // Si el defensor muere, retorna True para que no se sigan atacando en esa ronda
-    public bool SimulateAttack(Unit attackerUnit, Unit defenderUnit, string attackType)
+    public bool SimulateAttack(Unit attackerUnit, Unit defenderUnit, AttackType attackType)
     {
         int damage = CalculateDamage(attackerUnit, defenderUnit, attackType);
         ApplyDamage(attackerUnit, defenderUnit, damage);
         return !defenderUnit.HealthStatus.IsUnitAlive();
     }
     
-    private int CalculateDamage(Unit attackerUnit, Unit defenderUnit, string attackType)
+    private int CalculateDamage(Unit attackerUnit, Unit defenderUnit, AttackType attackType)
     {
         return DamageCalculator.GetDamage(attackerUnit, defenderUnit, attackType);
     }
@@ -34,11 +34,11 @@ public class AttackManager
     {
         if (CanFollowUp(attackerUnit, defenderUnit))
         {
-            SimulateAttack(attackerUnit, defenderUnit, "Follow-Up");
+            SimulateAttack(attackerUnit, defenderUnit, AttackType.FollowUp);
         }
         else if (CanFollowUp(defenderUnit, attackerUnit))
         {
-            SimulateAttack(defenderUnit, attackerUnit, "Follow-Up");
+            SimulateAttack(defenderUnit, attackerUnit, AttackType.FollowUp);
         }
         else
         {
@@ -49,6 +49,6 @@ public class AttackManager
     private static bool CanFollowUp(Unit attackerUnit, Unit defenderUnit)
     {
         int followUpSpeedThreshold = 4;
-        return attackerUnit.GetTotalStat("Spd", "") - defenderUnit.GetTotalStat("Spd", "") > followUpSpeedThreshold;
+        return attackerUnit.GetTotalStat(StatType.Spd, AttackType.None) - defenderUnit.GetTotalStat(StatType.Spd, AttackType.None) > followUpSpeedThreshold;
     }
 }

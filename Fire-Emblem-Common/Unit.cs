@@ -3,7 +3,7 @@ namespace Fire_Emblem_Common;
 public class Unit
 {
     public readonly string Name;
-    public readonly string Weapon;
+    public readonly WeaponType Weapon;
     public readonly string Gender;
     public readonly string DeathQuote;
     
@@ -27,7 +27,7 @@ public class Unit
     public Unit(Dictionary<string, object> unitData)
     {
         Name = (string)unitData["Name"];
-        Weapon = (string)unitData["Weapon"];
+        Weapon = (WeaponType)Enum.Parse(typeof(WeaponType), (string)unitData["Weapon"]);
         Gender = (string)unitData["Gender"];
         DeathQuote = (string)unitData["DeathQuote"];
         
@@ -72,31 +72,31 @@ public class Unit
         }
     }
 
-    public int GetTotalStat(string stat, string attackType)
+    public int GetTotalStat(StatType stat, AttackType attackType)
     {
-        if (stat == "Atk") return GetTotalAtk(attackType);
-        if (stat == "Spd") return GetTotalSpd();
-        if (stat == "Res") return GetTotalRes(attackType);
-        if (stat == "Def") return GetTotalDef(attackType);
+        if (stat == StatType.Atk) return GetTotalAtk(attackType);
+        if (stat == StatType.Spd) return GetTotalSpd(attackType);
+        if (stat == StatType.Res) return GetTotalRes(attackType);
+        if (stat == StatType.Def) return GetTotalDef(attackType);
         return HealthStatus.ActualHpValue;
     }
     
-    private int GetTotalAtk(string attackType)
+    private int GetTotalAtk(AttackType attackType)
     {
         return Atk.GetTotalStat(attackType);
     }
 
-    private int GetTotalSpd()
+    private int GetTotalSpd(AttackType attackType)
     {
-        return Spd.GetTotalStat(string.Empty); // No se necesita tipo de ataque para la velocidad
+        return Spd.GetTotalStat(attackType); 
     }
 
-    private int GetTotalDef(string attackType)
+    private int GetTotalDef(AttackType attackType)
     {
         return Def.GetTotalStat(attackType);
     }
 
-    private int GetTotalRes(string attackType)
+    private int GetTotalRes(AttackType attackType)
     {
         return Res.GetTotalStat(attackType);
     }

@@ -28,22 +28,22 @@ public class UnitDamageInfo
         FollowUpPercentageReduction = 1.0;
     }
     
-    public int GetTotalBonus(string attackType)
+    public int GetTotalBonus(AttackType attackType)
     {
         int totalBonus = Bonus;
         
-        if (attackType == "First Attack") totalBonus += FirstAttackBonus;
-        if (attackType == "Follow-Up") totalBonus += FollowUpBonus;
+        if (attackType == AttackType.FirstAttack) totalBonus += FirstAttackBonus;
+        if (attackType == AttackType.FollowUp) totalBonus += FollowUpBonus;
         
         return totalBonus;
     }
     
-    public double GetTotalPercentageReduction(string attackType)
+    public double GetTotalPercentageReduction(AttackType attackType)
     {
         double totalPercentageReduction = PercentageReduction;
         
-        if (attackType == "First Attack") totalPercentageReduction *= FirstAttackPercentageReduction;
-        if (attackType == "Follow-Up") totalPercentageReduction *= FollowUpPercentageReduction;
+        if (attackType == AttackType.FirstAttack) totalPercentageReduction *= FirstAttackPercentageReduction;
+        if (attackType == AttackType.FollowUp) totalPercentageReduction *= FollowUpPercentageReduction;
         
         return totalPercentageReduction;
     }

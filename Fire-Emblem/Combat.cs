@@ -17,13 +17,23 @@ public class Combat
         _round = new Round(view);
     }
     
-    public void InitiateCombat()
+    public void InitiateCombatAndAnnounceWinner()
+    {
+        RunCombatRounds();
+        AnnounceWinner();
+    }
+
+    private void RunCombatRounds()
     {
         while (_teamManager.AreTeamsAlive())
         {
             ProcessCombatRound();
             _roundCounter++;
         }
+    }
+
+    private void AnnounceWinner()
+    {
         _view.AnnounceWinner(_teamManager.GetPlayersUnits());
     }
 
@@ -33,7 +43,7 @@ public class Combat
         
         AnnounceRoundStart(roundInfo);
         SimulateRound(roundInfo);
-        AnnounceRoundEnd(roundInfo);
+        AnnounceAndManageRoundEnd(roundInfo);
     }
     
     private RoundInfo GetRoundInfo()
@@ -57,7 +67,7 @@ public class Combat
         _round.SimulateRound(roundInfo);
     }
 
-    private void AnnounceRoundEnd(RoundInfo roundInfo)
+    private void AnnounceAndManageRoundEnd(RoundInfo roundInfo)
     {
         (int attackerIndex, int defenderIndex) = CombatHelper.GetAttackerDefenderIndex(_roundCounter);
         _view.ReportRoundSummary(roundInfo);

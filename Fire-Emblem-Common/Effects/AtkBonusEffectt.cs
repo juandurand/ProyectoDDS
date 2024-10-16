@@ -2,9 +2,9 @@ namespace Fire_Emblem_Common.Effects;
 public class AtkBonusEffectt:Effectt
 {
     private readonly int _atkBonus;
-    private readonly string _attackType;
+    private readonly AttackType _attackType;
 
-    public AtkBonusEffectt(int atkBonus, string attackType = "All")
+    public AtkBonusEffectt(int atkBonus, AttackType attackType = AttackType.None)
         : base("Bonus", 1)
     {
         _atkBonus = atkBonus;
@@ -13,13 +13,17 @@ public class AtkBonusEffectt:Effectt
 
     public override void ApplyEffect(Unit unit)
     {
-        if (_attackType == "All")
+        if (_attackType == AttackType.None)
         {
             unit.Atk.Bonus += _atkBonus;
         }
-        else 
+        else if (_attackType == AttackType.FirstAttack)
         {
             unit.Atk.FirstAttackBonus += _atkBonus;
+        }
+        else
+        {
+            unit.Atk.FollowUpBonus += _atkBonus;
         }
     }
 }

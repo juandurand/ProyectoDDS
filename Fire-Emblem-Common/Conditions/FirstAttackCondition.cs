@@ -2,9 +2,9 @@ namespace Fire_Emblem_Common.Conditions;
 
 public class FirstAttackCondition:Condition
 {
-    private readonly string _analyzedUnit;
+    private readonly UnitRole _analyzedUnit;
     
-    public FirstAttackCondition(string analyzedUnit)
+    public FirstAttackCondition(UnitRole analyzedUnit)
     {
         _analyzedUnit = analyzedUnit;
     }
@@ -13,7 +13,7 @@ public class FirstAttackCondition:Condition
     {
         (Unit starter, Unit rival, Unit skillOwner) = GetUnits(roundInfo);
         
-        if (_analyzedUnit == "Unit")
+        if (_analyzedUnit == UnitRole.Unit)
         {
             return starter == skillOwner;
         }

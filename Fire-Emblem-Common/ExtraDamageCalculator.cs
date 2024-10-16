@@ -2,13 +2,12 @@ namespace Fire_Emblem_Common;
 
 public class ExtraDamageCalculator
 {
-    private readonly string _analizedUnit;
-    private readonly string _analizedStat;
-    private readonly string _analizedStat2;
+    private readonly UnitRole _analizedUnit;
+    private readonly StatType _analizedStat;
+    private readonly StatType _analizedStat2;
     private readonly double _percentage;
     
-    public ExtraDamageCalculator(string analizedUnit, string analizedStat, string analizedStat2, double percentage)
-        
+    public ExtraDamageCalculator(UnitRole analizedUnit, StatType analizedStat, StatType analizedStat2, double percentage)
     {
         _analizedUnit = analizedUnit;
         _analizedStat = analizedStat;
@@ -19,17 +18,17 @@ public class ExtraDamageCalculator
     public int GetExtraDamage(Unit unit)
     {
         int extraDamage;
-        if (_analizedUnit == "Unit")
+        if (_analizedUnit == UnitRole.Unit)
         {
             extraDamage = unit.HealthStatus.HpBaseValue - unit.HealthStatus.ActualHpValue;
         }
-        else if (_analizedUnit == "Rival")
+        else if (_analizedUnit == UnitRole.Rival)
         {
-            extraDamage = unit.ActualOpponent.GetTotalStat(_analizedStat, "");
+            extraDamage = unit.ActualOpponent.GetTotalStat(_analizedStat, AttackType.None);
         }
-        else
+        else // if (_analizedUnit == UnitRole.Both)
         {
-            extraDamage = unit.GetTotalStat(_analizedStat, "") - unit.ActualOpponent.GetTotalStat(_analizedStat2, "");
+            extraDamage = unit.GetTotalStat(_analizedStat, AttackType.None) - unit.ActualOpponent.GetTotalStat(_analizedStat2, AttackType.None);
         }
         
         return Convert.ToInt32(Math.Floor(extraDamage * _percentage));

@@ -2,9 +2,9 @@ namespace Fire_Emblem_Common.Effects;
 
 public class BonusNeutralizationEffectt:Effectt
 {
-    private readonly List<string> _statsTypes;
+    private readonly List<StatType> _statsTypes;
 
-    public BonusNeutralizationEffectt(List<String> statsTypes)
+    public BonusNeutralizationEffectt(List<StatType> statsTypes)
         : base("Neutralization", 1)
     {
         _statsTypes = statsTypes;
@@ -12,21 +12,21 @@ public class BonusNeutralizationEffectt:Effectt
 
     public override void ApplyEffect(Unit unit)
     {
-        foreach (string stat in _statsTypes)
+        foreach (StatType stat in _statsTypes)
         {
-            if (stat == "Atk")
+            if (stat == StatType.Atk)
             {
                 unit.Atk.BonusNeutralized = true;
             }
-            else if (stat == "Def")
+            else if (stat ==  StatType.Def)
             {
                 unit.Def.BonusNeutralized = true;
             }
-            else if (stat == "Spd")
+            else if (stat ==  StatType.Spd)
             {
                 unit.Spd.BonusNeutralized = true;
             }
-            else
+            else if (stat == StatType.Res)
             {
                 unit.Res.BonusNeutralized = true;
             }

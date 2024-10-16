@@ -18,6 +18,8 @@
       <Compile Remove="SpdStat.cs" />
       <Compile Remove="Conditions\ResComparisonCondition.cs" />
       <Compile Remove="Conditions\HpComparisonCondition.cs" />
+      <Compile Remove="AttackTypeEnum.cs" />
+      <Compile Remove="Enums.cs" />
     </ItemGroup>
 
 </Project>

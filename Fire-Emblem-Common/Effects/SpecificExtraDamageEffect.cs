@@ -3,9 +3,9 @@ namespace Fire_Emblem_Common.Effects;
 public class SpecificExtraDamageEffect:Effectt
 {
     private readonly ExtraDamageCalculator _extraDamageCalculator;
-    private readonly string _attackType;
+    private readonly AttackType _attackType;
 
-    public SpecificExtraDamageEffect(string analizedUnit, string analizedStat, double percentage, string analizedStat2 = "", string attackType = "All")
+    public SpecificExtraDamageEffect(UnitRole analizedUnit, StatType analizedStat, double percentage, StatType analizedStat2 = StatType.None, AttackType attackType = AttackType.None)
         : base("Extra Damage", 2)
     {
         _extraDamageCalculator = new ExtraDamageCalculator(analizedUnit, analizedStat, analizedStat2, percentage);
@@ -15,11 +15,11 @@ public class SpecificExtraDamageEffect:Effectt
     public override void ApplyEffect(Unit unit)
     {
         int extraDamage = _extraDamageCalculator.GetExtraDamage(unit);
-        if (_attackType == "All")
+        if (_attackType == AttackType.None)
         {
             unit.Damage.Bonus += extraDamage;
         }
-        else if (_attackType == "First Attack")
+        else if (_attackType == AttackType.FirstAttack)
         {
             unit.Damage.FirstAttackBonus += extraDamage;
         }

@@ -9,8 +9,8 @@ public class DivineRecreationEffectt:Effectt
 
     public override void ApplyEffect(Unit unit)
     {
-        int originalDamage = DamageCalculator.GetDamageWithoutSkills(unit.ActualOpponent, unit, "First Attack");
-        int actualDamage = DamageCalculator.GetDamage(unit.ActualOpponent, unit, "First Attack");
+        int originalDamage = DamageCalculator.GetDamageWithoutSkills(unit.ActualOpponent, unit, AttackType.FirstAttack);
+        int actualDamage = DamageCalculator.GetDamage(unit.ActualOpponent, unit, AttackType.FirstAttack);
         int extraDamage = originalDamage - actualDamage;
 
         if (unit.Attacking)

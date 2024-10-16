@@ -3,9 +3,9 @@ namespace Fire_Emblem_Common.Effects;
 public class DefPercentagePenaltyEffectt:Effectt
 {
     private readonly double _percentage;
-    private readonly string _attackType;
+    private readonly AttackType _attackType;
 
-    public DefPercentagePenaltyEffectt(double percentage, string attackType = "All")
+    public DefPercentagePenaltyEffectt(double percentage, AttackType attackType = AttackType.None)
         : base("Penalty", 1)
     {
         _percentage = percentage;
@@ -14,15 +14,15 @@ public class DefPercentagePenaltyEffectt:Effectt
 
     public override void ApplyEffect(Unit unit)
     {
-        if (_attackType == "All")
+        if (_attackType == AttackType.None)
         {
             unit.Def.Penalty += Convert.ToInt32(Math.Floor(_percentage * unit.Def.BaseValue));
         }
-        else if (_attackType == "First Attack")
+        else if (_attackType == AttackType.FirstAttack)
         {
             unit.Def.FirstAttackPenalty += Convert.ToInt32(Math.Floor(_percentage * unit.Def.BaseValue));
         }
-        else
+        else if (_attackType == AttackType.FollowUp)
         {
             unit.Def.FollowUpPenalty += Convert.ToInt32(Math.Floor(_percentage * unit.Def.BaseValue));
         }

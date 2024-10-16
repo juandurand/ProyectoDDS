@@ -16,11 +16,19 @@ public class ChaosStyleCondition:Condition
 
     private bool IsChaosStyleConditionSatisfied(Unit unit, Unit rival)
     {
-        List<string> requiredWeaponType = new List<string> { "Sword", "Bow", "Lance", "Axe" };
-        if (requiredWeaponType.Contains(unit.Weapon) && rival.Weapon == "Magic")
+        List<WeaponType> requiredWeaponTypes = new List<WeaponType>
+        {
+            WeaponType.Sword,
+            WeaponType.Bow,
+            WeaponType.Lance,
+            WeaponType.Axe
+        };
+        
+        if (requiredWeaponTypes.Contains(unit.Weapon) && rival.Weapon == WeaponType.Magic)
         {
             return true;
         }
+
         return false;
     }
 }
