@@ -7,20 +7,33 @@ public class AverageDefResEffectt:Effectt
         : base(1){}
     public override void ApplyEffect(Unit unit)
     {
-        int average = (unit.Def.BaseValue + unit.Res.BaseValue) / 2;
-        int defAdjustment = average - unit.Def.BaseValue;
-        int resAdjustment = average - unit.Res.BaseValue;
+        (int defAdjustment, int resAdjustment) = GetDefAndResAdjustment(unit);
         
-        if (defAdjustment > 0) {
+        if (defAdjustment > 0) 
+        {
             unit.Def.Bonus += defAdjustment;
-        } else if (defAdjustment < 0) {
+        } 
+        else 
+        {
             unit.Def.Penalty += Math.Abs(defAdjustment);
         }
         
-        if (resAdjustment > 0) {
+        if (resAdjustment > 0) 
+        {
             unit.Res.Bonus += resAdjustment;
-        } else if (resAdjustment < 0) {
+        } 
+        else 
+        {
             unit.Res.Penalty += Math.Abs(resAdjustment);
         }
     }
+
+    private (int, int) GetDefAndResAdjustment(Unit unit)
+    {
+        int average = (unit.Def.BaseValue + unit.Res.BaseValue) / 2;
+        int defAdjustment = average - unit.Def.BaseValue;
+        int resAdjustment = average - unit.Res.BaseValue;
+        return (defAdjustment, resAdjustment);
+    }
+    
 }

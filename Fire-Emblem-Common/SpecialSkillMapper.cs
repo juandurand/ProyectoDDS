@@ -11,12 +11,6 @@ public static class SpecialSkillMapper
         { SpecialSkill.ExtraChivalry, "Extra Chivalry" }
     };
     
-    public static string ToString(SpecialSkill skill)
-    {
-        return _skillToStringMap[skill];
-    }
-
-    
     public static SpecialSkill? FromString(string skillName)
     {
         foreach (var kvp in _skillToStringMap)

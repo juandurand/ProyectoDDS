@@ -17,7 +17,7 @@ public class ExtraDamageCalculator
     
     public int GetExtraDamage(Unit unit)
     {
-        int extraDamage;
+        int extraDamage = 0;
         if (_analizedUnit == UnitRole.Unit)
         {
             extraDamage = unit.HealthStatus.HpBaseValue - unit.HealthStatus.ActualHpValue;
@@ -26,7 +26,7 @@ public class ExtraDamageCalculator
         {
             extraDamage = UnitController.GetTotalStat(unit.ActualOpponent, _analizedStat, AttackType.None);
         }
-        else // if (_analizedUnit == UnitRole.Both)
+        else if (_analizedUnit == UnitRole.Both)
         {
             extraDamage = UnitController.GetTotalStat(unit, _analizedStat, AttackType.None) - UnitController.GetTotalStat(unit.ActualOpponent, _analizedStat2, AttackType.None);
         }

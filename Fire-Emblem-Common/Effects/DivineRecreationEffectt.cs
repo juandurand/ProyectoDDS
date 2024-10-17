@@ -4,14 +4,12 @@ namespace Fire_Emblem_Common.Effects;
 
 public class DivineRecreationEffectt:Effectt
 {
-    public DivineRecreationEffectt(string attackType = "All")
+    public DivineRecreationEffectt()
         : base(3) { }
 
     public override void ApplyEffect(Unit unit)
     {
-        int originalDamage = DamageCalculator.GetDamageWithoutSkills(unit.ActualOpponent, unit, AttackType.FirstAttack);
-        int actualDamage = DamageCalculator.GetDamage(unit.ActualOpponent, unit, AttackType.FirstAttack);
-        int extraDamage = originalDamage - actualDamage;
+        int extraDamage = GetExtraDamage(unit);
 
         if (unit.Attacking)
         {
@@ -21,5 +19,12 @@ public class DivineRecreationEffectt:Effectt
         {
             unit.DamageEffects.FirstAttackBonus += extraDamage;
         }
+    }
+
+    private int GetExtraDamage(Unit unit)
+    {
+        int originalDamage = DamageCalculator.GetDamageWithoutDamageReductions(unit.ActualOpponent, unit, AttackType.FirstAttack);
+        int actualDamage = DamageCalculator.GetDamage(unit.ActualOpponent, unit, AttackType.FirstAttack);
+        return originalDamage - actualDamage;
     }
 }

@@ -6,16 +6,32 @@ public class TeamValidator
     {
         units = new List<Tuple<string, List<string>>>();
         
-        if (player.Count < 1 || player.Count > 3) { return false;}
-        
+        if (!IsTeamSizeValid(player.Count)) 
+        {
+            return false;
+        }
+
         foreach (string line in player)
         {
             var (name, skills) = ParseUnit(line);
-            if (units.Any(unit => unit.Item1 == name) || !AreSkillsValid(skills)) return false;
+            if (IsDuplicateUnit(units, name) || !AreSkillsValid(skills)) 
+            {
+                return false;
+            }
             units.Add(Tuple.Create(name, skills));
         }
-        
+
         return true;
+    }
+    
+    private bool IsTeamSizeValid(int playerCount)
+    {
+        return playerCount >= 1 && playerCount <= 3;
+    }
+    
+    private bool IsDuplicateUnit(List<Tuple<string, List<string>>> units, string name)
+    {
+        return units.Any(unit => unit.Item1 == name);
     }
     
     private (string name, List<string> skills) ParseUnit(string line)

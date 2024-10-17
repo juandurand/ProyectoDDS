@@ -3,6 +3,8 @@ namespace Fire_Emblem;
 public class TeamParser
 {
     public readonly string testFolder;
+    private bool _isPlayerOne = false;
+    private bool _isPlayerTwo = true;
 
     public TeamParser(string folder)
     {
@@ -11,18 +13,52 @@ public class TeamParser
     
     public (List<string> Player1, List<string> Player2) ParseTeamFile(string fileName)
     {
+        var lines = File.ReadLines($"{testFolder}/{fileName}");
+        return ProcessTeamLines(lines);
+    }
+
+    private (List<string> Player1, List<string> Player2) ProcessTeamLines(IEnumerable<string> lines)
+    {
         var playerOneInfo = new List<string>();
         var playerTwoInfo = new List<string>();
-        bool isPlayerOne = false, isPlayerTwo = false;
+        
 
-        foreach (var line in File.ReadLines($"{testFolder}/{fileName}"))
+        foreach (var line in lines)
         {
-            if (line == "Player 1 Team") isPlayerOne = true;
-            else if (line == "Player 2 Team") { isPlayerOne = false; isPlayerTwo = true; }
-            else if (isPlayerOne) playerOneInfo.Add(line);
-            else if (isPlayerTwo) playerTwoInfo.Add(line);
+            if (UpdatePlayerFlags(line))
+            {
+                continue;
+            }
+
+            if (_isPlayerOne)
+            {
+                playerOneInfo.Add(line);
+            }
+            else if (_isPlayerTwo)
+            {
+                playerTwoInfo.Add(line);
+            }
         }
 
         return (playerOneInfo, playerTwoInfo);
     }
+
+    private bool UpdatePlayerFlags(string line)
+    {
+        if (line == "Player 1 Team")
+        {
+            _isPlayerOne = true;
+            _isPlayerTwo = false;
+            return true;
+        }
+        if (line == "Player 2 Team")
+        {
+            _isPlayerOne = false;
+            _isPlayerTwo = true;
+            return true;
+        }
+    
+        return false;
+    }
+
 }

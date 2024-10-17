@@ -12,12 +12,7 @@ public class GuardBearingEffectt:Effectt
 
     public override void ApplyEffect(Unit unit)
     {
-        double reductionFactor = 0.3;
-        
-        if (unit.FirstAttack == 1 || unit.FirstDefense == 1)
-        {
-            reductionFactor = 0.6;
-        }
+        double reductionFactor = GetReductionFactor(unit);
         
         if (_attackType == AttackType.None)
         {
@@ -31,5 +26,15 @@ public class GuardBearingEffectt:Effectt
         {
             unit.DamageEffects.FollowUpPercentageReduction *= (1 - reductionFactor);
         }
+    }
+
+    private double GetReductionFactor(Unit unit)
+    {
+        if (unit.FirstAttack == 1 || unit.FirstDefense == 1)
+        {
+            return 0.6;
+        }
+
+        return 0.3;
     }
 }

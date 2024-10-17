@@ -18,9 +18,14 @@ public class ComparisonPercentageReductionEffectt:Effectt
 
     public override void ApplyEffect(Unit unit)
     {
+        double reductionFactor = GetReductionFactor(unit);
+        unit.DamageEffects.PercentageReduction *= (1 - reductionFactor);
+    }
+
+    private double GetReductionFactor(Unit unit)
+    {
         int statDifference = UnitController.GetTotalStat(unit, _skillOwnerStat, AttackType.None) - UnitController.GetTotalStat(unit.ActualOpponent, _rivalStat, AttackType.None);
         double reductionFactor = (statDifference * _multiplier) / 100.0;
-        reductionFactor = Math.Min(reductionFactor, _max);
-        unit.DamageEffects.PercentageReduction *= (1 - reductionFactor);
+        return Math.Min(reductionFactor, _max);
     }
 }

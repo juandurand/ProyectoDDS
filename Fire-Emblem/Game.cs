@@ -36,6 +36,7 @@ public class Game
     private void StartCombat()
     {
         Combat combat = new Combat(_teamLoader.GetPlayers(), _view);
-        combat.InitiateCombatAndAnnounceWinner();
+        combat.SimulateCombat();
+        combat.AnnounceWinner();
     }
 }

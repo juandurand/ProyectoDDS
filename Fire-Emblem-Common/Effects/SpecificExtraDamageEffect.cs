@@ -15,6 +15,7 @@ public class SpecificExtraDamageEffect:Effectt
     public override void ApplyEffect(Unit unit)
     {
         int extraDamage = _extraDamageCalculator.GetExtraDamage(unit);
+        
         if (_attackType == AttackType.None)
         {
             unit.DamageEffects.Bonus += extraDamage;
@@ -23,7 +24,7 @@ public class SpecificExtraDamageEffect:Effectt
         {
             unit.DamageEffects.FirstAttackBonus += extraDamage;
         }
-        else
+        else if (_attackType == AttackType.FollowUp)
         {
             unit.DamageEffects.FollowUpBonus += extraDamage;
         }

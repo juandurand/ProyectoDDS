@@ -6,8 +6,14 @@ public class WrathEffectt:Effectt
         : base(1) {}
     public override void ApplyEffect(Unit unit)
     {
-        int bonus = Math.Min(Math.Max(unit.HealthStatus.HpBaseValue - unit.HealthStatus.ActualHpValue, 0), 30);
+        int bonus = GetBonus(unit);
+        
         unit.Spd.Bonus += bonus;
         unit.Atk.Bonus += bonus;
+    }
+
+    private int GetBonus(Unit unit)
+    {
+        return Math.Min(Math.Max(unit.HealthStatus.HpBaseValue - unit.HealthStatus.ActualHpValue, 0), 30);
     }
 }

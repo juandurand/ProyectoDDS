@@ -16,20 +16,32 @@ public static class DamageEffectsController
     public static int GetTotalBonus(DamageEffects damageEffects, AttackType attackType)
     {
         int totalBonus = damageEffects.Bonus;
-        
-        if (attackType == AttackType.FirstAttack) totalBonus += damageEffects.FirstAttackBonus;
-        if (attackType == AttackType.FollowUp) totalBonus += damageEffects.FollowUpBonus;
+
+        totalBonus += GetSpecificAttackBonus(damageEffects, attackType);
         
         return totalBonus;
+    }
+    
+    private static int GetSpecificAttackBonus(DamageEffects damageEffects, AttackType attackType)
+    {
+        if (attackType == AttackType.FirstAttack) return damageEffects.FirstAttackBonus;
+        if (attackType == AttackType.FollowUp) return damageEffects.FollowUpBonus;
+        return 0;
     }
     
     public static double GetTotalPercentageReduction(DamageEffects damageEffects, AttackType attackType)
     {
         double totalPercentageReduction = damageEffects.PercentageReduction;
         
-        if (attackType == AttackType.FirstAttack) totalPercentageReduction *= damageEffects.FirstAttackPercentageReduction;
-        if (attackType == AttackType.FollowUp) totalPercentageReduction *= damageEffects.FollowUpPercentageReduction;
+        totalPercentageReduction *= GetSpecificAttackPercentageReduction(damageEffects, attackType);
         
         return totalPercentageReduction;
+    }
+    
+    private static double GetSpecificAttackPercentageReduction(DamageEffects damageEffects, AttackType attackType)
+    {
+        if (attackType == AttackType.FirstAttack) return damageEffects.FirstAttackPercentageReduction;
+        if (attackType == AttackType.FollowUp) return damageEffects.FollowUpPercentageReduction;
+        return 0;
     }
 }

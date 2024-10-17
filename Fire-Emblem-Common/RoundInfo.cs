@@ -12,4 +12,10 @@ public class RoundInfo
         Attacker = attacker;
         Defender = defender;
     }
+    
+    public void SetCurrentSkillOwnerAndRival(Unit skillOwner, Unit rival)
+    {
+        SkillOwner = skillOwner;
+        Rival = rival;
+    }
 }

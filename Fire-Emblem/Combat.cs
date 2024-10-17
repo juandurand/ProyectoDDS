@@ -17,13 +17,7 @@ public class Combat
         _round = new Round(view);
     }
     
-    public void InitiateCombatAndAnnounceWinner()
-    {
-        RunCombatRounds();
-        AnnounceWinner();
-    }
-
-    private void RunCombatRounds()
+    public void SimulateCombat()
     {
         while (_teamManager.AreTeamsAlive())
         {
@@ -31,8 +25,8 @@ public class Combat
             _roundCounter++;
         }
     }
-
-    private void AnnounceWinner()
+    
+    public void AnnounceWinner()
     {
         _view.AnnounceWinner(_teamManager.GetPlayersUnits());
     }

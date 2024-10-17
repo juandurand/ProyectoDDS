@@ -21,7 +21,7 @@ public class AtkBonusEffectt:Effectt
         {
             unit.Atk.FirstAttackBonus += _atkBonus;
         }
-        else
+        else if (_attackType == AttackType.FollowUp)
         {
             unit.Atk.FollowUpBonus += _atkBonus;
         }

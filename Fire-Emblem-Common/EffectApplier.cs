@@ -12,35 +12,32 @@ public class EffectApplier
 
     public void ApplyEffects(RoundInfo roundInfo, int applyOrder)
     {
-        Unit unit = roundInfo.SkillOwner;
-        Unit rival = roundInfo.Rival;
-
         var allEffects = _effects.Values.SelectMany(list => list);
 
         foreach (var effect in allEffects)
         {
             if (effect.ApplyOrder == applyOrder)
             {
-                ApplyEffectToAppropiateUnit(effect, unit, rival);
+                ApplyEffectToAppropiateUnit(effect, roundInfo);
             }
         }
     }
 
-    private void ApplyEffectToAppropiateUnit(Effectt effect, Unit unit, Unit rival)
+    private void ApplyEffectToAppropiateUnit(Effectt effect, RoundInfo roundInfo)
     {
         UnitRole typeOfUnit = _effects.FirstOrDefault(kvp => kvp.Value.Contains(effect)).Key;
         if (typeOfUnit == UnitRole.Unit)
         {
-            effect.ApplyEffect(unit);
+            effect.ApplyEffect(roundInfo.SkillOwner);
         }
         else if (typeOfUnit == UnitRole.Rival)
         {
-            effect.ApplyEffect(rival);
+            effect.ApplyEffect(roundInfo.Rival);
         }
         else if (typeOfUnit == UnitRole.Both)
         {
-            effect.ApplyEffect(unit);
-            effect.ApplyEffect(rival);
+            effect.ApplyEffect(roundInfo.SkillOwner);
+            effect.ApplyEffect(roundInfo.Rival);
         }
     }
 }

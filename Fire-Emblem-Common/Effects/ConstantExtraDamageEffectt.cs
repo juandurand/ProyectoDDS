@@ -3,9 +3,9 @@ namespace Fire_Emblem_Common.Effects;
 public class ConstantExtraDamageEffectt:Effectt
 {
     private readonly int _damageBonus;
-    private readonly string _attackType;
+    private readonly AttackType _attackType;
 
-    public ConstantExtraDamageEffectt(int damageBonus, string attackType = "All")
+    public ConstantExtraDamageEffectt(int damageBonus, AttackType attackType = AttackType.None)
         : base(2)
     {
         _damageBonus = damageBonus;
@@ -14,15 +14,15 @@ public class ConstantExtraDamageEffectt:Effectt
 
     public override void ApplyEffect(Unit unit)
     {
-        if (_attackType == "All")
+        if (_attackType == AttackType.None)
         {
             unit.DamageEffects.Bonus += _damageBonus;
         }
-        else if (_attackType == "First Attack")
+        else if (_attackType == AttackType.FirstAttack)
         {
             unit.DamageEffects.FirstAttackBonus += _damageBonus;
         }
-        else
+        else if (_attackType == AttackType.FollowUp)
         {
             unit.DamageEffects.FollowUpBonus += _damageBonus;
         }

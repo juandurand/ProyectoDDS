@@ -14,17 +14,24 @@ public class DefPercentagePenaltyEffectt:Effectt
 
     public override void ApplyEffect(Unit unit)
     {
+        int penalty = GetPenalty(unit);
+        
         if (_attackType == AttackType.None)
         {
-            unit.Def.Penalty += Convert.ToInt32(Math.Floor(_percentage * unit.Def.BaseValue));
+            unit.Def.Penalty += penalty;
         }
         else if (_attackType == AttackType.FirstAttack)
         {
-            unit.Def.FirstAttackPenalty += Convert.ToInt32(Math.Floor(_percentage * unit.Def.BaseValue));
+            unit.Def.FirstAttackPenalty += penalty;
         }
         else if (_attackType == AttackType.FollowUp)
         {
-            unit.Def.FollowUpPenalty += Convert.ToInt32(Math.Floor(_percentage * unit.Def.BaseValue));
+            unit.Def.FollowUpPenalty += penalty;
         }
+    }
+    
+    private int GetPenalty(Unit unit)
+    {
+        return Convert.ToInt32(Math.Floor(_percentage * unit.Def.BaseValue));
     }
 }

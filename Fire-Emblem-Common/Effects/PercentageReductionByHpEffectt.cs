@@ -3,9 +3,9 @@ namespace Fire_Emblem_Common.Effects;
 public class PercentageReductionByHpEffectt:Effectt
 {
     private readonly double _percentage;
-    private readonly string _attackType;
+    private readonly AttackType _attackType;
 
-    public PercentageReductionByHpEffectt(double percentage, string attackType = "All")
+    public PercentageReductionByHpEffectt(double percentage, AttackType attackType = AttackType.None)
         :base(2)
     {
         _percentage = percentage;
@@ -14,21 +14,25 @@ public class PercentageReductionByHpEffectt:Effectt
 
     public override void ApplyEffect(Unit unit)
     {
-        double reductionFactor = _percentage * HealthStatusController.GetHpPercentage(unit.ActualOpponent.HealthStatus);
-        reductionFactor = Math.Truncate(reductionFactor * 100) / 100;
+        double reductionFactor = GetReductionFactor(unit);
         
-        
-        if (_attackType == "All")
+        if (_attackType == AttackType.None)
         {
             unit.DamageEffects.PercentageReduction *= (1 - reductionFactor);
         }
-        else if (_attackType == "First Attack")
+        else if (_attackType == AttackType.FirstAttack)
         {
             unit.DamageEffects.FirstAttackPercentageReduction *= (1 - reductionFactor);
         }
-        else
+        else if (_attackType == AttackType.FollowUp)
         {
             unit.DamageEffects.FollowUpPercentageReduction *= (1 - reductionFactor);
         }
+    }
+
+    private double GetReductionFactor(Unit unit)
+    {
+        double reductionFactor = _percentage * HealthStatusController.GetHpPercentage(unit.ActualOpponent.HealthStatus);
+        return Math.Truncate(reductionFactor * 100) / 100;
     }
 }

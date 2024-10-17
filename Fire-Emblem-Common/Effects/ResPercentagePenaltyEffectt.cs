@@ -14,17 +14,24 @@ public class ResPercentagePenaltyEffectt:Effectt
 
     public override void ApplyEffect(Unit unit)
     {
+        int penalty = GetPenalty(unit);
+        
         if (_attackType == AttackType.None)
         {
-            unit.Res.Penalty += Convert.ToInt32(Math.Floor(_percentage * unit.Res.BaseValue));
+            unit.Res.Penalty += penalty;
         }
         else if (_attackType == AttackType.FirstAttack)
         {
-            unit.Res.FirstAttackPenalty += Convert.ToInt32(Math.Floor(_percentage * unit.Res.BaseValue));
+            unit.Res.FirstAttackPenalty += penalty;
         }
         else if (_attackType == AttackType.FollowUp)
         {
-            unit.Res.FollowUpPenalty += Convert.ToInt32(Math.Floor(_percentage * unit.Res.BaseValue));
+            unit.Res.FollowUpPenalty += penalty;
         }
+    }
+
+    private int GetPenalty(Unit unit)
+    {
+        return Convert.ToInt32(Math.Floor(_percentage * unit.Res.BaseValue));
     }
 }

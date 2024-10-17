@@ -7,17 +7,17 @@ public static class RoundManager
     {
         for (int applyOrder = 1; applyOrder < 4; applyOrder++)
         {
-            ApplySkillsPerUnit(roundInfo.Defender, roundInfo.Attacker, roundInfo, applyOrder);
-            ApplySkillsPerUnit(roundInfo.Attacker, roundInfo.Defender, roundInfo, applyOrder);
+            roundInfo.SetCurrentSkillOwnerAndRival(roundInfo.Defender, roundInfo.Attacker);
+            ApplySkills(roundInfo, applyOrder);
+
+            roundInfo.SetCurrentSkillOwnerAndRival(roundInfo.Attacker, roundInfo.Defender);
+            ApplySkills(roundInfo, applyOrder);
         }
     }
 
-    private static void ApplySkillsPerUnit(Unit skillOwner, Unit rival, RoundInfo roundInfo, int applyOrder)
+    private static void ApplySkills(RoundInfo roundInfo, int applyOrder)
     {
-        roundInfo.SkillOwner = skillOwner;
-        roundInfo.Rival = rival;
-
-        foreach (Skill skill in skillOwner.Skills)
+        foreach (Skill skill in roundInfo.SkillOwner.Skills)
         {
             skill.Apply(roundInfo, applyOrder);
         }
