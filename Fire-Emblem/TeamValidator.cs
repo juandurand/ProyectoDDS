@@ -1,10 +1,11 @@
+using Fire_Emblem_Common;
 namespace Fire_Emblem;
 
 public class TeamValidator
 {
-    public bool IsPlayerValid(List<string> player, out List<Tuple<string, List<string>>> units)
+    public bool IsPlayerValid(List<string> player, out PlayerInfo units)
     {
-        units = new List<Tuple<string, List<string>>>();
+        units = new PlayerInfo();
         
         if (!IsTeamSizeValid(player.Count)) 
         {
@@ -14,7 +15,7 @@ public class TeamValidator
         foreach (string line in player)
         {
             var (name, skills) = ParseUnit(line);
-            if (IsDuplicateUnit(units, name) || !AreSkillsValid(skills)) 
+            if (units.IsDuplicateUnit(name) || !AreSkillsValid(skills)) 
             {
                 return false;
             }
@@ -27,11 +28,6 @@ public class TeamValidator
     private bool IsTeamSizeValid(int playerCount)
     {
         return playerCount >= 1 && playerCount <= 3;
-    }
-    
-    private bool IsDuplicateUnit(List<Tuple<string, List<string>>> units, string name)
-    {
-        return units.Any(unit => unit.Item1 == name);
     }
     
     private (string name, List<string> skills) ParseUnit(string line)

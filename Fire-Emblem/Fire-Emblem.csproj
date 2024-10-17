@@ -19,6 +19,7 @@
       <Compile Remove="HPCondition.cs" />
       <Compile Remove="Effects\Res.cs" />
       <Compile Remove="Effect.cs" />
+      <Compile Remove="IUnitList.cs" />
     </ItemGroup>
 
 </Project>

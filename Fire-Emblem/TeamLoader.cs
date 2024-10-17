@@ -1,10 +1,11 @@
 using Fire_Emblem_View;
+using Fire_Emblem_Common;
 namespace Fire_Emblem
 {
     public class TeamLoader
     {
-        private List<Tuple<string, List<string>>> _player1Info;
-        private List<Tuple<string, List<string>>> _player2Info;
+        private PlayerInfo _player1Info;
+        private PlayerInfo _player2Info;
         
         private readonly View _view;
         private readonly TeamParser _parser;
@@ -12,8 +13,8 @@ namespace Fire_Emblem
         
         public TeamLoader(View view, TeamParser parser)
         {
-            _player1Info = new List<Tuple<string, List<string>>>();
-            _player2Info = new List<Tuple<string, List<string>>>();
+            _player1Info = new PlayerInfo();
+            _player2Info = new PlayerInfo();
             _view = view;
             _parser = parser;
             _validator = new TeamValidator();
@@ -39,7 +40,7 @@ namespace Fire_Emblem
                    _validator.IsPlayerValid(playersInfo.Player2, out _player2Info);
         }
         
-        public (List<Tuple<string, List<string>>> Player1, List<Tuple<string, List<string>>> Player2) GetPlayers()
+        public (PlayerInfo Player1, PlayerInfo Player2) GetPlayers()
         {
             return (_player1Info, _player2Info);
         }

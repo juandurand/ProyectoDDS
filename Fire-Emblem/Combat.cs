@@ -10,7 +10,7 @@ public class Combat
     
     private int _roundCounter = 1;
 
-    public Combat((List<Tuple<string, List<string>>>, List<Tuple<string, List<string>>>) playersInfo, View view)
+    public Combat((PlayerInfo, PlayerInfo) playersInfo, View view)
     {
         _teamManager = new TeamManager(playersInfo);
         _view = view;

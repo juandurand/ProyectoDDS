@@ -4,22 +4,22 @@ namespace Fire_Emblem;
 
 public class TeamManager
 {
-    private readonly List<Unit>[] _playersUnits;
+    private readonly PlayerArray _playersUnits;
 
-    public TeamManager((List<Tuple<string, List<string>>>, List<Tuple<string, List<string>>>) playersInfo)
+    public TeamManager((PlayerInfo, PlayerInfo) playersInfo)
     {
-        _playersUnits = new List<Unit>[2]
-        {
-            UnitsLoader.LoadUnits(playersInfo.Item1),
-            UnitsLoader.LoadUnits(playersInfo.Item2)
-        };
+        _playersUnits = new PlayerArray();
+        _playersUnits.Add(UnitsLoader.LoadUnits(playersInfo.Item1), 0);
+        _playersUnits.Add(UnitsLoader.LoadUnits(playersInfo.Item2), 1);
     }
 
     public Unit ChooseUnit(int playerIndex, View view)
     {
-        view.DisplayPlayerTeam(playerIndex + 1, _playersUnits[playerIndex]);
+        view.DisplayPlayerTeam(playerIndex + 1, _playersUnits.Get(playerIndex));
+        
         int unitIndex = Convert.ToInt32(view.ReadLine());
-        return _playersUnits[playerIndex][unitIndex];
+        
+        return _playersUnits.Get(playerIndex).Get(unitIndex);
     }
 
     public void CheckUnitsHealth(RoundInfo roundInfo, int attackerIndex, int defenderIndex)
@@ -32,11 +32,11 @@ public class TeamManager
     {
         if (!HealthStatusController.IsUnitAlive(unit.HealthStatus))
         {
-            _playersUnits[playerIndex].Remove(unit);
+            _playersUnits.Get(playerIndex).Remove(unit);
         }
     }
 
-    public bool AreTeamsAlive() => _playersUnits[0].Count > 0 && _playersUnits[1].Count > 0;
+    public bool AreTeamsAlive() => _playersUnits.Get(0).Count > 0 && _playersUnits.Get(1).Count > 0;
 
-    public List<Unit>[] GetPlayersUnits() => _playersUnits;
+    public PlayerArray GetPlayersUnits() => _playersUnits;
 }

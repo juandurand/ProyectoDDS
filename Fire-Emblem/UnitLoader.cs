@@ -4,9 +4,9 @@ namespace Fire_Emblem;
 
 public static class UnitsLoader
 {
-    public static List<Unit> LoadUnits(List<Tuple<string, List<string>>> playerInfo)
+    public static UnitList LoadUnits(PlayerInfo playerInfo)
     {
-        var playerUnits = new List<Unit>();
+        var playerUnits = new UnitList();
         
         foreach (var unitInfo in playerInfo)
         {
