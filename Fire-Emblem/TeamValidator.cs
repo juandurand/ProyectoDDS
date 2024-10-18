@@ -1,25 +1,26 @@
-using Fire_Emblem_Common;
+using Fire_Emblem_Common.PersonalizedInterfaces;
+
 namespace Fire_Emblem;
 
 public class TeamValidator
 {
-    public bool IsPlayerValid(List<string> player, out PlayerInfo units)
+    public bool IsPlayerValid(StringList playerLines, out PlayerUnitsInfo playerUnitsInfo)
     {
-        units = new PlayerInfo();
+        playerUnitsInfo = new PlayerUnitsInfo();
         
-        if (!IsTeamSizeValid(player.Count)) 
+        if (!IsTeamSizeValid(playerLines.Count)) 
         {
             return false;
         }
 
-        foreach (string line in player)
+        foreach (string line in playerLines)
         {
             var (name, skills) = ParseUnit(line);
-            if (units.IsDuplicateUnit(name) || !AreSkillsValid(skills)) 
+            if (playerUnitsInfo.IsDuplicateUnit(name) || !AreSkillsValid(skills)) 
             {
                 return false;
             }
-            units.Add(Tuple.Create(name, skills));
+            playerUnitsInfo.Add(Tuple.Create(name, skills));
         }
 
         return true;
@@ -30,41 +31,48 @@ public class TeamValidator
         return playerCount >= 1 && playerCount <= 3;
     }
     
-    private (string name, List<string> skills) ParseUnit(string line)
+    private (string name, StringList skills) ParseUnit(string line)
     {
         int index1 = line.IndexOf('(');
+        
         if (index1 == -1) 
         {
-            return (line.Trim(), new List<string>());
+            return (line.Trim(), new StringList());
         }
 
         string name = ExtractName(line, index1);
+        
         string skillsString = ExtractSkillsString(line, index1);
-        List<string> skillsList = ParseSkills(skillsString);
+        
+        StringList skillsList = ParseSkills(skillsString);
 
         return (name, skillsList);
     }
 
     private string ExtractName(string line, int index1)
     {
-        return line.Substring(0, index1).Trim();
+        line = line.Substring(0, index1);
+        return line.Trim();
     }
 
     private string ExtractSkillsString(string line, int index1)
     {
         int index2 = line.IndexOf(')', index1);
+        
         if (index2 == -1) { return string.Empty; }
 
-        return line.Substring(index1 + 1, index2 - index1 - 1).Trim();
+        line = line.Substring(index1 + 1, index2 - index1 - 1);
+        
+        return line.Trim();
     }
 
-    private List<string> ParseSkills(string skillsString)
+    private StringList ParseSkills(string skillsString)
     {
         var splitSkills = SplitSkills(skillsString);
         
         var trimmedSkills = TrimSkills(splitSkills);
         
-        var skillsList = ConvertToList(trimmedSkills);
+        StringList skillsList = ConvertToList(trimmedSkills);
 
         return skillsList;
     }
@@ -82,15 +90,21 @@ public class TeamValidator
         }
     }
 
-    private List<string> ConvertToList(IEnumerable<string> skills)
+    private StringList ConvertToList(IEnumerable<string> skills)
     {
-        return skills.ToList();
-    }
+        StringList skillsList = new StringList();
+        
+        foreach (var skill in skills)
+        {
+            skillsList.Add(skill);
+        }
 
+        return skillsList;
+    }
     
-    private bool AreSkillsValid(List<string> skillsInfo)
+    private bool AreSkillsValid(StringList skillsInfo)
     {
-        return skillsInfo.Count <= 2 && (skillsInfo.Count < 2 || skillsInfo[0] != skillsInfo[1]);
+        return skillsInfo.Count <= 2 && (skillsInfo.Count < 2 || skillsInfo.Get(0) != skillsInfo.Get(1));
     }
     
 }

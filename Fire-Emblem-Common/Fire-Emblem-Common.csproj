@@ -20,6 +20,8 @@
       <Compile Remove="Conditions\HpComparisonCondition.cs" />
       <Compile Remove="AttackTypeEnum.cs" />
       <Compile Remove="Enums.cs" />
+      <Compile Remove="PlayersTeams.cs" />
+      <Compile Remove="PersonalizedInterfaces.cs" />
     </ItemGroup>
 
 </Project>

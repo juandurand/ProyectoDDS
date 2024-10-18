@@ -1,5 +1,6 @@
-namespace Fire_Emblem_Common;
+using Fire_Emblem_Common.ConditionEvaluators;
 
+namespace Fire_Emblem_Common.Skills;
 public class Skill
 {
     private readonly ConditionEvaluator _conditionEvaluator;

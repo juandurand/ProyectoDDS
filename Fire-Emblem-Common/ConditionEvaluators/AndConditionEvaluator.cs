@@ -1,5 +1,5 @@
 using Fire_Emblem_Common.Conditions;
-namespace Fire_Emblem_Common;
+namespace Fire_Emblem_Common.ConditionEvaluators;
 
 public class AndConditionEvaluator : ConditionEvaluator
 {

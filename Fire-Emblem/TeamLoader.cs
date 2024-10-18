@@ -1,11 +1,13 @@
 using Fire_Emblem_View;
-using Fire_Emblem_Common;
+using Fire_Emblem_Common.PersonalizedInterfaces;
+
 namespace Fire_Emblem
+
 {
     public class TeamLoader
     {
-        private PlayerInfo _player1Info;
-        private PlayerInfo _player2Info;
+        private PlayerUnitsInfo _player1UnitsInfo;
+        private PlayerUnitsInfo _player2UnitsInfo;
         
         private readonly View _view;
         private readonly TeamParser _parser;
@@ -13,36 +15,38 @@ namespace Fire_Emblem
         
         public TeamLoader(View view, TeamParser parser)
         {
-            _player1Info = new PlayerInfo();
-            _player2Info = new PlayerInfo();
+            _player1UnitsInfo = new PlayerUnitsInfo();
+            _player2UnitsInfo = new PlayerUnitsInfo();
             _view = view;
             _parser = parser;
             _validator = new TeamValidator();
         }
 
-        public (List<string> Player1, List<string> Player2) ChargePlayersInfo()
+        public (StringList Player1Lines, StringList Player2Lines) ChargePlayersInfo()
         {
             string teamCode = _view.ReadLine().PadLeft(3, '0');
+            
             string fileName = FindFileByCode(teamCode, _parser.testFolder);
-            return fileName != null ? _parser.ParseTeamFile(fileName) : (new List<string>(), new List<string>());
+            
+            return fileName != null ? _parser.ParseTeamsFile(fileName) : (new StringList(), new StringList());
         }
         
-        private string FindFileByCode(string code, string folder)
+        private string FindFileByCode(string teamCode, string folder)
         {
-            var files = Directory.GetFiles(folder, $"{code}*.txt");
-            return Path.GetFileName(files.FirstOrDefault());
-        }
-
-
-        public bool IsTeamValid((List<string> Player1, List<string> Player2) playersInfo)
-        {
-            return _validator.IsPlayerValid(playersInfo.Player1, out _player1Info) &&
-                   _validator.IsPlayerValid(playersInfo.Player2, out _player2Info);
+            var files = Directory.GetFiles(folder, $"{teamCode}*.txt");
+            var path = files.FirstOrDefault();
+            return Path.GetFileName(path);
         }
         
-        public (PlayerInfo Player1, PlayerInfo Player2) GetPlayers()
+        public bool IsTeamValid((StringList Player1Lines, StringList Player2Lines) playersInfo)
         {
-            return (_player1Info, _player2Info);
+            return _validator.IsPlayerValid(playersInfo.Player1Lines, out _player1UnitsInfo) &&
+                   _validator.IsPlayerValid(playersInfo.Player2Lines, out _player2UnitsInfo);
+        }
+        
+        public (PlayerUnitsInfo Player1, PlayerUnitsInfo Player2) GetPlayers()
+        {
+            return (_player1UnitsInfo, _player2UnitsInfo);
         }
         
     }    

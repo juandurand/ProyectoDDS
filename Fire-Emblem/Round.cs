@@ -1,5 +1,6 @@
 using Fire_Emblem_Common;
 using Fire_Emblem_View;
+using Fire_Emblem_Common.Enums;
 
 namespace Fire_Emblem;
 
@@ -44,14 +45,14 @@ public class Round
                _attackManager.SimulateAttack(roundInfo.Defender, roundInfo.Attacker, AttackType.FirstAttack);
     }
 
-    private void PerformFollowUp(RoundInfo roundInfo)
-    {
-        _attackManager.SimulateFollowUp(roundInfo.Attacker, roundInfo.Defender);
-    }
-
     private void EndRound(RoundInfo roundInfo)
     {
         RoundManager.RoundEnded(roundInfo);
+    }
+    
+    private void PerformFollowUp(RoundInfo roundInfo)
+    {
+        _attackManager.SimulateFollowUp(roundInfo.Attacker, roundInfo.Defender);
     }
 }
 

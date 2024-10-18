@@ -1,3 +1,6 @@
+using Fire_Emblem_Common.Enums;
+using Fire_Emblem_Common.Damage;
+
 namespace Fire_Emblem_Common.Effects;
 
 public class SpecificExtraDamageEffect:Effectt

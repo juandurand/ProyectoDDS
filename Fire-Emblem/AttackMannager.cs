@@ -1,5 +1,8 @@
 using Fire_Emblem_View;
 using Fire_Emblem_Common;
+using Fire_Emblem_Common.Enums;
+using Fire_Emblem_Common.Damage;
+
 namespace Fire_Emblem;
 
 public class AttackManager
@@ -10,8 +13,7 @@ public class AttackManager
     {
         _view = view;
     }
-
-    // Si el defensor muere, retorna True para que no se sigan atacando en esa ronda
+    
     public bool SimulateAttack(Unit attackerUnit, Unit defenderUnit, AttackType attackType)
     {
         int damage = CalculateDamage(attackerUnit, defenderUnit, attackType);
@@ -49,6 +51,8 @@ public class AttackManager
     private static bool CanFollowUp(Unit attackerUnit, Unit defenderUnit)
     {
         int followUpSpeedThreshold = 4;
-        return UnitController.GetTotalStat(attackerUnit, StatType.Spd, AttackType.None) - UnitController.GetTotalStat(defenderUnit, StatType.Spd, AttackType.None) > followUpSpeedThreshold;
+        int actualSpeedDifference = UnitController.GetTotalStat(attackerUnit, StatType.Spd, AttackType.None) -
+                                    UnitController.GetTotalStat(defenderUnit, StatType.Spd, AttackType.None);
+        return actualSpeedDifference > followUpSpeedThreshold;
     }
 }

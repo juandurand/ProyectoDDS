@@ -1,11 +1,14 @@
 using Fire_Emblem_Common.Conditions;
 using Fire_Emblem_Common.Effects;
+using Fire_Emblem_Common.Enums;
+using Fire_Emblem_Common.ConditionEvaluators;
+using Fire_Emblem_Common.PersonalizedInterfaces;
 
-namespace Fire_Emblem_Common;
+namespace Fire_Emblem_Common.Skills;
 
 public static class SkillFactory
 {
-    public static List<Skill> GetSkills(List<String> skillNames, Unit unit)
+    public static List<Skill> GetSkills(StringList skillNames, Unit unit)
     {
         List<Skill> skills = new List<Skill>();
         foreach (string skillName in skillNames)

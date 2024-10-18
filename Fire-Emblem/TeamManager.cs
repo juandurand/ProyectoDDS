@@ -1,12 +1,14 @@
 using Fire_Emblem_Common;
 using Fire_Emblem_View;
+using Fire_Emblem_Common.PersonalizedInterfaces;
+
 namespace Fire_Emblem;
 
 public class TeamManager
 {
     private readonly PlayerArray _playersUnits;
 
-    public TeamManager((PlayerInfo, PlayerInfo) playersInfo)
+    public TeamManager((PlayerUnitsInfo, PlayerUnitsInfo) playersInfo)
     {
         _playersUnits = new PlayerArray();
         _playersUnits.Add(UnitsLoader.LoadUnits(playersInfo.Item1), 0);

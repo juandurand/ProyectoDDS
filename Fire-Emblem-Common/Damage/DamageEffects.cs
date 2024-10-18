@@ -1,4 +1,4 @@
-namespace Fire_Emblem_Common;
+namespace Fire_Emblem_Common.Damage;
 
 public class DamageEffects
 {

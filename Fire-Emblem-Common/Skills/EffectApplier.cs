@@ -1,5 +1,7 @@
+using Fire_Emblem_Common.Enums;
 using Fire_Emblem_Common.Effects;
-namespace Fire_Emblem_Common;
+
+namespace Fire_Emblem_Common.Skills;
 
 public class EffectApplier
 {

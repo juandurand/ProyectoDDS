@@ -1,6 +1,6 @@
-using Fire_Emblem_Common;
+using Fire_Emblem_Common.Enums;
 
-namespace Fire_Emblem;
+namespace Fire_Emblem_Common.Damage;
 
 public static class DamageCalculator
 {

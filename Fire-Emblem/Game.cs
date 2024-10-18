@@ -1,4 +1,5 @@
 ﻿using Fire_Emblem_View;
+
 namespace Fire_Emblem;
 
 public class Game

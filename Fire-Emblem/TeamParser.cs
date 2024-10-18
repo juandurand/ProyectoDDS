@@ -1,35 +1,35 @@
+using Fire_Emblem_Common.PersonalizedInterfaces;
+
 namespace Fire_Emblem;
 
 public class TeamParser
 {
     public readonly string testFolder;
     private bool _isPlayerOne = false;
-    private bool _isPlayerTwo = true;
+    private bool _isPlayerTwo = false;
 
     public TeamParser(string folder)
     {
         testFolder = folder;
     }
     
-    public (List<string> Player1, List<string> Player2) ParseTeamFile(string fileName)
+    public (StringList Player1Lines, StringList Player2Lines) ParseTeamsFile(string fileName)
     {
         var lines = File.ReadLines($"{testFolder}/{fileName}");
-        return ProcessTeamLines(lines);
+        return GetTeamsLines(lines);
     }
 
-    private (List<string> Player1, List<string> Player2) ProcessTeamLines(IEnumerable<string> lines)
+    private (StringList Player1Lines, StringList Player2Lines) GetTeamsLines(IEnumerable<string> lines)
     {
-        var playerOneInfo = new List<string>();
-        var playerTwoInfo = new List<string>();
-        
+        var playerOneInfo = new StringList();
+        var playerTwoInfo = new StringList();
 
         foreach (var line in lines)
         {
-            if (UpdatePlayerFlags(line))
+            if (UpdatePlayersFlag(line))
             {
                 continue;
             }
-
             if (_isPlayerOne)
             {
                 playerOneInfo.Add(line);
@@ -43,7 +43,7 @@ public class TeamParser
         return (playerOneInfo, playerTwoInfo);
     }
 
-    private bool UpdatePlayerFlags(string line)
+    private bool UpdatePlayersFlag(string line)
     {
         if (line == "Player 1 Team")
         {

@@ -1,5 +1,4 @@
-
-namespace Fire_Emblem_Common;
+namespace Fire_Emblem_Common.PersonalizedInterfaces;
 
 public class UnitList
 {

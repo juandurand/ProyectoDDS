@@ -1,3 +1,8 @@
+using Fire_Emblem_Common.Enums;
+using Fire_Emblem_Common.Damage;
+using Fire_Emblem_Common.Skills;
+using Fire_Emblem_Common.PersonalizedInterfaces;
+
 namespace Fire_Emblem_Common;
 
 public class Unit
@@ -41,7 +46,7 @@ public class Unit
         Res = new Stat((int)unitData["Res"]);
         DamageEffects = new DamageEffects();
         
-        Skills = SkillFactory.GetSkills((List<string>)unitData["Skills"], this);
+        Skills = SkillFactory.GetSkills((StringList)unitData["Skills"], this);
 
         FirstAttack = 0;
         FirstDefense = 0;
