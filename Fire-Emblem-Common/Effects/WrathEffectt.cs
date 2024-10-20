@@ -1,9 +1,10 @@
 namespace Fire_Emblem_Common.Effects;
+
 public class WrathEffectt:Effectt
 {
-
     public WrathEffectt()
         : base(1) {}
+    
     public override void ApplyEffect(Unit unit)
     {
         int bonus = GetBonus(unit);

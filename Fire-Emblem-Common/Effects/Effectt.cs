@@ -1,4 +1,5 @@
 namespace Fire_Emblem_Common.Effects;
+
 public abstract class Effectt
 {
     public int ApplyOrder { get; }

@@ -1,9 +1,10 @@
-using Fire_Emblem_Common.Conditions;
+using Fire_Emblem_Common.PersonalizedInterfaces;
+
 namespace Fire_Emblem_Common.ConditionEvaluators;
 
 public class OrConditionEvaluator : ConditionEvaluator
 {
-    public OrConditionEvaluator(List<Condition> conditions) : base(conditions) { }
+    public OrConditionEvaluator(ConditionList conditions) : base(conditions) { }
 
     public override bool AreConditionsSatisfied(RoundInfo roundInfo)
     {

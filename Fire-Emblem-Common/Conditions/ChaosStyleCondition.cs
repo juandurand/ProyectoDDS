@@ -1,15 +1,17 @@
 using Fire_Emblem_Common.Enums;
+using Fire_Emblem_Common.PersonalizedInterfaces;
+
 namespace Fire_Emblem_Common.Conditions;
 
 public class ChaosStyleCondition:Condition
 {
-    private readonly List<WeaponType> _requiredWeaponTypes = new List<WeaponType>
+    private readonly EnumList<WeaponType> _requiredWeaponTypes = new EnumList<WeaponType>(new List<WeaponType> 
     {
         WeaponType.Sword,
         WeaponType.Bow,
         WeaponType.Lance,
         WeaponType.Axe
-    };
+    });
     
     public override bool IsConditionSatisfied(RoundInfo roundInfo)
     {

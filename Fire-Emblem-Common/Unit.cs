@@ -12,7 +12,7 @@ public class Unit
     public readonly string Gender;
     public readonly string DeathQuote;
     
-    public List<Skill> Skills;
+    public SkillList Skills;
     public Unit ActualOpponent;
     public Unit LastOpponent;
     
@@ -27,7 +27,7 @@ public class Unit
 
     public int FirstAttack;
     public int FirstDefense;
-    public bool Attacking; // True si empieza atacando || False si empieza defendiendo
+    public bool Attacking;
 
     public Unit(Dictionary<string, object> unitData)
     {

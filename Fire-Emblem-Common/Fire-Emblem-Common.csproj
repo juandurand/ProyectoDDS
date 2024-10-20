@@ -22,6 +22,7 @@
       <Compile Remove="Enums.cs" />
       <Compile Remove="PlayersTeams.cs" />
       <Compile Remove="PersonalizedInterfaces.cs" />
+      <Compile Remove="PersonalizedInterfaces\PersonalizedList.cs" />
     </ItemGroup>
 
 </Project>

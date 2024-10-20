@@ -1,4 +1,5 @@
 using Fire_Emblem_Common.Enums;
+
 namespace Fire_Emblem_Common.Conditions;
 
 public class FirstAttackCondition:Condition
@@ -18,6 +19,10 @@ public class FirstAttackCondition:Condition
         {
             return starter == skillOwner;
         }
-        return starter != skillOwner;
+        if (_analyzedUnit == UnitRole.Rival)
+        {
+            return starter != skillOwner;
+        }
+        return true;
     }
 }

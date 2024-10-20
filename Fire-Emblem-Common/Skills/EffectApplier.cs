@@ -1,20 +1,21 @@
 using Fire_Emblem_Common.Enums;
 using Fire_Emblem_Common.Effects;
+using Fire_Emblem_Common.PersonalizedInterfaces;
 
 namespace Fire_Emblem_Common.Skills;
 
 public class EffectApplier
 {
-    private readonly Dictionary<UnitRole, List<Effectt>> _effects;
+    private readonly EffectByUnitType _effects;
 
-    public EffectApplier(Dictionary<UnitRole, List<Effectt>> effects)
+    public EffectApplier(EffectByUnitType effects)
     {
         _effects = effects;
     }
 
     public void ApplyEffects(RoundInfo roundInfo, int applyOrder)
     {
-        var allEffects = _effects.Values.SelectMany(list => list);
+        var allEffects = _effects.GetAllEffects();
 
         foreach (var effect in allEffects)
         {
@@ -27,7 +28,7 @@ public class EffectApplier
 
     private void ApplyEffectToAppropiateUnit(Effectt effect, RoundInfo roundInfo)
     {
-        UnitRole typeOfUnit = _effects.FirstOrDefault(kvp => kvp.Value.Contains(effect)).Key;
+        UnitRole typeOfUnit = _effects.GetUnitRoleForEffect(effect);
         if (typeOfUnit == UnitRole.Unit)
         {
             effect.ApplyEffect(roundInfo.SkillOwner);

@@ -106,5 +106,4 @@ public class TeamValidator
     {
         return skillsInfo.Count <= 2 && (skillsInfo.Count < 2 || skillsInfo.Get(0) != skillsInfo.Get(1));
     }
-    
 }

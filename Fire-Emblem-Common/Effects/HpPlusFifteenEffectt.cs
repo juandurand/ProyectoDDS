@@ -1,4 +1,5 @@
 namespace Fire_Emblem_Common.Effects;
+
 public class HpPlusFifteenEffectt:Effectt
 {
     private bool _isEffectUsed;
@@ -7,7 +8,6 @@ public class HpPlusFifteenEffectt:Effectt
         : base(1)
     {
         _isEffectUsed = false;
-        
     }
     public override void ApplyEffect(Unit unit)
     {

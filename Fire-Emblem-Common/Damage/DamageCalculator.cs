@@ -13,15 +13,6 @@ public static class DamageCalculator
         return Math.Max(damageWithEffects, 0);
     }
 
-    public static int GetDamageWithoutDamageReductions(Unit attacker, Unit defender, AttackType attackType)
-    {
-        int baseDamage = CalculateBaseDamage(attacker, defender, attackType);
-        
-        int damageWithBonus = baseDamage + DamageEffectsController.GetTotalBonus(attacker.DamageEffects, attackType);
-        
-        return damageWithBonus;
-    }
-
     private static int CalculateBaseDamage(Unit attacker, Unit defender, AttackType attackType)
     {
         double weaponTriangleBonus = WeaponTriangle.CalculateWtb(attacker.Weapon, defender.Weapon);
@@ -48,5 +39,14 @@ public static class DamageCalculator
             return UnitController.GetTotalStat(defender, StatType.Res, attackType);
         }
         return UnitController.GetTotalStat(defender, StatType.Def, attackType);
+    }
+    
+    public static int GetDamageWithoutDamageReductions(Unit attacker, Unit defender, AttackType attackType)
+    {
+        int baseDamage = CalculateBaseDamage(attacker, defender, attackType);
+        
+        int damageWithBonus = baseDamage + DamageEffectsController.GetTotalBonus(attacker.DamageEffects, attackType);
+        
+        return damageWithBonus;
     }
 }

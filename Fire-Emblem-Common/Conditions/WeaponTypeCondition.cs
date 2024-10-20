@@ -1,12 +1,14 @@
 using Fire_Emblem_Common.Enums;
+using Fire_Emblem_Common.PersonalizedInterfaces;
+
 namespace Fire_Emblem_Common.Conditions;
 
 public class WeaponTypeCondition:Condition
 {
     private readonly UnitRole _analyzedUnit;
-    private readonly List<WeaponType> _requiredWeaponTypes;
+    private readonly EnumList<WeaponType> _requiredWeaponTypes;
     
-    public WeaponTypeCondition(UnitRole analyzedUnit, List<WeaponType> requiredWeaponTypes)
+    public WeaponTypeCondition(UnitRole analyzedUnit, EnumList<WeaponType> requiredWeaponTypes)
     {
         _analyzedUnit = analyzedUnit;
         _requiredWeaponTypes = requiredWeaponTypes;

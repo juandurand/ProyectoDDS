@@ -1,11 +1,13 @@
 using Fire_Emblem_Common.Enums;
+using Fire_Emblem_Common.PersonalizedInterfaces;
+
 namespace Fire_Emblem_Common.Effects;
 
 public class PenaltyNeutralizationEffectt:Effectt
 {
-    private readonly List<StatType> _statsTypes;
+    private readonly EnumList<StatType> _statsTypes;
 
-    public PenaltyNeutralizationEffectt(List<StatType> statsTypes)
+    public PenaltyNeutralizationEffectt(EnumList<StatType> statsTypes)
         : base(1)
     {
         _statsTypes = statsTypes;

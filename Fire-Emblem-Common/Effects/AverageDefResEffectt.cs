@@ -1,4 +1,3 @@
-
 namespace Fire_Emblem_Common.Effects;
 
 public class AverageDefResEffectt:Effectt

@@ -1,4 +1,5 @@
 namespace Fire_Emblem_Common.Effects;
+
 public class AtkPenaltyEffectt:Effectt
 {
     private readonly int _atkPenalty;

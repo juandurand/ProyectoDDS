@@ -1,11 +1,12 @@
-using Fire_Emblem_Common.Conditions;
+using Fire_Emblem_Common.PersonalizedInterfaces;
+
 namespace Fire_Emblem_Common.ConditionEvaluators;
 
 public abstract class ConditionEvaluator
 {
-    protected readonly List<Condition> _conditions;
+    protected readonly ConditionList _conditions;
 
-    protected ConditionEvaluator(List<Condition> conditions)
+    protected ConditionEvaluator(ConditionList conditions)
     {
         _conditions = conditions;
     }

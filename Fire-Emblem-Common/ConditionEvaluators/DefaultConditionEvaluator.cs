@@ -1,12 +1,13 @@
-using Fire_Emblem_Common.Conditions;
+using Fire_Emblem_Common.PersonalizedInterfaces;
+
 namespace Fire_Emblem_Common.ConditionEvaluators;
 
 public class DefaultConditionEvaluator : ConditionEvaluator
 {
-    public DefaultConditionEvaluator(List<Condition> conditions) : base(conditions) { }
+    public DefaultConditionEvaluator(ConditionList conditions) : base(conditions) { }
 
     public override bool AreConditionsSatisfied(RoundInfo roundInfo)
     {
-        return _conditions.Count == 0 || _conditions[0].IsConditionSatisfied(roundInfo);
+        return _conditions.Count == 0 || _conditions.Get(0).IsConditionSatisfied(roundInfo);
     }
 }

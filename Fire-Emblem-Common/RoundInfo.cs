@@ -2,8 +2,8 @@ namespace Fire_Emblem_Common;
 
 public class RoundInfo
 {
-    public Unit Attacker { get; set; }
-    public Unit Defender { get; set; }
+    public Unit Attacker { get;}
+    public Unit Defender { get;}
     public Unit SkillOwner { get; set; }
     public Unit Rival { get; set; }
 
