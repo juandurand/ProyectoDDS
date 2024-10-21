@@ -33,17 +33,25 @@ public static class UnitController
     
     public static void SetFirstAttack(Unit unit)
     {
-        if (unit.FirstAttack == 0 || unit.FirstAttack == 1)
+        if (unit.FirstAttack == FirstAttack.HaveNotFirstAttacked)
         {
-            unit.FirstAttack += 1;
+            unit.FirstAttack = FirstAttack.ActuallyFirstAttacking;
+        }
+        else if (unit.FirstAttack == FirstAttack.ActuallyFirstAttacking)
+        {
+            unit.FirstAttack = FirstAttack.AlreadyFirstAttacked;
         }
     }
     
     public static void SetFirstDefense(Unit unit)
     {
-        if (unit.FirstDefense == 0 || unit.FirstDefense == 1)
+        if (unit.FirstDefense == FirstDefense.HaveNotFirstDefended)
         {
-            unit.FirstDefense += 1;
+            unit.FirstDefense = FirstDefense.ActuallyFirstDefending;
+        }
+        else if (unit.FirstDefense == FirstDefense.ActuallyFirstDefending)
+        {
+            unit.FirstDefense = FirstDefense.AlreadyFirstDefended;
         }
     }
 }

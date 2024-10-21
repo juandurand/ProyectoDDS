@@ -2,6 +2,7 @@ using Fire_Emblem_View;
 using Fire_Emblem_Common;
 using Fire_Emblem_Common.Enums;
 using Fire_Emblem_Common.Damage;
+using Fire_Emblem_Common.PersonalizedInterfaces;
 
 namespace Fire_Emblem;
 
@@ -14,33 +15,34 @@ public class AttackManager
         _view = view;
     }
     
-    public bool SimulateAttack(Unit attackerUnit, Unit defenderUnit, AttackType attackType)
+    public bool SimulateAttack(DamageInfo damageInfo)
     {
-        int damage = CalculateDamage(attackerUnit, defenderUnit, attackType);
-        ApplyDamage(attackerUnit, defenderUnit, damage);
-        return !HealthStatusController.IsUnitAlive(defenderUnit.HealthStatus);
+        int damage = CalculateDamage(damageInfo);
+        ApplyDamage(damageInfo, damage);
+        return !HealthStatusController.IsUnitAlive(damageInfo.Defender.HealthStatus);
     }
     
-    private int CalculateDamage(Unit attackerUnit, Unit defenderUnit, AttackType attackType)
+    private int CalculateDamage(DamageInfo damageInfo)
     {
-        return DamageCalculator.GetDamage(attackerUnit, defenderUnit, attackType);
+        return DamageCalculator.GetDamage(damageInfo);
     }
 
-    private void ApplyDamage(Unit attackerUnit, Unit defenderUnit, int damage)
+    private void ApplyDamage(DamageInfo damageInfo, int damage)
     {
-        HealthStatusController.DealDamage(defenderUnit.HealthStatus, damage);
-        _view.ReportAttack(attackerUnit, defenderUnit, damage);
+        HealthStatusController.DealDamage(damageInfo.Defender.HealthStatus, damage);
+        _view.ReportAttack(damageInfo.Attacker, damageInfo.Defender, damage);
     }
 
-    public void SimulateFollowUp(Unit attackerUnit, Unit defenderUnit)
+    public void SimulateFollowUp(DamageInfo damageInfo)
     {
-        if (CanFollowUp(attackerUnit, defenderUnit))
+        if (CanFollowUp(damageInfo.Attacker, damageInfo.Defender))
         {
-            SimulateAttack(attackerUnit, defenderUnit, AttackType.FollowUp);
+            SimulateAttack(damageInfo);
         }
-        else if (CanFollowUp(defenderUnit, attackerUnit))
+        else if (CanFollowUp(damageInfo.Defender, damageInfo.Attacker))
         {
-            SimulateAttack(defenderUnit, attackerUnit, AttackType.FollowUp);
+            damageInfo.SwitchUnits();
+            SimulateAttack(damageInfo);
         }
         else
         {

@@ -1,6 +1,7 @@
 using Fire_Emblem_Common;
 using System.Text.Json;
 using Fire_Emblem_Common.PersonalizedInterfaces;
+using Fire_Emblem_Common.Enums;
 
 namespace Fire_Emblem;
 
@@ -18,15 +19,16 @@ public static class UnitsLoader
         
         return playerUnits;
     }
-    private static Unit CreateUnit(Tuple<string, StringList> unitInfo)
+    private static Unit CreateUnit(UnitInfo unitInfo)
     {
         using JsonDocument doc = JsonDocument.Parse(File.ReadAllText("characters.json"));
         
         JsonElement rootElement = doc.RootElement;
         
-        JsonElement unitElement = FindUnitElement(rootElement, unitInfo.Item1);
-        
-        return new Unit(GetUnitData(unitElement, unitInfo.Item2));
+        JsonElement unitElement = FindUnitElement(rootElement, unitInfo.GetUnitName());
+
+        UnitData unitData = GetUnitData(unitElement, unitInfo.GetUnitSkills());
+        return new Unit(unitData);
     }
     
     private static JsonElement FindUnitElement(JsonElement rootElement, string unitName)
@@ -41,20 +43,20 @@ public static class UnitsLoader
         return default;
     }
 
-    private static Dictionary<string, object> GetUnitData(JsonElement unitElement, StringList skills)
+    private static UnitData GetUnitData(JsonElement unitElement, StringList skills)
     {
-        Dictionary<string, object> unitData = new Dictionary<string, object>();
+        UnitData unitData = new UnitData();
         
-        unitData["Name"] = GetJsonString(unitElement, "Name");
-        unitData["Weapon"] = GetJsonString(unitElement, "Weapon");
-        unitData["Gender"] = GetJsonString(unitElement, "Gender");
-        unitData["DeathQuote"] = GetJsonString(unitElement, "DeathQuote");
-        unitData["HP"] = GetJsonInt(unitElement, "HP");
-        unitData["Atk"] = GetJsonInt(unitElement, "Atk");
-        unitData["Spd"] = GetJsonInt(unitElement, "Spd");
-        unitData["Def"] = GetJsonInt(unitElement, "Def");
-        unitData["Res"] = GetJsonInt(unitElement, "Res");
-        unitData["Skills"] = skills;
+        unitData.Set(UnitDataKey.Name, GetJsonString(unitElement, "Name"));
+        unitData.Set(UnitDataKey.Weapon, GetJsonString(unitElement, "Weapon"));
+        unitData.Set(UnitDataKey.Gender, GetJsonString(unitElement, "Gender"));
+        unitData.Set(UnitDataKey.DeathQuote, GetJsonString(unitElement, "DeathQuote"));
+        unitData.Set(UnitDataKey.Hp, GetJsonInt(unitElement, "HP"));
+        unitData.Set(UnitDataKey.Atk, GetJsonInt(unitElement, "Atk"));
+        unitData.Set(UnitDataKey.Spd, GetJsonInt(unitElement, "Spd"));
+        unitData.Set(UnitDataKey.Def, GetJsonInt(unitElement, "Def"));
+        unitData.Set(UnitDataKey.Res, GetJsonInt(unitElement, "Res"));
+        unitData.Set(UnitDataKey.Skills, skills);
         
         return unitData;
     }

@@ -15,12 +15,12 @@ public class TeamValidator
 
         foreach (string line in playerLines)
         {
-            var (name, skills) = ParseUnit(line);
-            if (playerUnitsInfo.IsDuplicateUnit(name) || !AreSkillsValid(skills)) 
+            var unitInfo = ParseUnit(line);
+            if (playerUnitsInfo.IsDuplicateUnit(unitInfo.GetUnitName()) || !AreSkillsValid(unitInfo.GetUnitSkills())) 
             {
                 return false;
             }
-            playerUnitsInfo.Add(Tuple.Create(name, skills));
+            playerUnitsInfo.Add(unitInfo);
         }
 
         return true;
@@ -31,22 +31,25 @@ public class TeamValidator
         return playerCount >= 1 && playerCount <= 3;
     }
     
-    private (string name, StringList skills) ParseUnit(string line)
+    private UnitInfo ParseUnit(string line)
     {
+        UnitInfo unitInfo = new UnitInfo();
+        
         int index1 = line.IndexOf('(');
         
         if (index1 == -1) 
         {
-            return (line.Trim(), new StringList());
+            unitInfo.SetUnitInfo(line.Trim(), new StringList());
+            return unitInfo;
         }
 
         string name = ExtractName(line, index1);
         
         string skillsString = ExtractSkillsString(line, index1);
-        
         StringList skillsList = ParseSkills(skillsString);
-
-        return (name, skillsList);
+        
+        unitInfo.SetUnitInfo(name, skillsList);
+        return unitInfo;
     }
 
     private string ExtractName(string line, int index1)

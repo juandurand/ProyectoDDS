@@ -1,9 +1,11 @@
+using Fire_Emblem_Common.Enums;
+
 namespace Fire_Emblem_Common.Effects;
 
-public class SandstormEffectt:Effectt
+public class SandstormEffect:Effect
 {
-    public SandstormEffectt()
-        : base(1){}
+    public SandstormEffect()
+        : base(EffectsApplyOrder.FirstOrder){}
     public override void ApplyEffect(Unit unit)
     {
         

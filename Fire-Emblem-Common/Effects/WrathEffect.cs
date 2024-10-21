@@ -1,9 +1,11 @@
+using Fire_Emblem_Common.Enums;
+
 namespace Fire_Emblem_Common.Effects;
 
-public class WrathEffectt:Effectt
+public class WrathEffect:Effect
 {
-    public WrathEffectt()
-        : base(1) {}
+    public WrathEffect()
+        : base(EffectsApplyOrder.FirstOrder) {}
     
     public override void ApplyEffect(Unit unit)
     {

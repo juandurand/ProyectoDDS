@@ -2,18 +2,18 @@ using System.Collections;
 
 namespace Fire_Emblem_Common.PersonalizedInterfaces
 {
-    public class PlayerUnitsInfo : IEnumerable<Tuple<string, StringList>>
+    public class PlayerUnitsInfo : IEnumerable<UnitInfo>
     {
-        private readonly List<Tuple<string, StringList>> _playerInfo = new List<Tuple<string, StringList>>();
+        private readonly List<UnitInfo> _playerInfo = new List<UnitInfo>();
         
-        public void Add(Tuple<string, StringList> unitInfo) => _playerInfo.Add(unitInfo);
+        public void Add(UnitInfo unitInfo) => _playerInfo.Add(unitInfo);
         
         public bool IsDuplicateUnit(string name)
         {
-            return _playerInfo.Any(unitInfo => unitInfo.Item1 == name);
+            return _playerInfo.Any(unitInfo => unitInfo.GetUnitName() == name);
         }
         
-        public IEnumerator<Tuple<string, StringList>> GetEnumerator()
+        public IEnumerator<UnitInfo> GetEnumerator()
         {
             return _playerInfo.GetEnumerator();
         }

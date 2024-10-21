@@ -2,15 +2,15 @@ using Fire_Emblem_Common.Enums;
 
 namespace Fire_Emblem_Common.Effects;
 
-public class ComparisonPercentageReductionEffectt:Effectt
+public class ComparisonPercentageReductionEffect:Effect
 {
     private readonly double _max;
     private readonly StatType _skillOwnerStat;
     private readonly StatType _rivalStat;
     private readonly int _multiplier;
 
-    public ComparisonPercentageReductionEffectt(double max, StatType skillOwnerStat, StatType rivalStat, int multiplier)
-        :base(2)
+    public ComparisonPercentageReductionEffect(double max, StatType skillOwnerStat, StatType rivalStat, int multiplier)
+        :base(EffectsApplyOrder.SecondOrder)
     {
         _max = max;
         _skillOwnerStat = skillOwnerStat;

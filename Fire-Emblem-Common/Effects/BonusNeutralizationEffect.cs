@@ -3,12 +3,12 @@ using Fire_Emblem_Common.PersonalizedInterfaces;
 
 namespace Fire_Emblem_Common.Effects;
 
-public class PenaltyNeutralizationEffectt:Effectt
+public class BonusNeutralizationEffect:Effect
 {
     private readonly EnumList<StatType> _statsTypes;
 
-    public PenaltyNeutralizationEffectt(EnumList<StatType> statsTypes)
-        : base(1)
+    public BonusNeutralizationEffect(EnumList<StatType> statsTypes)
+        : base(EffectsApplyOrder.FirstOrder)
     {
         _statsTypes = statsTypes;
     }
@@ -19,19 +19,19 @@ public class PenaltyNeutralizationEffectt:Effectt
         {
             if (stat == StatType.Atk)
             {
-                unit.Atk.PenaltyNeutralized = true;
+                unit.Atk.BonusNeutralized = true;
             }
-            else if (stat == StatType.Def)
+            else if (stat ==  StatType.Def)
             {
-                unit.Def.PenaltyNeutralized = true;
+                unit.Def.BonusNeutralized = true;
             }
-            else if (stat == StatType.Spd)
+            else if (stat ==  StatType.Spd)
             {
-                unit.Spd.PenaltyNeutralized = true;
+                unit.Spd.BonusNeutralized = true;
             }
             else if (stat == StatType.Res)
             {
-                unit.Res.PenaltyNeutralized = true;
+                unit.Res.BonusNeutralized = true;
             }
         }
     }

@@ -3,13 +3,13 @@ using Fire_Emblem_Common.Damage;
 
 namespace Fire_Emblem_Common.Effects;
 
-public class SpecificExtraDamageEffect:Effectt
+public class SpecificExtraDamageEffect:Effect
 {
     private readonly ExtraDamageCalculator _extraDamageCalculator;
     private readonly AttackType _attackType;
 
     public SpecificExtraDamageEffect(UnitRole analizedUnit, StatType analizedStat, double percentage, StatType analizedStat2 = StatType.None, AttackType attackType = AttackType.None)
-        : base(2)
+        : base(EffectsApplyOrder.SecondOrder)
     {
         _extraDamageCalculator = new ExtraDamageCalculator(analizedUnit, analizedStat, analizedStat2, percentage);
         _attackType = attackType;

@@ -2,13 +2,13 @@ using Fire_Emblem_Common.Enums;
 
 namespace Fire_Emblem_Common.Effects;
 
-public class ConstantPercentageReductionEffectt:Effectt
+public class ConstantPercentageReductionEffect:Effect
 {
     private readonly double _reduction;
     private readonly AttackType _attackType;
 
-    public ConstantPercentageReductionEffectt(double reduction, AttackType attackType = AttackType.None)
-        :base(2)
+    public ConstantPercentageReductionEffect(double reduction, AttackType attackType = AttackType.None)
+        :base(EffectsApplyOrder.SecondOrder)
     {
         _reduction = reduction;
         _attackType = attackType;

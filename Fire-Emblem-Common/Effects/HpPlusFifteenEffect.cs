@@ -1,11 +1,13 @@
+using Fire_Emblem_Common.Enums;
+
 namespace Fire_Emblem_Common.Effects;
 
-public class HpPlusFifteenEffectt:Effectt
+public class HpPlusFifteenEffect:Effect
 {
     private bool _isEffectUsed;
 
-    public HpPlusFifteenEffectt()
-        : base(1)
+    public HpPlusFifteenEffect()
+        : base(EffectsApplyOrder.FirstOrder)
     {
         _isEffectUsed = false;
     }

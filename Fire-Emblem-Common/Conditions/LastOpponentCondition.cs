@@ -1,4 +1,5 @@
 namespace Fire_Emblem_Common.Conditions;
+using Fire_Emblem_Common.PersonalizedInterfaces;
 
 public class LastOpponentCondition:Condition
 {

@@ -1,51 +1,52 @@
 using Fire_Emblem_Common.Enums;
+using Fire_Emblem_Common.PersonalizedInterfaces;
 
 namespace Fire_Emblem_Common.Damage;
 
 public static class DamageCalculator
 {
-    public static int GetDamage(Unit attacker, Unit defender, AttackType attackType)
+    public static int GetDamage(DamageInfo damageInfo)
     {
-        int baseDamage = CalculateBaseDamage(attacker, defender, attackType);
+        int baseDamage = CalculateBaseDamage(damageInfo);
         
-        int damageWithEffects = ApplyDamageBonusesAndPenalties(baseDamage, attacker, defender, attackType);
+        int damageWithEffects = ApplyDamageEffects(baseDamage, damageInfo);
         
         return Math.Max(damageWithEffects, 0);
     }
 
-    private static int CalculateBaseDamage(Unit attacker, Unit defender, AttackType attackType)
+    private static int CalculateBaseDamage(DamageInfo damageInfo)
     {
-        double weaponTriangleBonus = WeaponTriangle.CalculateWtb(attacker.Weapon, defender.Weapon);
-        int defense = GetDefenseByWeapon(attacker, defender, attackType);
+        double weaponTriangleBonus = WeaponTriangle.CalculateWtb(damageInfo.Attacker.Weapon, damageInfo.Defender.Weapon);
+        int defense = GetDefenseByWeapon(damageInfo);
         
-        int baseDamage = Convert.ToInt32(Math.Floor(UnitController.GetTotalStat(attacker, StatType.Atk, attackType) * weaponTriangleBonus)) - defense;
+        int baseDamage = Convert.ToInt32(Math.Floor(UnitController.GetTotalStat(damageInfo.Attacker, StatType.Atk, damageInfo.AttackType) * weaponTriangleBonus)) - defense;
         return Math.Max(baseDamage, 0);
     }
     
-    private static int ApplyDamageBonusesAndPenalties(int baseDamage, Unit attacker, Unit defender, AttackType attackType)
+    private static int ApplyDamageEffects(int baseDamage, DamageInfo damageInfo)
     {
-        baseDamage += DamageEffectsController.GetTotalBonus(attacker.DamageEffects, attackType);
+        baseDamage += DamageEffectsController.GetTotalBonus(damageInfo.Attacker.DamageEffects, damageInfo.AttackType);
         
-        double modifiedDamage = baseDamage * DamageEffectsController.GetTotalPercentageReduction(defender.DamageEffects, attackType);
+        double modifiedDamage = baseDamage * DamageEffectsController.GetTotalPercentageReduction(damageInfo.Defender.DamageEffects, damageInfo.AttackType);
         modifiedDamage = Math.Round(modifiedDamage, 9);
         
-        return Convert.ToInt32(Math.Floor(modifiedDamage)) - defender.DamageEffects.Penalty;
+        return Convert.ToInt32(Math.Floor(modifiedDamage)) - damageInfo.Defender.DamageEffects.Penalty;
     }
     
-    private static int GetDefenseByWeapon(Unit attacker, Unit defender, AttackType attackType)
+    private static int GetDefenseByWeapon(DamageInfo damageInfo)
     {
-        if (attacker.Weapon == WeaponType.Magic)
+        if (damageInfo.Attacker.Weapon == WeaponType.Magic)
         {
-            return UnitController.GetTotalStat(defender, StatType.Res, attackType);
+            return UnitController.GetTotalStat(damageInfo.Defender, StatType.Res, damageInfo.AttackType);
         }
-        return UnitController.GetTotalStat(defender, StatType.Def, attackType);
+        return UnitController.GetTotalStat(damageInfo.Defender, StatType.Def, damageInfo.AttackType);
     }
     
-    public static int GetDamageWithoutDamageReductions(Unit attacker, Unit defender, AttackType attackType)
+    public static int GetDamageWithoutDamageReductions(DamageInfo damageInfo)
     {
-        int baseDamage = CalculateBaseDamage(attacker, defender, attackType);
+        int baseDamage = CalculateBaseDamage(damageInfo);
         
-        int damageWithBonus = baseDamage + DamageEffectsController.GetTotalBonus(attacker.DamageEffects, attackType);
+        int damageWithBonus = baseDamage + DamageEffectsController.GetTotalBonus(damageInfo.Attacker.DamageEffects, damageInfo.AttackType);
         
         return damageWithBonus;
     }

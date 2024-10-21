@@ -2,13 +2,13 @@ using Fire_Emblem_Common.Enums;
 
 namespace Fire_Emblem_Common.Effects;
 
-public class ConstantExtraDamageEffectt:Effectt
+public class ConstantExtraDamageEffect:Effect
 {
     private readonly int _damageBonus;
     private readonly AttackType _attackType;
 
-    public ConstantExtraDamageEffectt(int damageBonus, AttackType attackType = AttackType.None)
-        : base(2)
+    public ConstantExtraDamageEffect(int damageBonus, AttackType attackType = AttackType.None)
+        : base(EffectsApplyOrder.SecondOrder)
     {
         _damageBonus = damageBonus;
         _attackType = attackType;

@@ -1,9 +1,11 @@
+using Fire_Emblem_Common.Enums;
+
 namespace Fire_Emblem_Common.Effects;
 
-public class AverageDefResEffectt:Effectt
+public class AverageDefResEffect:Effect
 {
-    public AverageDefResEffectt()
-        : base(1){}
+    public AverageDefResEffect()
+        : base(EffectsApplyOrder.FirstOrder){}
     public override void ApplyEffect(Unit unit)
     {
         (int defAdjustment, int resAdjustment) = GetDefAndResAdjustment(unit);

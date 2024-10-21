@@ -5,19 +5,19 @@ namespace Fire_Emblem_Common.PersonalizedInterfaces
 {
     public class EffectByUnitType
     {
-        private readonly Dictionary<UnitRole, List<Effectt>> _effectsByUnitType;
+        private readonly Dictionary<UnitRole, List<Effect>> _effectsByUnitType;
 
         public EffectByUnitType()
         {
-            _effectsByUnitType = new Dictionary<UnitRole, List<Effectt>>()
+            _effectsByUnitType = new Dictionary<UnitRole, List<Effect>>()
             {
-                { UnitRole.Unit, new List<Effectt>() },
-                { UnitRole.Rival, new List<Effectt>() },
-                { UnitRole.Both, new List<Effectt>() }
+                { UnitRole.Unit, new List<Effect>() },
+                { UnitRole.Rival, new List<Effect>() },
+                { UnitRole.Both, new List<Effect>() }
             };
         }
 
-        public void AddEffect(UnitRole role, Effectt effect)
+        public void AddEffect(UnitRole role, Effect effect)
         {
             if (_effectsByUnitType.ContainsKey(role))
             {
@@ -25,12 +25,12 @@ namespace Fire_Emblem_Common.PersonalizedInterfaces
             }
         }
         
-        public IEnumerable<Effectt> GetAllEffects()
+        public IEnumerable<Effect> GetAllEffects()
         {
             return _effectsByUnitType.Values.SelectMany(effects => effects);
         }
         
-        public UnitRole GetUnitRoleForEffect(Effectt effect)
+        public UnitRole GetUnitRoleForEffect(Effect effect)
         {
             foreach (var kvp in _effectsByUnitType)
             {

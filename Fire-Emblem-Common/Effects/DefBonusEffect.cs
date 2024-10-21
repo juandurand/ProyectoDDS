@@ -1,11 +1,13 @@
+using Fire_Emblem_Common.Enums;
+
 namespace Fire_Emblem_Common.Effects;
 
-public class DefBonusEffectt:Effectt
+public class DefBonusEffect:Effect
 {
     private readonly int _defBonus;
 
-    public DefBonusEffectt(int defBonus)
-        : base(1)
+    public DefBonusEffect(int defBonus)
+        : base(EffectsApplyOrder.FirstOrder)
     {
         _defBonus = defBonus;
     }

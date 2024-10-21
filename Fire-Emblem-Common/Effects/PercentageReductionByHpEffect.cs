@@ -2,13 +2,13 @@ using Fire_Emblem_Common.Enums;
 
 namespace Fire_Emblem_Common.Effects;
 
-public class PercentageReductionByHpEffectt:Effectt
+public class PercentageReductionByHpEffect:Effect
 {
     private readonly double _percentage;
     private readonly AttackType _attackType;
 
-    public PercentageReductionByHpEffectt(double percentage, AttackType attackType = AttackType.None)
-        :base(2)
+    public PercentageReductionByHpEffect(double percentage, AttackType attackType = AttackType.None)
+        :base(EffectsApplyOrder.SecondOrder)
     {
         _percentage = percentage;
         _attackType = attackType;

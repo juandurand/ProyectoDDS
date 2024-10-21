@@ -2,13 +2,13 @@ using Fire_Emblem_Common.Enums;
 
 namespace Fire_Emblem_Common.Effects;
 
-public class ResPercentagePenaltyEffectt:Effectt
+public class ResPercentagePenaltyEffect:Effect
 {
     private readonly double _percentage;
     private readonly AttackType _attackType;
 
-    public ResPercentagePenaltyEffectt(double percentage, AttackType attackType = AttackType.None)
-        : base(1)
+    public ResPercentagePenaltyEffect(double percentage, AttackType attackType = AttackType.None)
+        : base(EffectsApplyOrder.FirstOrder)
     {
         _percentage = percentage;
         _attackType = attackType;

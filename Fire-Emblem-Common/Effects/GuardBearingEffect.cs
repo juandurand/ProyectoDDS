@@ -2,12 +2,12 @@ using Fire_Emblem_Common.Enums;
 
 namespace Fire_Emblem_Common.Effects;
 
-public class GuardBearingEffectt:Effectt
+public class GuardBearingEffect:Effect
 {
     private readonly AttackType _attackType;
 
-    public GuardBearingEffectt(AttackType attackType = AttackType.None)
-        : base(1)
+    public GuardBearingEffect(AttackType attackType = AttackType.None)
+        : base(EffectsApplyOrder.SecondOrder)
     {
         _attackType = attackType;
     }
@@ -32,7 +32,7 @@ public class GuardBearingEffectt:Effectt
 
     private double GetReductionFactor(Unit unit)
     {
-        if (unit.FirstAttack == 1 || unit.FirstDefense == 1)
+        if (unit.FirstAttack == FirstAttack.ActuallyFirstAttacking || unit.FirstDefense == FirstDefense.ActuallyFirstDefending)
         {
             return 0.6;
         }

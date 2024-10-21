@@ -2,13 +2,13 @@ using Fire_Emblem_Common.Enums;
 
 namespace Fire_Emblem_Common.Effects;
 
-public class AtkBonusEffectt:Effectt
+public class AtkBonusEffect:Effect
 {
     private readonly int _atkBonus;
     private readonly AttackType _attackType;
 
-    public AtkBonusEffectt(int atkBonus, AttackType attackType = AttackType.None)
-        : base( 1)
+    public AtkBonusEffect(int atkBonus, AttackType attackType = AttackType.None)
+        : base(EffectsApplyOrder.FirstOrder)
     {
         _atkBonus = atkBonus;
         _attackType = attackType;

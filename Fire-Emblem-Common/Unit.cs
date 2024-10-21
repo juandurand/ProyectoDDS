@@ -25,30 +25,29 @@ public class Unit
 
     public DamageEffects DamageEffects;
 
-    public int FirstAttack;
-    public int FirstDefense;
+    public FirstAttack FirstAttack;
+    public FirstDefense FirstDefense;
     public bool Attacking;
 
-    public Unit(Dictionary<string, object> unitData)
+    public Unit(UnitData unitData)
     {
-        Name = (string)unitData["Name"];
-        Weapon = (WeaponType)Enum.Parse(typeof(WeaponType), (string)unitData["Weapon"]);
-        Gender = (string)unitData["Gender"];
-        DeathQuote = (string)unitData["DeathQuote"];
+        Name = unitData.GetString(UnitDataKey.Name);
+        Weapon = unitData.GetEnum<WeaponType>(UnitDataKey.Weapon);
+        Gender = unitData.GetString(UnitDataKey.Gender);
+        DeathQuote = unitData.GetString(UnitDataKey.DeathQuote);
         
-        HealthStatus = new HealthStatus((int)unitData["HP"]);
-        ActualOpponent = null;
-        LastOpponent = null;
-        
-        Atk = new Stat((int)unitData["Atk"]);
-        Spd = new Stat((int)unitData["Spd"]);
-        Def = new Stat((int)unitData["Def"]);
-        Res = new Stat((int)unitData["Res"]);
+        HealthStatus = new HealthStatus(unitData.GetInt(UnitDataKey.Hp));
+        Atk = new Stat(unitData.GetInt(UnitDataKey.Atk));
+        Spd = new Stat(unitData.GetInt(UnitDataKey.Spd));
+        Def = new Stat(unitData.GetInt(UnitDataKey.Def));
+        Res = new Stat(unitData.GetInt(UnitDataKey.Res));
         DamageEffects = new DamageEffects();
         
-        Skills = SkillFactory.GetSkills((StringList)unitData["Skills"], this);
+        Skills = SkillFactory.GetSkills(unitData.GetStringList(UnitDataKey.Skills), this);
 
-        FirstAttack = 0;
-        FirstDefense = 0;
+        ActualOpponent = null;
+        LastOpponent = null;
+        FirstAttack = FirstAttack.HaveNotFirstAttacked;
+        FirstDefense = FirstDefense.HaveNotFirstDefended;
     }
 }

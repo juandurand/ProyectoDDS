@@ -1,11 +1,13 @@
+using Fire_Emblem_Common.Enums;
+
 namespace Fire_Emblem_Common.Effects;
 
-public class SpdPenaltyEffectt:Effectt
+public class SpdPenaltyEffect:Effect
 {
     private readonly int _spdPenalty;
 
-    public SpdPenaltyEffectt(int spdPenalty)
-        : base(1)
+    public SpdPenaltyEffect(int spdPenalty)
+        : base(EffectsApplyOrder.FirstOrder)
     {
         _spdPenalty = spdPenalty;
     }

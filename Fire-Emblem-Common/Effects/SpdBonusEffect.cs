@@ -1,11 +1,13 @@
+using Fire_Emblem_Common.Enums;
+
 namespace Fire_Emblem_Common.Effects;
 
-public class SpdBonusEffectt:Effectt
+public class SpdBonusEffect:Effect
 {
     private readonly int _spdBonus;
 
-    public SpdBonusEffectt(int spdBonus)
-        : base(1)
+    public SpdBonusEffect(int spdBonus)
+        : base(EffectsApplyOrder.FirstOrder)
     {
         _spdBonus = spdBonus;
     }

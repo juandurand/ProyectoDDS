@@ -13,7 +13,7 @@ public class EffectApplier
         _effects = effects;
     }
 
-    public void ApplyEffects(RoundInfo roundInfo, int applyOrder)
+    public void ApplyEffects(RoundInfo roundInfo, EffectsApplyOrder applyOrder)
     {
         var allEffects = _effects.GetAllEffects();
 
@@ -26,7 +26,7 @@ public class EffectApplier
         }
     }
 
-    private void ApplyEffectToAppropiateUnit(Effectt effect, RoundInfo roundInfo)
+    private void ApplyEffectToAppropiateUnit(Effect effect, RoundInfo roundInfo)
     {
         UnitRole typeOfUnit = _effects.GetUnitRoleForEffect(effect);
         if (typeOfUnit == UnitRole.Unit)

@@ -1,4 +1,6 @@
 using Fire_Emblem_Common.ConditionEvaluators;
+using Fire_Emblem_Common.Enums;
+using Fire_Emblem_Common.PersonalizedInterfaces;
 
 namespace Fire_Emblem_Common.Skills;
 public class Skill
@@ -12,7 +14,7 @@ public class Skill
         _effectApplier = effectApplier;
     }
 
-    public void Apply(RoundInfo roundInfo, int applyOrder)
+    public void Apply(RoundInfo roundInfo, EffectsApplyOrder applyOrder)
     {
         if (_conditionEvaluator.AreConditionsSatisfied(roundInfo))
         {

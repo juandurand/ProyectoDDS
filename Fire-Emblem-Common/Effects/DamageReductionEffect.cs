@@ -1,11 +1,13 @@
+using Fire_Emblem_Common.Enums;
+
 namespace Fire_Emblem_Common.Effects;
 
-public class DamageReductionEffectt:Effectt
+public class DamageReductionEffect:Effect
 {
     private readonly int _damagePenalty;
 
-    public DamageReductionEffectt(int damagePenalty)
-        : base(2)
+    public DamageReductionEffect(int damagePenalty)
+        : base(EffectsApplyOrder.SecondOrder)
     {
         _damagePenalty = damagePenalty;
     }

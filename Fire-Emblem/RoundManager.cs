@@ -1,5 +1,7 @@
 using Fire_Emblem_Common;
+using Fire_Emblem_Common.Enums;
 using Fire_Emblem_Common.Skills;
+using Fire_Emblem_Common.PersonalizedInterfaces;
 
 namespace Fire_Emblem;
 
@@ -32,7 +34,14 @@ public static class RoundManager
     
     public static void ApplyAllSkills(RoundInfo roundInfo)
     {
-        for (int applyOrder = 1; applyOrder < 4; applyOrder++)
+        EnumList<EffectsApplyOrder> applyOrders = new EnumList<EffectsApplyOrder>(new List<EffectsApplyOrder>
+        {
+            EffectsApplyOrder.FirstOrder,
+            EffectsApplyOrder.SecondOrder,
+            EffectsApplyOrder.ThirdOrder
+        });
+        
+        foreach (EffectsApplyOrder applyOrder in applyOrders)
         {
             roundInfo.SetCurrentSkillOwnerAndRival(roundInfo.Defender, roundInfo.Attacker);
             ApplySkills(roundInfo, applyOrder);
@@ -42,7 +51,7 @@ public static class RoundManager
         }
     }
 
-    private static void ApplySkills(RoundInfo roundInfo, int applyOrder)
+    private static void ApplySkills(RoundInfo roundInfo, EffectsApplyOrder applyOrder)
     {
         foreach (Skill skill in roundInfo.SkillOwner.Skills)
         {

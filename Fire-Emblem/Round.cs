@@ -1,4 +1,4 @@
-using Fire_Emblem_Common;
+using Fire_Emblem_Common.PersonalizedInterfaces;
 using Fire_Emblem_View;
 using Fire_Emblem_Common.Enums;
 
@@ -41,8 +41,10 @@ public class Round
 
     private bool FirstAttacks(RoundInfo roundInfo)
     {
-        return _attackManager.SimulateAttack(roundInfo.Attacker, roundInfo.Defender, AttackType.FirstAttack) ||
-               _attackManager.SimulateAttack(roundInfo.Defender, roundInfo.Attacker, AttackType.FirstAttack);
+        DamageInfo attackDamageInfo = new DamageInfo(roundInfo.Attacker, roundInfo.Defender, AttackType.FirstAttack);
+        DamageInfo counterattackDamageInfo = new DamageInfo(roundInfo.Defender, roundInfo.Attacker, AttackType.FirstAttack);
+        
+        return _attackManager.SimulateAttack(attackDamageInfo) || _attackManager.SimulateAttack(counterattackDamageInfo);
     }
 
     private void EndRound(RoundInfo roundInfo)
@@ -52,7 +54,8 @@ public class Round
     
     private void PerformFollowUp(RoundInfo roundInfo)
     {
-        _attackManager.SimulateFollowUp(roundInfo.Attacker, roundInfo.Defender);
+        DamageInfo followUpDamageInfo = new DamageInfo(roundInfo.Attacker, roundInfo.Defender, AttackType.FollowUp);
+        _attackManager.SimulateFollowUp(followUpDamageInfo);
     }
 }
 
