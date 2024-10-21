@@ -1,5 +1,6 @@
 using Fire_Emblem_Common.Enums;
 using Fire_Emblem_Common.Effects;
+using Fire_Emblem_Common.Exceptions;
 
 namespace Fire_Emblem_Common.PersonalizedInterfaces
 {
@@ -19,10 +20,7 @@ namespace Fire_Emblem_Common.PersonalizedInterfaces
 
         public void AddEffect(UnitRole role, Effect effect)
         {
-            if (_effectsByUnitType.ContainsKey(role))
-            {
-                _effectsByUnitType[role].Add(effect);
-            }
+            _effectsByUnitType[role].Add(effect);
         }
         
         public IEnumerable<Effect> GetAllEffects()
@@ -39,8 +37,7 @@ namespace Fire_Emblem_Common.PersonalizedInterfaces
                     return kvp.Key;
                 }
             }
-            // Lanzar una excepción si el efecto no se encuentra
-            throw new InvalidOperationException("El efecto no está asociado a ningún UnitRole.");
+            throw new InvalidOperationInDictionaryException("El efecto no está asociado a ningún UnitRole.");
         }
     }
 }

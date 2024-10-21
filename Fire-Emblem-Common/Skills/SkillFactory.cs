@@ -3,6 +3,7 @@ using Fire_Emblem_Common.Effects;
 using Fire_Emblem_Common.Enums;
 using Fire_Emblem_Common.ConditionEvaluators;
 using Fire_Emblem_Common.PersonalizedInterfaces;
+using Fire_Emblem_Common.Exceptions;
 
 namespace Fire_Emblem_Common.Skills;
 
@@ -15,10 +16,9 @@ public static class SkillFactory
         {
             skills.Add(CreateSkill(skillName, unit));
             
-            SpecialSkill? specialSkill = SpecialSkillMapper.FromString(skillName);
-            if (specialSkill != null)
+            if (SpecialSkillMapper.IsSkillSpecialFromString(skillName))
             {
-                skills.Add(CreateSpecialSkill(skillName , unit));
+                skills.Add(CreateSpecialSkill(skillName));
             }
         }
         return skills;
@@ -670,7 +670,7 @@ public static class SkillFactory
         
         else if (skillName == "Moon-Twin Wing")
         {
-            conditions.Add(new HpPercentageCondition(-0.25, UnitRole.Unit)); // El menor igual al reves por eso el menos
+            conditions.Add(new HpPercentageConditionInversed(0.25, UnitRole.Unit));
             effectsByUnitType.AddEffect(UnitRole.Rival, new AtkPenaltyEffect(5));
             effectsByUnitType.AddEffect(UnitRole.Rival, new SpdPenaltyEffect(5));
             conditionEvaluator = new DefaultConditionEvaluator(conditions);
@@ -873,7 +873,7 @@ public static class SkillFactory
         
         else
         {
-            conditionEvaluator = new DefaultConditionEvaluator(conditions);
+            throw new NotImplementedSkillException($"La skill {skillName} no está implementada.");
         }
         
         EffectApplier effectApplier = new EffectApplier(effectsByUnitType);
@@ -882,7 +882,7 @@ public static class SkillFactory
         return skill;
     }
 
-    private static Skill CreateSpecialSkill(string skillName, Unit unit)
+    private static Skill CreateSpecialSkill(string skillName)
     {
         ConditionList conditions = new ConditionList();
         EffectByUnitType effectsByUnitType = new EffectByUnitType();
@@ -898,7 +898,7 @@ public static class SkillFactory
         
         else if (skillName == "Moon-Twin Wing")
         {
-            conditions.Add(new HpPercentageCondition(-0.25, UnitRole.Unit)); // El menor igual al reves por eso el menos
+            conditions.Add(new HpPercentageConditionInversed(0.25, UnitRole.Unit));
             conditions.Add(new StatComparisonCondition(1, StatType.Spd, StatType.Spd));
             effectsByUnitType.AddEffect(UnitRole.Unit, new ComparisonPercentageReductionEffect(0.4, StatType.Spd, StatType.Spd, 4));
             conditionEvaluator = new AndConditionEvaluator(conditions); 
@@ -927,8 +927,7 @@ public static class SkillFactory
 
         else
         {
-            
-            conditionEvaluator = new DefaultConditionEvaluator(conditions);
+            throw new NotImplementedSkillException($"La skill {skillName} no es una skill especial.");
         }
         
         EffectApplier effectApplier = new EffectApplier(effectsByUnitType);

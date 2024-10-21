@@ -8,6 +8,6 @@ public class AndConditionEvaluator : ConditionEvaluator
 
     public override bool AreConditionsSatisfied(RoundInfo roundInfo)
     {
-        return _conditions.All(condition => condition.IsConditionSatisfied(roundInfo));
+        return Conditions.All(condition => condition.IsConditionSatisfied(roundInfo));
     }
 }

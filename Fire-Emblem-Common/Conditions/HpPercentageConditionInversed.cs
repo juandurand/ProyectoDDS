@@ -3,12 +3,12 @@ using Fire_Emblem_Common.PersonalizedInterfaces;
 
 namespace Fire_Emblem_Common.Conditions;
 
-public class HpPercentageCondition:Condition
+public class HpPercentageConditionInversed:Condition
 {
     private readonly double _requiredPercentage;
     private readonly UnitRole _analyzedUnit;
     
-    public HpPercentageCondition(double requiredPercentage, UnitRole analyzedUnit) 
+    public HpPercentageConditionInversed(double requiredPercentage, UnitRole analyzedUnit) 
     {
         _analyzedUnit = analyzedUnit;
         _requiredPercentage = requiredPercentage;
@@ -20,8 +20,8 @@ public class HpPercentageCondition:Condition
         
         if (_analyzedUnit == UnitRole.Unit)
         {
-            return HealthStatusController.GetHpPercentage(skillOwner.HealthStatus) <= _requiredPercentage;
+            return Math.Round(HealthStatusController.GetHpPercentage(skillOwner.HealthStatus), 2) >= _requiredPercentage;
         }
-        return HealthStatusController.GetHpPercentage(rival.HealthStatus) >= _requiredPercentage;
+        return Math.Round(HealthStatusController.GetHpPercentage(rival.HealthStatus), 2) <= _requiredPercentage;
     }
 }

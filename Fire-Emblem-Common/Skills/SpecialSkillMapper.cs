@@ -4,7 +4,7 @@ namespace Fire_Emblem_Common.Skills;
 
 public static class SpecialSkillMapper
 {
-    private static readonly Dictionary<SpecialSkill, string> _skillToStringMap = new Dictionary<SpecialSkill, string>
+    private static readonly Dictionary<SpecialSkill, string> SkillToStringMap = new Dictionary<SpecialSkill, string>
     {
         { SpecialSkill.Bushido, "Bushido" },
         { SpecialSkill.MoonTwinWing, "Moon-Twin Wing" },
@@ -13,16 +13,16 @@ public static class SpecialSkillMapper
         { SpecialSkill.ExtraChivalry, "Extra Chivalry" }
     };
     
-    public static SpecialSkill? FromString(string skillName)
+    public static bool IsSkillSpecialFromString(string skillName)
     {
-        foreach (var kvp in _skillToStringMap)
+        foreach (var kvp in SkillToStringMap)
         {
             if (kvp.Value == skillName)
             {
-                return kvp.Key;
+                return true;
             }
         }
-        return null;
+        return false;
     }
 }
 

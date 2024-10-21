@@ -4,18 +4,18 @@ namespace Fire_Emblem;
 
 public class TeamParser
 {
-    public readonly string testFolder;
-    private bool _isPlayerOne = false;
-    private bool _isPlayerTwo = false;
+    public readonly string TestFolder;
+    private bool _isPlayerOne;
+    private bool _isPlayerTwo;
 
     public TeamParser(string folder)
     {
-        testFolder = folder;
+        TestFolder = folder;
     }
     
     public (StringList Player1Lines, StringList Player2Lines) ParseTeamsFile(string fileName)
     {
-        var lines = File.ReadLines($"{testFolder}/{fileName}");
+        var lines = File.ReadLines($"{TestFolder}/{fileName}");
         return GetTeamsLines(lines);
     }
 

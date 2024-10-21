@@ -28,7 +28,7 @@ public class TeamValidator
     
     private bool IsTeamSizeValid(int playerCount)
     {
-        return playerCount >= 1 && playerCount <= 3;
+        return playerCount is >= 1 and <= 3;
     }
     
     private UnitInfo ParseUnit(string line)

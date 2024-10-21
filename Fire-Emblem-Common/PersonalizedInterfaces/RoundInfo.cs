@@ -2,10 +2,10 @@ namespace Fire_Emblem_Common.PersonalizedInterfaces;
 
 public class RoundInfo
 {
-    public Unit Attacker { get;}
-    public Unit Defender { get;}
-    public Unit SkillOwner { get; set; }
-    public Unit Rival { get; set; }
+    public readonly Unit Attacker;
+    public readonly Unit Defender;
+    public Unit SkillOwner;
+    public Unit Rival;
 
     public RoundInfo(Unit attacker, Unit defender)
     {

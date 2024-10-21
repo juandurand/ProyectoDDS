@@ -1,3 +1,5 @@
+using Fire_Emblem_Common.Exceptions;
+
 namespace Fire_Emblem_Common.PersonalizedInterfaces
 {
     public class PlayerArray
@@ -8,7 +10,7 @@ namespace Fire_Emblem_Common.PersonalizedInterfaces
         {
             if (index < 0 || index >= _playerArray.Length)
             {
-                throw new IndexOutOfRangeException("Índice fuera del rango válido.");
+                throw new IndexOutOfRangeInPlayerArrayException("Índice fuera del rango válido en el PlayerArray.");
             }
             _playerArray[index] = unitList;
         }
@@ -17,7 +19,7 @@ namespace Fire_Emblem_Common.PersonalizedInterfaces
         {
             if (index < 0 || index >= _playerArray.Length)
             {
-                throw new IndexOutOfRangeException("Índice fuera del rango válido.");
+                throw new IndexOutOfRangeInPlayerArrayException("Índice fuera del rango válido en el PlayerArray.");
             }
             return _playerArray[index];
         }

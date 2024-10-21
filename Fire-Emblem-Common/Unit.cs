@@ -12,19 +12,17 @@ public class Unit
     public readonly string Gender;
     public readonly string DeathQuote;
     
-    public SkillList Skills;
+    public readonly SkillList Skills;
+    
+    public readonly HealthStatus HealthStatus;
+    public readonly Stat Atk;
+    public readonly Stat Spd;
+    public readonly Stat Def;
+    public readonly Stat Res;
+    public readonly DamageEffects DamageEffects;
+
     public Unit ActualOpponent;
     public Unit LastOpponent;
-    
-    public HealthStatus HealthStatus;
-    
-    public Stat Atk;
-    public Stat Spd;
-    public Stat Def;
-    public Stat Res;
-
-    public DamageEffects DamageEffects;
-
     public FirstAttack FirstAttack;
     public FirstDefense FirstDefense;
     public bool Attacking;
@@ -45,9 +43,10 @@ public class Unit
         
         Skills = SkillFactory.GetSkills(unitData.GetStringList(UnitDataKey.Skills), this);
 
-        ActualOpponent = null;
-        LastOpponent = null;
+        ActualOpponent = this;
+        LastOpponent = this;
         FirstAttack = FirstAttack.HaveNotFirstAttacked;
         FirstDefense = FirstDefense.HaveNotFirstDefended;
+        Attacking = false;
     }
 }

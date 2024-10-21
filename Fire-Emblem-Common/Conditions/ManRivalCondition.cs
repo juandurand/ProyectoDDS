@@ -1,5 +1,6 @@
-namespace Fire_Emblem_Common.Conditions;
 using Fire_Emblem_Common.PersonalizedInterfaces;
+
+namespace Fire_Emblem_Common.Conditions;
 
 public class ManRivalCondition:Condition
 {

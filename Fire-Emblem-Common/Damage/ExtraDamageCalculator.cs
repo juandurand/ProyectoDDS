@@ -20,6 +20,7 @@ public class ExtraDamageCalculator
     public int GetExtraDamage(Unit unit)
     {
         int extraDamage = 0;
+        
         if (_analizedUnit == UnitRole.Unit)
         {
             extraDamage = unit.HealthStatus.HpBaseValue - unit.HealthStatus.ActualHpValue;

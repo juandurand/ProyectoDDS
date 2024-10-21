@@ -39,15 +39,6 @@ public class AttackManager
         {
             SimulateAttack(damageInfo);
         }
-        else if (CanFollowUp(damageInfo.Defender, damageInfo.Attacker))
-        {
-            damageInfo.SwitchUnits();
-            SimulateAttack(damageInfo);
-        }
-        else
-        {
-            _view.AnnounceNoFollowUp();
-        }
     }
 
     private static bool CanFollowUp(Unit attackerUnit, Unit defenderUnit)
@@ -56,5 +47,14 @@ public class AttackManager
         int actualSpeedDifference = UnitController.GetTotalStat(attackerUnit, StatType.Spd, AttackType.None) -
                                     UnitController.GetTotalStat(defenderUnit, StatType.Spd, AttackType.None);
         return actualSpeedDifference > followUpSpeedThreshold;
+    }
+
+    public void ReportNoFollowUp(DamageInfo damageInfo)
+    {
+        if (!CanFollowUp(damageInfo.Attacker, damageInfo.Defender) &&
+            !CanFollowUp(damageInfo.Defender, damageInfo.Attacker))
+        {
+            _view.AnnounceNoFollowUp();
+        }
     }
 }

@@ -42,9 +42,9 @@ public class Round
     private bool FirstAttacks(RoundInfo roundInfo)
     {
         DamageInfo attackDamageInfo = new DamageInfo(roundInfo.Attacker, roundInfo.Defender, AttackType.FirstAttack);
-        DamageInfo counterattackDamageInfo = new DamageInfo(roundInfo.Defender, roundInfo.Attacker, AttackType.FirstAttack);
+        DamageInfo counterAttackDamageInfo = new DamageInfo(roundInfo.Defender, roundInfo.Attacker, AttackType.FirstAttack);
         
-        return _attackManager.SimulateAttack(attackDamageInfo) || _attackManager.SimulateAttack(counterattackDamageInfo);
+        return _attackManager.SimulateAttack(attackDamageInfo) || _attackManager.SimulateAttack(counterAttackDamageInfo);
     }
 
     private void EndRound(RoundInfo roundInfo)
@@ -54,8 +54,13 @@ public class Round
     
     private void PerformFollowUp(RoundInfo roundInfo)
     {
-        DamageInfo followUpDamageInfo = new DamageInfo(roundInfo.Attacker, roundInfo.Defender, AttackType.FollowUp);
-        _attackManager.SimulateFollowUp(followUpDamageInfo);
+        DamageInfo attackerFollowUpDamageInfo = new DamageInfo(roundInfo.Attacker, roundInfo.Defender, AttackType.FollowUp);
+        DamageInfo defenderFollowUpDamageInfo = new DamageInfo(roundInfo.Defender, roundInfo.Attacker, AttackType.FollowUp);
+        
+        _attackManager.SimulateFollowUp(attackerFollowUpDamageInfo);
+        _attackManager.SimulateFollowUp(defenderFollowUpDamageInfo);
+        
+        _attackManager.ReportNoFollowUp(attackerFollowUpDamageInfo);
     }
 }
 
