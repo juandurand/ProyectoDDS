@@ -1,4 +1,6 @@
 using Fire_Emblem_Common.Enums;
+using Fire_Emblem_Common.EDDs.Models;
+using Fire_Emblem_Common.EDDs.Managers;
 
 namespace Fire_Emblem_Common.Effects;
 
@@ -34,7 +36,7 @@ public class PercentageReductionByHpEffect:Effect
 
     private double GetReductionFactor(Unit unit)
     {
-        double reductionFactor = _percentage * HealthStatusController.GetHpPercentage(unit.ActualOpponent.HealthStatus);
+        double reductionFactor = _percentage * HealthStatusManager.GetHpPercentage(unit.ActualOpponent.HealthStatus);
         return Math.Truncate(reductionFactor * 100) / 100;
     }
 }

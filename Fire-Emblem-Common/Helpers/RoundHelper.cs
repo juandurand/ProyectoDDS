@@ -1,11 +1,11 @@
-using Fire_Emblem_Common;
 using Fire_Emblem_Common.Enums;
 using Fire_Emblem_Common.Skills;
 using Fire_Emblem_Common.PersonalizedInterfaces;
+using Fire_Emblem_Common.EDDs.Managers;
 
-namespace Fire_Emblem;
+namespace Fire_Emblem_Common.Helpers;
 
-public static class RoundManager
+public static class RoundHelper
 {
     public static void RoundStarted(RoundInfo roundInfo)
     {
@@ -28,8 +28,8 @@ public static class RoundManager
     
     private static void SetFirstAttackDefense(RoundInfo roundInfo)
     {
-        UnitController.SetFirstAttack(roundInfo.Attacker);
-        UnitController.SetFirstDefense(roundInfo.Defender);
+        UnitManager.SetFirstAttack(roundInfo.Attacker);
+        UnitManager.SetFirstDefense(roundInfo.Defender);
     }
     
     public static void ApplyAllSkills(RoundInfo roundInfo)
@@ -68,8 +68,8 @@ public static class RoundManager
     
     private static void ResetSkills(RoundInfo roundInfo)
     {
-        UnitController.ResetEffects(roundInfo.Attacker);
-        UnitController.ResetEffects(roundInfo.Defender);
+        UnitManager.ResetEffects(roundInfo.Attacker);
+        UnitManager.ResetEffects(roundInfo.Defender);
     }
 
     private static void SetLastOpponent(RoundInfo roundInfo)

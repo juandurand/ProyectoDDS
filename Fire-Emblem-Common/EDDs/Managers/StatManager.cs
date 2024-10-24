@@ -1,8 +1,9 @@
 using Fire_Emblem_Common.Enums;
+using Fire_Emblem_Common.EDDs.Models;
 
-namespace Fire_Emblem_Common;
+namespace Fire_Emblem_Common.EDDs.Managers;
 
-public static class StatController
+public static class StatManager
 {
     public static int GetTotalStat(Stat stat, AttackType attackType)
     {

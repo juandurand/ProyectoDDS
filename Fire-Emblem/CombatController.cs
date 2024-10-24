@@ -1,31 +1,32 @@
-using Fire_Emblem_Common;
-using Fire_Emblem_View;
+using Fire_Emblem_Common.Helpers;
+using Fire_Emblem_View.ViewLibrary;
 using Fire_Emblem_Common.PersonalizedInterfaces;
+using Fire_Emblem_Common.EDDs.Models;
     
 namespace Fire_Emblem;
 
-public class Combat
+public class CombatController
 {
-    private readonly Round _round;
-    private readonly TeamManager _teamManager;
+    private readonly RoundController _roundController;
+    private readonly TeamManagerController _teamManagerController;
     private readonly View _view;
     private int _roundCounter = 1;
 
-    public Combat((PlayerUnitsInfo, PlayerUnitsInfo) playersInfo, View view)
+    public CombatController((PlayerUnitsInfo, PlayerUnitsInfo) playersInfo, View view)
     {
-        _teamManager = new TeamManager(playersInfo);
+        _teamManagerController = new TeamManagerController(playersInfo);
         _view = view;
-        _round = new Round(view);
+        _roundController = new RoundController(view);
     }
     
     public void AnnounceWinner()
     {
-        _view.AnnounceWinner(_teamManager.GetPlayersUnits());
+        _view.AnnounceWinner(_teamManagerController.GetPlayersUnits());
     }
     
     public void SimulateCombat()
     {
-        while (_teamManager.AreTeamsAlive())
+        while (_teamManagerController.AreTeamsAlive())
         {
             ProcessCombatRound();
             _roundCounter++;
@@ -37,7 +38,7 @@ public class Combat
         RoundInfo roundInfo = GetRoundInfo();
         
         AnnounceRoundStart(roundInfo);
-        _round.SimulateRound(roundInfo);
+        _roundController.SimulateRound(roundInfo);
         ManageRoundEnd(roundInfo);
     }
     
@@ -45,8 +46,8 @@ public class Combat
     {
         (int attackerIndex, int defenderIndex) = CombatHelper.GetAttackerDefenderIndex(_roundCounter);
         
-        Unit attacker = _teamManager.ChooseUnit(attackerIndex, _view);
-        Unit defender = _teamManager.ChooseUnit(defenderIndex, _view);
+        Unit attacker = _teamManagerController.ChooseUnit(attackerIndex, _view);
+        Unit defender = _teamManagerController.ChooseUnit(defenderIndex, _view);
         
         return new RoundInfo(attacker, defender);
     }
@@ -62,6 +63,6 @@ public class Combat
     {
         (int attackerIndex, int defenderIndex) = CombatHelper.GetAttackerDefenderIndex(_roundCounter);
         _view.ReportRoundSummary(roundInfo);
-        _teamManager.CheckUnitsHealth(roundInfo, attackerIndex, defenderIndex);
+        _teamManagerController.CheckUnitsHealth(roundInfo, attackerIndex, defenderIndex);
     }
 }

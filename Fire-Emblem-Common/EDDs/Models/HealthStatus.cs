@@ -1,4 +1,4 @@
-namespace Fire_Emblem_Common;
+namespace Fire_Emblem_Common.EDDs.Models;
 
 public class HealthStatus
 {

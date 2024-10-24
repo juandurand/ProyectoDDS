@@ -4,6 +4,7 @@ using Fire_Emblem_Common.Enums;
 using Fire_Emblem_Common.ConditionEvaluators;
 using Fire_Emblem_Common.PersonalizedInterfaces;
 using Fire_Emblem_Common.Exceptions;
+using Fire_Emblem_Common.EDDs.Models;
 
 namespace Fire_Emblem_Common.Skills;
 

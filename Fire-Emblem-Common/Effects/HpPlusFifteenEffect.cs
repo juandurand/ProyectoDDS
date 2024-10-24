@@ -1,4 +1,6 @@
 using Fire_Emblem_Common.Enums;
+using Fire_Emblem_Common.EDDs.Models;
+using Fire_Emblem_Common.EDDs.Managers;
 
 namespace Fire_Emblem_Common.Effects;
 
@@ -16,7 +18,7 @@ public class HpPlusFifteenEffect:Effect
         if (!_isEffectUsed)
         {
             _isEffectUsed = true;
-            HealthStatusController.ApplyHpPlus15(unit.HealthStatus);
+            HealthStatusManager.ApplyHpPlus15(unit.HealthStatus);
         }
     }
 }

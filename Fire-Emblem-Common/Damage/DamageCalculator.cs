@@ -1,5 +1,6 @@
 using Fire_Emblem_Common.Enums;
 using Fire_Emblem_Common.PersonalizedInterfaces;
+using Fire_Emblem_Common.EDDs.Managers;
 
 namespace Fire_Emblem_Common.Damage;
 
@@ -19,7 +20,7 @@ public static class DamageCalculator
         double weaponTriangleBonus = WeaponTriangle.CalculateWtb(damageInfo.Attacker.Weapon, damageInfo.Defender.Weapon);
         int defense = GetDefenseByWeapon(damageInfo);
         
-        int baseDamage = Convert.ToInt32(Math.Floor(UnitController.GetTotalStat(damageInfo.Attacker, StatType.Atk, damageInfo.AttackType) * weaponTriangleBonus)) - defense;
+        int baseDamage = Convert.ToInt32(Math.Floor(UnitManager.GetTotalStat(damageInfo.Attacker, StatType.Atk, damageInfo.AttackType) * weaponTriangleBonus)) - defense;
         return Math.Max(baseDamage, 0);
     }
     
@@ -37,9 +38,9 @@ public static class DamageCalculator
     {
         if (damageInfo.Attacker.Weapon == WeaponType.Magic)
         {
-            return UnitController.GetTotalStat(damageInfo.Defender, StatType.Res, damageInfo.AttackType);
+            return UnitManager.GetTotalStat(damageInfo.Defender, StatType.Res, damageInfo.AttackType);
         }
-        return UnitController.GetTotalStat(damageInfo.Defender, StatType.Def, damageInfo.AttackType);
+        return UnitManager.GetTotalStat(damageInfo.Defender, StatType.Def, damageInfo.AttackType);
     }
     
     public static int GetDamageWithoutDamageReductions(DamageInfo damageInfo)

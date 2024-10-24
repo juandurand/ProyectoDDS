@@ -3,7 +3,7 @@ using Fire_Emblem_Common.Damage;
 using Fire_Emblem_Common.Skills;
 using Fire_Emblem_Common.PersonalizedInterfaces;
 
-namespace Fire_Emblem_Common;
+namespace Fire_Emblem_Common.EDDs.Models;
 
 public class Unit
 {

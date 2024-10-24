@@ -1,4 +1,6 @@
-namespace Fire_Emblem_Common;
+using Fire_Emblem_Common.EDDs.Managers;
+
+namespace Fire_Emblem_Common.EDDs.Models;
 
 public class Stat
 {
@@ -17,7 +19,7 @@ public class Stat
     public Stat(int baseValue)
     {
         BaseValue = baseValue;
-        StatController.ResetEffects(this);
+        StatManager.ResetEffects(this);
     }
     
 }

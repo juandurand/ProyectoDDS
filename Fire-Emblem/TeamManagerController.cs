@@ -1,14 +1,16 @@
-using Fire_Emblem_Common;
-using Fire_Emblem_View;
+using Fire_Emblem_Common.EDDs.Models;
+using Fire_Emblem_Common.EDDs.Managers;
+using Fire_Emblem_View.ViewLibrary;
 using Fire_Emblem_Common.PersonalizedInterfaces;
+using Fire_Emblem_Common.TeamLoading;
 
 namespace Fire_Emblem;
 
-public class TeamManager
+public class TeamManagerController
 {
     private readonly PlayerArray _playersUnits;
 
-    public TeamManager((PlayerUnitsInfo, PlayerUnitsInfo) playersInfo)
+    public TeamManagerController((PlayerUnitsInfo, PlayerUnitsInfo) playersInfo)
     {
         _playersUnits = new PlayerArray();
         _playersUnits.Add(UnitsLoader.LoadUnits(playersInfo.Item1), 0);
@@ -32,7 +34,7 @@ public class TeamManager
 
     private void RemoveUnitIfDead(Unit unit, int playerIndex)
     {
-        if (!HealthStatusController.IsUnitAlive(unit.HealthStatus))
+        if (!HealthStatusManager.IsUnitAlive(unit.HealthStatus))
         {
             _playersUnits.Get(playerIndex).Remove(unit);
         }

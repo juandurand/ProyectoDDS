@@ -1,6 +1,8 @@
-namespace Fire_Emblem_Common;
+using Fire_Emblem_Common.EDDs.Models;
 
-public static class HealthStatusController
+namespace Fire_Emblem_Common.EDDs.Managers;
+
+public static class HealthStatusManager
 {
     public static bool IsUnitAlive(HealthStatus healthStatus)
     {

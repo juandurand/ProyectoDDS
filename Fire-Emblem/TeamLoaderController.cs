@@ -1,11 +1,12 @@
-using Fire_Emblem_View;
+using Fire_Emblem_View.ViewLibrary;
 using Fire_Emblem_Common.PersonalizedInterfaces;
 using Fire_Emblem_Common.Exceptions;
+using Fire_Emblem_Common.TeamLoading;
 
 namespace Fire_Emblem
 
 {
-    public class TeamLoader
+    public class TeamLoaderController
     {
         private PlayerUnitsInfo _player1UnitsInfo;
         private PlayerUnitsInfo _player2UnitsInfo;
@@ -14,7 +15,7 @@ namespace Fire_Emblem
         private readonly TeamParser _parser;
         private readonly TeamValidator _validator;
         
-        public TeamLoader(View view, TeamParser parser)
+        public TeamLoaderController(View view, TeamParser parser)
         {
             _player1UnitsInfo = new PlayerUnitsInfo();
             _player2UnitsInfo = new PlayerUnitsInfo();

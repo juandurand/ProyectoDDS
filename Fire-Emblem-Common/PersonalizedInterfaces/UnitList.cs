@@ -1,3 +1,5 @@
+using Fire_Emblem_Common.EDDs.Models;
+
 namespace Fire_Emblem_Common.PersonalizedInterfaces;
 
 public class UnitList

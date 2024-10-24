@@ -1,16 +1,17 @@
-using Fire_Emblem_View;
-using Fire_Emblem_Common;
+using Fire_Emblem_View.ViewLibrary;
+using Fire_Emblem_Common.EDDs.Models;
+using Fire_Emblem_Common.EDDs.Managers;
 using Fire_Emblem_Common.Enums;
 using Fire_Emblem_Common.Damage;
 using Fire_Emblem_Common.PersonalizedInterfaces;
 
 namespace Fire_Emblem;
 
-public class AttackManager
+public class AttackController
 {
     private readonly View _view;
 
-    public AttackManager(View view)
+    public AttackController(View view)
     {
         _view = view;
     }
@@ -19,7 +20,7 @@ public class AttackManager
     {
         int damage = CalculateDamage(damageInfo);
         ApplyDamage(damageInfo, damage);
-        return !HealthStatusController.IsUnitAlive(damageInfo.Defender.HealthStatus);
+        return !HealthStatusManager.IsUnitAlive(damageInfo.Defender.HealthStatus);
     }
     
     private int CalculateDamage(DamageInfo damageInfo)
@@ -29,7 +30,7 @@ public class AttackManager
 
     private void ApplyDamage(DamageInfo damageInfo, int damage)
     {
-        HealthStatusController.DealDamage(damageInfo.Defender.HealthStatus, damage);
+        HealthStatusManager.DealDamage(damageInfo.Defender.HealthStatus, damage);
         _view.ReportAttack(damageInfo.Attacker, damageInfo.Defender, damage);
     }
 
@@ -44,8 +45,8 @@ public class AttackManager
     private static bool CanFollowUp(Unit attackerUnit, Unit defenderUnit)
     {
         int followUpSpeedThreshold = 4;
-        int actualSpeedDifference = UnitController.GetTotalStat(attackerUnit, StatType.Spd, AttackType.None) -
-                                    UnitController.GetTotalStat(defenderUnit, StatType.Spd, AttackType.None);
+        int actualSpeedDifference = UnitManager.GetTotalStat(attackerUnit, StatType.Spd, AttackType.None) -
+                                    UnitManager.GetTotalStat(defenderUnit, StatType.Spd, AttackType.None);
         return actualSpeedDifference > followUpSpeedThreshold;
     }
 

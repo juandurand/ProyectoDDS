@@ -1,4 +1,4 @@
-namespace Fire_Emblem;
+namespace Fire_Emblem_Common.Helpers;
 
 public static class CombatHelper
 {

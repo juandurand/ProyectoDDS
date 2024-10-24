@@ -1,18 +1,19 @@
+using Fire_Emblem_Common.Helpers;
 using Fire_Emblem_Common.PersonalizedInterfaces;
-using Fire_Emblem_View;
+using Fire_Emblem_View.ViewLibrary;
 using Fire_Emblem_Common.Enums;
 
 namespace Fire_Emblem;
 
-public class Round
+public class RoundController
 {
     private readonly View _view;
-    private readonly AttackManager _attackManager;
+    private readonly AttackController _attackManager;
 
-    public Round(View view)
+    public RoundController(View view)
     {
         _view = view;
-        _attackManager = new AttackManager(view);
+        _attackManager = new AttackController(view);
     }
     
     public void SimulateRound(RoundInfo roundInfo)
@@ -30,12 +31,12 @@ public class Round
     
     private void StartRound(RoundInfo roundInfo)
     {
-        RoundManager.RoundStarted(roundInfo);
+        RoundHelper.RoundStarted(roundInfo);
     }
 
     private void ApplySkills(RoundInfo roundInfo)
     {
-        RoundManager.ApplyAllSkills(roundInfo);
+        RoundHelper.ApplyAllSkills(roundInfo);
         _view.AnnounceSkills(roundInfo);
     }
 
@@ -49,7 +50,7 @@ public class Round
 
     private void EndRound(RoundInfo roundInfo)
     {
-        RoundManager.RoundEnded(roundInfo);
+        RoundHelper.RoundEnded(roundInfo);
     }
     
     private void PerformFollowUp(RoundInfo roundInfo)

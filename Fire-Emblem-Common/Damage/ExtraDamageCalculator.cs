@@ -1,4 +1,6 @@
 using Fire_Emblem_Common.Enums;
+using Fire_Emblem_Common.EDDs.Models;
+using Fire_Emblem_Common.EDDs.Managers;
 
 namespace Fire_Emblem_Common.Damage;
 
@@ -27,11 +29,11 @@ public class ExtraDamageCalculator
         }
         else if (_analizedUnit == UnitRole.Rival)
         {
-            extraDamage = UnitController.GetTotalStat(unit.ActualOpponent, _analizedStat, AttackType.None);
+            extraDamage = UnitManager.GetTotalStat(unit.ActualOpponent, _analizedStat, AttackType.None);
         }
         else if (_analizedUnit == UnitRole.Both)
         {
-            extraDamage = UnitController.GetTotalStat(unit, _analizedStat, AttackType.None) - UnitController.GetTotalStat(unit.ActualOpponent, _analizedStat2, AttackType.None);
+            extraDamage = UnitManager.GetTotalStat(unit, _analizedStat, AttackType.None) - UnitManager.GetTotalStat(unit.ActualOpponent, _analizedStat2, AttackType.None);
         }
         
         return Convert.ToInt32(Math.Floor(extraDamage * _percentage));

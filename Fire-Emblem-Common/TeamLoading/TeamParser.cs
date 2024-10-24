@@ -1,6 +1,6 @@
 using Fire_Emblem_Common.PersonalizedInterfaces;
 
-namespace Fire_Emblem;
+namespace Fire_Emblem_Common.TeamLoading;
 
 public class TeamParser
 {

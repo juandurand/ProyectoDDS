@@ -1,4 +1,6 @@
 using Fire_Emblem_Common.Enums;
+using Fire_Emblem_Common.EDDs.Models;
+using Fire_Emblem_Common.EDDs.Managers;
 
 namespace Fire_Emblem_Common.Effects;
 
@@ -26,7 +28,7 @@ public class ComparisonPercentageReductionEffect:Effect
 
     private double GetReductionFactor(Unit unit)
     {
-        int statDifference = UnitController.GetTotalStat(unit, _skillOwnerStat, AttackType.None) - UnitController.GetTotalStat(unit.ActualOpponent, _rivalStat, AttackType.None);
+        int statDifference = UnitManager.GetTotalStat(unit, _skillOwnerStat, AttackType.None) - UnitManager.GetTotalStat(unit.ActualOpponent, _rivalStat, AttackType.None);
         double reductionFactor = (statDifference * _multiplier) / 100.0;
         return Math.Min(reductionFactor, _max);
     }
