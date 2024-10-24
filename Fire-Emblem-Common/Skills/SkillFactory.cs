@@ -16,20 +16,18 @@ public static class SkillFactory
         foreach (string skillName in skillNames)
         {
             skills.Add(CreateSkill(skillName, unit));
-            
-            if (SpecialSkillMapper.IsSkillSpecialFromString(skillName))
-            {
-                skills.Add(CreateSpecialSkill(skillName));
-            }
         }
         return skills;
     }
-    private static Skill CreateSkill(string skillName, Unit unit)
+    private static ISkill CreateSkill(string skillName, Unit unit)
     {
         ConditionList conditions = new ConditionList();
         EffectByUnitType effectsByUnitType = new EffectByUnitType();
-        
         ConditionEvaluator conditionEvaluator;
+        
+        ConditionList secondConditions = new ConditionList();
+        EffectByUnitType secondEffectsByUnitType = new EffectByUnitType();
+        CompositeSkill compositeSkill = new CompositeSkill(new SkillComponentList());
         
         if (skillName == "HP +15")
         {
@@ -666,7 +664,12 @@ public static class SkillFactory
         else if (skillName == "Bushido")
         {
            effectsByUnitType.AddEffect(UnitRole.Unit, new ConstantExtraDamageEffect(7));
-           conditionEvaluator = new DefaultConditionEvaluator(conditions);
+           compositeSkill.AddComponent(new DefaultConditionEvaluator(conditions), new EffectApplier((effectsByUnitType)));
+           
+           secondConditions.Add(new StatComparisonCondition(1, StatType.Spd, StatType.Spd));
+           secondEffectsByUnitType.AddEffect(UnitRole.Unit, new ComparisonPercentageReductionEffect(0.4, StatType.Spd, StatType.Spd, 4));
+           compositeSkill.AddComponent(new DefaultConditionEvaluator(secondConditions), new EffectApplier((secondEffectsByUnitType)));
+           return compositeSkill;
         }
         
         else if (skillName == "Moon-Twin Wing")
@@ -674,7 +677,13 @@ public static class SkillFactory
             conditions.Add(new HpPercentageConditionInversed(0.25, UnitRole.Unit));
             effectsByUnitType.AddEffect(UnitRole.Rival, new AtkPenaltyEffect(5));
             effectsByUnitType.AddEffect(UnitRole.Rival, new SpdPenaltyEffect(5));
-            conditionEvaluator = new DefaultConditionEvaluator(conditions);
+            compositeSkill.AddComponent(new DefaultConditionEvaluator(conditions), new EffectApplier((effectsByUnitType)));
+            
+            secondConditions.Add(new HpPercentageConditionInversed(0.25, UnitRole.Unit));
+            secondConditions.Add(new StatComparisonCondition(1, StatType.Spd, StatType.Spd));
+            secondEffectsByUnitType.AddEffect(UnitRole.Unit, new ComparisonPercentageReductionEffect(0.4, StatType.Spd, StatType.Spd, 4));
+            compositeSkill.AddComponent(new AndConditionEvaluator(secondConditions), new EffectApplier((secondEffectsByUnitType)));
+            return compositeSkill;
         }
         
         else if (skillName == "Blue Skies")
@@ -833,14 +842,25 @@ public static class SkillFactory
         else if (skillName == "Dragon's Wrath")
         {
             effectsByUnitType.AddEffect(UnitRole.Unit, new ConstantPercentageReductionEffect(0.25, AttackType.FirstAttack));
-            conditionEvaluator = new DefaultConditionEvaluator(conditions);
+            compositeSkill.AddComponent(new DefaultConditionEvaluator(conditions), new EffectApplier(effectsByUnitType));
+            
+            secondConditions.Add(new StatComparisonCondition(1, StatType.Atk, StatType.Res));
+            secondEffectsByUnitType.AddEffect(UnitRole.Unit, new SpecificExtraDamageEffect(UnitRole.Both, StatType.Atk, 0.25, StatType.Res, AttackType.FirstAttack));
+            compositeSkill.AddComponent(new DefaultConditionEvaluator(secondConditions), new EffectApplier(secondEffectsByUnitType));
+            return compositeSkill;
         }
         
         else if (skillName == "Prescience")
         {
             effectsByUnitType.AddEffect(UnitRole.Rival, new AtkPenaltyEffect(5));
             effectsByUnitType.AddEffect(UnitRole.Rival, new ResPenaltyEffect(5));
-            conditionEvaluator = new DefaultConditionEvaluator(conditions);
+            compositeSkill.AddComponent(new DefaultConditionEvaluator(conditions), new EffectApplier(effectsByUnitType));
+            
+            secondConditions.Add(new FirstAttackCondition(UnitRole.Unit));
+            secondConditions.Add(new WeaponTypeCondition(UnitRole.Rival, new EnumList<WeaponType>(new List<WeaponType> { WeaponType.Magic, WeaponType.Bow })));
+            secondEffectsByUnitType.AddEffect(UnitRole.Unit, new ConstantPercentageReductionEffect(0.3, AttackType.FirstAttack));
+            compositeSkill.AddComponent(new OrConditionEvaluator(secondConditions), new EffectApplier(secondEffectsByUnitType));
+            return compositeSkill;
         }
         
         else if (skillName == "Extra Chivalry")
@@ -849,7 +869,11 @@ public static class SkillFactory
             effectsByUnitType.AddEffect(UnitRole.Rival, new AtkPenaltyEffect(5));
             effectsByUnitType.AddEffect(UnitRole.Rival, new SpdPenaltyEffect(5));
             effectsByUnitType.AddEffect(UnitRole.Rival, new DefPenaltyEffect(5));
-            conditionEvaluator = new DefaultConditionEvaluator(conditions);
+            compositeSkill.AddComponent(new DefaultConditionEvaluator(conditions), new EffectApplier(effectsByUnitType));
+            
+            secondEffectsByUnitType.AddEffect(UnitRole.Unit, new PercentageReductionByHpEffect(0.5));
+            compositeSkill.AddComponent(new DefaultConditionEvaluator(secondConditions), new EffectApplier(secondEffectsByUnitType));
+            return compositeSkill;
         }
         
         else if (skillName == "Guard Bearing")
@@ -878,61 +902,6 @@ public static class SkillFactory
         }
         
         EffectApplier effectApplier = new EffectApplier(effectsByUnitType);
-        
-        Skill skill = new Skill(conditionEvaluator, effectApplier);
-        return skill;
-    }
-
-    private static Skill CreateSpecialSkill(string skillName)
-    {
-        ConditionList conditions = new ConditionList();
-        EffectByUnitType effectsByUnitType = new EffectByUnitType();
-        
-        ConditionEvaluator conditionEvaluator;
-        
-        if (skillName == "Bushido")
-        {
-            conditions.Add(new StatComparisonCondition(1, StatType.Spd, StatType.Spd));
-            effectsByUnitType.AddEffect(UnitRole.Unit, new ComparisonPercentageReductionEffect(0.4, StatType.Spd, StatType.Spd, 4));
-            conditionEvaluator = new DefaultConditionEvaluator(conditions);
-        }
-        
-        else if (skillName == "Moon-Twin Wing")
-        {
-            conditions.Add(new HpPercentageConditionInversed(0.25, UnitRole.Unit));
-            conditions.Add(new StatComparisonCondition(1, StatType.Spd, StatType.Spd));
-            effectsByUnitType.AddEffect(UnitRole.Unit, new ComparisonPercentageReductionEffect(0.4, StatType.Spd, StatType.Spd, 4));
-            conditionEvaluator = new AndConditionEvaluator(conditions); 
-        }
-        
-        else if (skillName == "Dragon's Wrath")
-        {
-            conditions.Add(new StatComparisonCondition(1, StatType.Atk, StatType.Res));
-            effectsByUnitType.AddEffect(UnitRole.Unit, new SpecificExtraDamageEffect(UnitRole.Both, StatType.Atk, 0.25, StatType.Res, AttackType.FirstAttack));
-            conditionEvaluator = new DefaultConditionEvaluator(conditions);
-        }
-        
-        else if (skillName == "Prescience")
-        {
-            conditions.Add(new FirstAttackCondition(UnitRole.Unit));
-            conditions.Add(new WeaponTypeCondition(UnitRole.Rival, new EnumList<WeaponType>(new List<WeaponType> { WeaponType.Magic, WeaponType.Bow })));
-            effectsByUnitType.AddEffect(UnitRole.Unit, new ConstantPercentageReductionEffect(0.3, AttackType.FirstAttack));
-            conditionEvaluator = new OrConditionEvaluator(conditions); 
-        }
-        
-        else if (skillName == "Extra Chivalry")
-        {
-            effectsByUnitType.AddEffect(UnitRole.Unit, new PercentageReductionByHpEffect(0.5));
-            conditionEvaluator = new DefaultConditionEvaluator(conditions);
-        }
-
-        else
-        {
-            throw new NotImplementedSkillException($"La skill {skillName} no es una skill especial.");
-        }
-        
-        EffectApplier effectApplier = new EffectApplier(effectsByUnitType);
-        
         Skill skill = new Skill(conditionEvaluator, effectApplier);
         return skill;
     }

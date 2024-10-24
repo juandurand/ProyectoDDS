@@ -1,9 +1,9 @@
 using Fire_Emblem_Common.ConditionEvaluators;
 using Fire_Emblem_Common.Enums;
-using Fire_Emblem_Common.PersonalizedInterfaces;
+using Fire_Emblem_Common.EDDs.Models;
 
 namespace Fire_Emblem_Common.Skills;
-public class Skill
+public class Skill : ISkill
 {
     private readonly ConditionEvaluator _conditionEvaluator;
     private readonly EffectApplier _effectApplier;
@@ -22,4 +22,3 @@ public class Skill
         }
     }
 }
-

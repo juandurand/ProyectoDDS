@@ -1,15 +1,15 @@
-﻿using Fire_Emblem_View.ViewLibrary;
+﻿using Fire_Emblem_View.PersonalizedViews;
 using Fire_Emblem_Common.TeamLoading;
 
 namespace Fire_Emblem;
 
 public class Game
 {
-    private readonly View _view;
+    private readonly GeneralView _view;
     private readonly TeamLoaderController _teamLoaderController;
     private readonly string _teamsFolder;
     
-    public Game(View view, string teamsFolder)
+    public Game(GeneralView view, string teamsFolder)
     {
         _view = view;
         _teamsFolder = teamsFolder;

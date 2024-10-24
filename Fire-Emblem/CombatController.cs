@@ -1,5 +1,5 @@
 using Fire_Emblem_Common.Helpers;
-using Fire_Emblem_View.ViewLibrary;
+using Fire_Emblem_View.PersonalizedViews;
 using Fire_Emblem_Common.PersonalizedInterfaces;
 using Fire_Emblem_Common.EDDs.Models;
     
@@ -9,10 +9,10 @@ public class CombatController
 {
     private readonly RoundController _roundController;
     private readonly TeamManagerController _teamManagerController;
-    private readonly View _view;
+    private readonly GeneralView _view;
     private int _roundCounter = 1;
 
-    public CombatController((PlayerUnitsInfo, PlayerUnitsInfo) playersInfo, View view)
+    public CombatController((PlayerUnitsInfo, PlayerUnitsInfo) playersInfo, GeneralView view)
     {
         _teamManagerController = new TeamManagerController(playersInfo);
         _view = view;

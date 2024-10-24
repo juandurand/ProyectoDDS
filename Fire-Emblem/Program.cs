@@ -1,5 +1,6 @@
 ﻿using Fire_Emblem;
 using Fire_Emblem_View.ViewLibrary;
+using Fire_Emblem_View.PersonalizedViews;
 
 /* 
  * Este código permite replicar un test case. Primero pregunta por el grupo de test
@@ -26,7 +27,8 @@ string teamsFolder = testFolder.Replace("-Tests","");
 AnnounceTestCase(test);
 
 var view = View.BuildManualTestingView(test);
-var game = new Game(view, teamsFolder);
+var personalizedView = new GeneralView(view);
+var game = new Game(personalizedView, teamsFolder);
 game.Play();
 
 string SelectTestFolder()

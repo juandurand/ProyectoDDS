@@ -1,6 +1,6 @@
 using Fire_Emblem_Common.EDDs.Models;
 using Fire_Emblem_Common.EDDs.Managers;
-using Fire_Emblem_View.ViewLibrary;
+using Fire_Emblem_View.PersonalizedViews;
 using Fire_Emblem_Common.PersonalizedInterfaces;
 using Fire_Emblem_Common.TeamLoading;
 
@@ -17,7 +17,7 @@ public class TeamManagerController
         _playersUnits.Add(UnitsLoader.LoadUnits(playersInfo.Item2), 1);
     }
 
-    public Unit ChooseUnit(int playerIndex, View view)
+    public Unit ChooseUnit(int playerIndex, GeneralView view)
     {
         view.DisplayPlayerTeam(playerIndex + 1, _playersUnits.Get(playerIndex));
         

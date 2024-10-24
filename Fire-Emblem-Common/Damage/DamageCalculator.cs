@@ -1,5 +1,5 @@
 using Fire_Emblem_Common.Enums;
-using Fire_Emblem_Common.PersonalizedInterfaces;
+using Fire_Emblem_Common.EDDs.Models;
 using Fire_Emblem_Common.EDDs.Managers;
 
 namespace Fire_Emblem_Common.Damage;

@@ -2,6 +2,7 @@ using Fire_Emblem_Common.EDDs.Models;
 using System.Text.Json;
 using Fire_Emblem_Common.PersonalizedInterfaces;
 using Fire_Emblem_Common.Enums;
+using Fire_Emblem_Common.Exceptions;
 
 namespace Fire_Emblem_Common.TeamLoading;
 
@@ -28,6 +29,7 @@ public static class UnitsLoader
         JsonElement unitElement = FindUnitElement(rootElement, unitInfo.GetUnitName());
 
         UnitData unitData = GetUnitData(unitElement, unitInfo.GetUnitSkills());
+        
         return new Unit(unitData);
     }
     
@@ -40,7 +42,7 @@ public static class UnitsLoader
                 return element;
             }
         }
-        return default;
+        throw new UnitNotFoundException(unitName);
     }
 
     private static UnitData GetUnitData(JsonElement unitElement, StringList skills)

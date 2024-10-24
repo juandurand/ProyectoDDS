@@ -1,17 +1,17 @@
-using Fire_Emblem_View.ViewLibrary;
+using Fire_Emblem_View.PersonalizedViews;
 using Fire_Emblem_Common.EDDs.Models;
 using Fire_Emblem_Common.EDDs.Managers;
 using Fire_Emblem_Common.Enums;
 using Fire_Emblem_Common.Damage;
-using Fire_Emblem_Common.PersonalizedInterfaces;
+
 
 namespace Fire_Emblem;
 
 public class AttackController
 {
-    private readonly View _view;
+    private readonly GeneralView _view;
 
-    public AttackController(View view)
+    public AttackController(GeneralView view)
     {
         _view = view;
     }

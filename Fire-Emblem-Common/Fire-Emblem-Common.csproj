@@ -23,6 +23,9 @@
       <Compile Remove="PlayersTeams.cs" />
       <Compile Remove="PersonalizedInterfaces.cs" />
       <Compile Remove="PersonalizedInterfaces\PersonalizedList.cs" />
+      <Compile Remove="PersonalizedInterfaces\GenericList.cs" />
+      <Compile Remove="Skills\SpecialSkillMapper.cs" />
+      <Compile Remove="Enums\SpecialSkills.cs" />
     </ItemGroup>
 
 </Project>

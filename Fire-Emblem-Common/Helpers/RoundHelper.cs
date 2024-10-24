@@ -2,6 +2,7 @@ using Fire_Emblem_Common.Enums;
 using Fire_Emblem_Common.Skills;
 using Fire_Emblem_Common.PersonalizedInterfaces;
 using Fire_Emblem_Common.EDDs.Managers;
+using Fire_Emblem_Common.EDDs.Models;
 
 namespace Fire_Emblem_Common.Helpers;
 
@@ -53,7 +54,7 @@ public static class RoundHelper
 
     private static void ApplySkills(RoundInfo roundInfo, EffectsApplyOrder applyOrder)
     {
-        foreach (Skill skill in roundInfo.SkillOwner.Skills)
+        foreach (ISkill skill in roundInfo.SkillOwner.Skills)
         {
             skill.Apply(roundInfo, applyOrder);
         }
