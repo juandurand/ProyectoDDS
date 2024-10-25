@@ -1,5 +1,4 @@
 using Fire_Emblem_Common.Enums;
-using Fire_Emblem_Common.PersonalizedInterfaces;
 using Fire_Emblem_Common.EDDs.Models;
 using Fire_Emblem_Common.EDDs.Managers;
 
@@ -24,6 +23,12 @@ public class HpPercentageCondition:Condition
         {
             return HealthStatusManager.GetHpPercentage(skillOwner.HealthStatus) <= _requiredPercentage;
         }
-        return HealthStatusManager.GetHpPercentage(rival.HealthStatus) >= _requiredPercentage;
+
+        if (_analyzedUnit == UnitRole.Rival)
+        {
+            return HealthStatusManager.GetHpPercentage(rival.HealthStatus) >= _requiredPercentage;
+        }
+
+        return false;
     }
 }

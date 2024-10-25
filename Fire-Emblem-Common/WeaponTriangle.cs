@@ -3,7 +3,8 @@ namespace Fire_Emblem_Common;
 
 public static class WeaponTriangle
 {
-    private static readonly Dictionary<WeaponType, (WeaponType advantage, WeaponType disadvantage)> WeaponTriangleDic = new Dictionary<WeaponType, (WeaponType, WeaponType)>
+    private static readonly Dictionary<WeaponType, (WeaponType advantage, WeaponType disadvantage)> WeaponTriangleDic = 
+        new Dictionary<WeaponType, (WeaponType, WeaponType)>
     {
         { WeaponType.Sword, (WeaponType.Axe, WeaponType.Lance) },
         { WeaponType.Lance, (WeaponType.Sword, WeaponType.Axe) },

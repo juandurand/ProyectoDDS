@@ -9,7 +9,8 @@ public class SpecificExtraDamageEffect:Effect
     private readonly ExtraDamageCalculator _extraDamageCalculator;
     private readonly AttackType _attackType;
 
-    public SpecificExtraDamageEffect(UnitRole analizedUnit, StatType analizedStat, double percentage, StatType analizedStat2 = StatType.None, AttackType attackType = AttackType.None)
+    public SpecificExtraDamageEffect(UnitRole analizedUnit, StatType analizedStat, double percentage, 
+                                     StatType analizedStat2 = StatType.None, AttackType attackType = AttackType.None)
         : base(EffectsApplyOrder.SecondOrder)
     {
         _extraDamageCalculator = new ExtraDamageCalculator(analizedUnit, analizedStat, analizedStat2, percentage);

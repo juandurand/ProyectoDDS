@@ -23,6 +23,12 @@ public class WeaponTypeCondition:Condition
         {
             return _requiredWeaponTypes.Contains(skillOwner.Weapon);
         }
-        return _requiredWeaponTypes.Contains(rival.Weapon);
+
+        if (_analyzedUnit == UnitRole.Rival)
+        {
+            return _requiredWeaponTypes.Contains(rival.Weapon);
+        }
+
+        return false;
     }
 }

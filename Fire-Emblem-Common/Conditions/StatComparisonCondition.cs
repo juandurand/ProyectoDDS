@@ -1,5 +1,4 @@
 using Fire_Emblem_Common.Enums;
-using Fire_Emblem_Common.PersonalizedInterfaces;
 using Fire_Emblem_Common.EDDs.Models;
 using Fire_Emblem_Common.EDDs.Managers;
 
@@ -22,6 +21,7 @@ public class StatComparisonCondition:Condition
     {
         (Unit starter, Unit rival, Unit skillOwner) = GetUnits(roundInfo);
         
-        return UnitManager.GetTotalStat(skillOwner, _skillOwnerStat, AttackType.None) >= _requiredDifference + UnitManager.GetTotalStat(rival, _rivalStat, AttackType.None);
+        return UnitManager.GetTotalStat(skillOwner, _skillOwnerStat, AttackType.None) >= 
+               _requiredDifference + UnitManager.GetTotalStat(rival, _rivalStat, AttackType.None);
     }
 }

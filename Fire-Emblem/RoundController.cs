@@ -20,11 +20,13 @@ public class RoundController
     {
         StartRound(roundInfo);
         ApplySkills(roundInfo);
+        
         if (FirstAttacks(roundInfo))
         {
             EndRound(roundInfo);
             return;
         }
+        
         PerformFollowUp(roundInfo);
         EndRound(roundInfo);
     }
@@ -42,10 +44,13 @@ public class RoundController
 
     private bool FirstAttacks(RoundInfo roundInfo)
     {
-        DamageInfo attackDamageInfo = new DamageInfo(roundInfo.Attacker, roundInfo.Defender, AttackType.FirstAttack);
-        DamageInfo counterAttackDamageInfo = new DamageInfo(roundInfo.Defender, roundInfo.Attacker, AttackType.FirstAttack);
+        DamageInfo attackDamageInfo = new DamageInfo(roundInfo.Attacker, roundInfo.Defender, 
+                                                     AttackType.FirstAttack);
+        DamageInfo counterAttackDamageInfo = new DamageInfo(roundInfo.Defender, roundInfo.Attacker,
+                                                            AttackType.FirstAttack);
         
-        return _attackManager.SimulateAttack(attackDamageInfo) || _attackManager.SimulateAttack(counterAttackDamageInfo);
+        return _attackManager.SimulateAttack(attackDamageInfo) || 
+               _attackManager.SimulateAttack(counterAttackDamageInfo);
     }
 
     private void EndRound(RoundInfo roundInfo)
@@ -55,12 +60,13 @@ public class RoundController
     
     private void PerformFollowUp(RoundInfo roundInfo)
     {
-        DamageInfo attackerFollowUpDamageInfo = new DamageInfo(roundInfo.Attacker, roundInfo.Defender, AttackType.FollowUp);
-        DamageInfo defenderFollowUpDamageInfo = new DamageInfo(roundInfo.Defender, roundInfo.Attacker, AttackType.FollowUp);
+        DamageInfo attackerFollowUpDamageInfo = new DamageInfo(roundInfo.Attacker, roundInfo.Defender,
+                                                               AttackType.FollowUp);
+        DamageInfo defenderFollowUpDamageInfo = new DamageInfo(roundInfo.Defender, roundInfo.Attacker,
+                                                               AttackType.FollowUp);
         
         _attackManager.SimulateFollowUp(attackerFollowUpDamageInfo);
         _attackManager.SimulateFollowUp(defenderFollowUpDamageInfo);
-        
         _attackManager.ReportNoFollowUp(attackerFollowUpDamageInfo);
     }
 }

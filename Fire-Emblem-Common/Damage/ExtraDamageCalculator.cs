@@ -33,7 +33,8 @@ public class ExtraDamageCalculator
         }
         else if (_analizedUnit == UnitRole.Both)
         {
-            extraDamage = UnitManager.GetTotalStat(unit, _analizedStat, AttackType.None) - UnitManager.GetTotalStat(unit.ActualOpponent, _analizedStat2, AttackType.None);
+            extraDamage = UnitManager.GetTotalStat(unit, _analizedStat, AttackType.None) - 
+                          UnitManager.GetTotalStat(unit.ActualOpponent, _analizedStat2, AttackType.None);
         }
         
         return Convert.ToInt32(Math.Floor(extraDamage * _percentage));

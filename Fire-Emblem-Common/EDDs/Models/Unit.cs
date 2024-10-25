@@ -40,13 +40,13 @@ public class Unit
         Def = new Stat(unitData.GetInt(UnitDataKey.Def));
         Res = new Stat(unitData.GetInt(UnitDataKey.Res));
         DamageEffects = new DamageEffects();
-        
-        Skills = SkillFactory.GetSkills(unitData.GetStringList(UnitDataKey.Skills), this);
 
         ActualOpponent = this;
         LastOpponent = this;
         FirstAttack = FirstAttack.HaveNotFirstAttacked;
         FirstDefense = FirstDefense.HaveNotFirstDefended;
         Attacking = false;
+        
+        Skills = SkillFactory.GetSkills(unitData.GetStringList(UnitDataKey.Skills), this);
     }
 }

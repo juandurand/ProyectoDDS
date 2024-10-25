@@ -20,6 +20,7 @@ public static class UnitsLoader
         
         return playerUnits;
     }
+    
     private static Unit CreateUnit(UnitInfo unitInfo)
     {
         using JsonDocument doc = JsonDocument.Parse(File.ReadAllText("characters.json"));

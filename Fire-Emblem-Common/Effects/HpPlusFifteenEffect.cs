@@ -13,6 +13,7 @@ public class HpPlusFifteenEffect:Effect
     {
         _isEffectUsed = false;
     }
+    
     public override void ApplyEffect(Unit unit)
     {
         if (!_isEffectUsed)

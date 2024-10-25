@@ -6,7 +6,8 @@ namespace Fire_Emblem_Common.Conditions;
 
 public class ChaosStyleCondition:Condition
 {
-    private readonly EnumList<WeaponType> _requiredWeaponTypes = new EnumList<WeaponType>(new List<WeaponType> 
+    private readonly EnumList<WeaponType> _requiredWeaponTypes = new EnumList<WeaponType>(
+        new List<WeaponType> 
     {
         WeaponType.Sword,
         WeaponType.Bow,
@@ -23,7 +24,8 @@ public class ChaosStyleCondition:Condition
             return false;
         }
         
-        return IsChaosStyleConditionSatisfied(starter, rival) || IsChaosStyleConditionSatisfied(rival, starter);
+        return IsChaosStyleConditionSatisfied(starter, rival) || 
+               IsChaosStyleConditionSatisfied(rival, starter);
     }
 
     private bool IsChaosStyleConditionSatisfied(Unit unit, Unit rival)

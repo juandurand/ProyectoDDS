@@ -1,5 +1,4 @@
 using Fire_Emblem_Common.Enums;
-using Fire_Emblem_Common.PersonalizedInterfaces;
 using Fire_Emblem_Common.EDDs.Models;
 
 namespace Fire_Emblem_Common.Conditions;
@@ -22,6 +21,12 @@ public class WeaponAdvantageCondition:Condition
         {
             return WeaponTriangle.CalculateWtb(skillOwner.Weapon, rival.Weapon) == advantageValue;
         }
-        return WeaponTriangle.CalculateWtb(rival.Weapon, skillOwner.Weapon) == advantageValue;
+
+        if (_analyzedUnit == UnitRole.Rival)
+        {
+            return WeaponTriangle.CalculateWtb(rival.Weapon, skillOwner.Weapon) == advantageValue;
+        }
+
+        return false;
     }
 }

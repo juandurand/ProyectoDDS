@@ -7,9 +7,9 @@ public class SandstormEffect:Effect
 {
     public SandstormEffect()
         : base(EffectsApplyOrder.FirstOrder){}
+    
     public override void ApplyEffect(Unit unit)
     {
-        
         int adjustment = GetAdjustment(unit);
         
         if (adjustment > 0) 

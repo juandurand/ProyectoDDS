@@ -33,7 +33,8 @@ public class GuardBearingEffect:Effect
 
     private double GetReductionFactor(Unit unit)
     {
-        if (unit.FirstAttack == FirstAttack.ActuallyFirstAttacking || unit.FirstDefense == FirstDefense.ActuallyFirstDefending)
+        if (unit.FirstAttack == FirstAttack.ActuallyFirstAttacking || 
+            unit.FirstDefense == FirstDefense.ActuallyFirstDefending)
         {
             return 0.6;
         }

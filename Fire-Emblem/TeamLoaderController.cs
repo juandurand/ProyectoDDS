@@ -10,7 +10,6 @@ namespace Fire_Emblem
     {
         private PlayerUnitsInfo _player1UnitsInfo;
         private PlayerUnitsInfo _player2UnitsInfo;
-        
         private readonly GeneralView _view;
         private readonly TeamParser _parser;
         private readonly TeamValidator _validator;
@@ -29,7 +28,6 @@ namespace Fire_Emblem
             try
             {
                 string teamCode = _view.ReadLine().PadLeft(3, '0');
-        
                 string fileName = FindFileByCode(teamCode, _parser.TestFolder);
         
                 if (string.IsNullOrEmpty(fileName))
@@ -44,7 +42,8 @@ namespace Fire_Emblem
             }
             catch (Exception exception)
             {
-                throw new FileProcessingException("Error inesperado al cargar la información de los equipos.", exception);
+                throw new FileProcessingException("Error inesperado al cargar la " +
+                                                  "información de los equipos.", exception);
             }
         }
 
@@ -67,7 +66,6 @@ namespace Fire_Emblem
                 throw new FileProcessingException($"Error al buscar archivo en la carpeta: {folder}", exception);
             }
         }
-
         
         public bool IsTeamValid((StringList Player1Lines, StringList Player2Lines) playersInfo)
         {

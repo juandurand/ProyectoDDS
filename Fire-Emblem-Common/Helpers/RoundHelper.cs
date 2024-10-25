@@ -33,9 +33,29 @@ public static class RoundHelper
         UnitManager.SetFirstDefense(roundInfo.Defender);
     }
     
+    public static void RoundEnded(RoundInfo roundInfo)
+    {
+        ResetSkills(roundInfo);
+        SetLastOpponent(roundInfo);
+        SetFirstAttackDefense(roundInfo);
+    }
+    
+    private static void ResetSkills(RoundInfo roundInfo)
+    {
+        UnitManager.ResetEffects(roundInfo.Attacker);
+        UnitManager.ResetEffects(roundInfo.Defender);
+    }
+
+    private static void SetLastOpponent(RoundInfo roundInfo)
+    {
+        roundInfo.Attacker.LastOpponent = roundInfo.Defender;
+        roundInfo.Defender.LastOpponent = roundInfo.Attacker;
+    }
+    
     public static void ApplyAllSkills(RoundInfo roundInfo)
     {
-        EnumList<EffectsApplyOrder> applyOrders = new EnumList<EffectsApplyOrder>(new List<EffectsApplyOrder>
+        EnumList<EffectsApplyOrder> applyOrders = new EnumList<EffectsApplyOrder>(
+                                        new List<EffectsApplyOrder>
         {
             EffectsApplyOrder.FirstOrder,
             EffectsApplyOrder.SecondOrder,
@@ -58,24 +78,5 @@ public static class RoundHelper
         {
             skill.Apply(roundInfo, applyOrder);
         }
-    }
-    
-    public static void RoundEnded(RoundInfo roundInfo)
-    {
-        ResetSkills(roundInfo);
-        SetLastOpponent(roundInfo);
-        SetFirstAttackDefense(roundInfo);
-    }
-    
-    private static void ResetSkills(RoundInfo roundInfo)
-    {
-        UnitManager.ResetEffects(roundInfo.Attacker);
-        UnitManager.ResetEffects(roundInfo.Defender);
-    }
-
-    private static void SetLastOpponent(RoundInfo roundInfo)
-    {
-        roundInfo.Attacker.LastOpponent = roundInfo.Defender;
-        roundInfo.Defender.LastOpponent = roundInfo.Attacker;
     }
 }

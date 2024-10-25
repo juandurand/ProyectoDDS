@@ -44,12 +44,16 @@ public class TeamValidator
         }
 
         string name = ExtractName(line, index1);
-        
         string skillsString = ExtractSkillsString(line, index1);
         StringList skillsList = ParseSkills(skillsString);
         
         unitInfo.SetUnitInfo(name, skillsList);
         return unitInfo;
+    }
+    
+    private bool AreSkillsValid(StringList skillsInfo)
+    {
+        return skillsInfo.Count <= 2 && (skillsInfo.Count < 2 || skillsInfo.Get(0) != skillsInfo.Get(1));
     }
 
     private string ExtractName(string line, int index1)
@@ -103,10 +107,5 @@ public class TeamValidator
         }
 
         return skillsList;
-    }
-    
-    private bool AreSkillsValid(StringList skillsInfo)
-    {
-        return skillsInfo.Count <= 2 && (skillsInfo.Count < 2 || skillsInfo.Get(0) != skillsInfo.Get(1));
     }
 }

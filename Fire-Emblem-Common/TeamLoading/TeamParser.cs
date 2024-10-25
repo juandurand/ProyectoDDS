@@ -51,6 +51,7 @@ public class TeamParser
             _isPlayerTwo = false;
             return true;
         }
+        
         if (line == "Player 2 Team")
         {
             _isPlayerOne = false;

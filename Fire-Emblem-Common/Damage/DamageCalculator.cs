@@ -20,7 +20,9 @@ public static class DamageCalculator
         double weaponTriangleBonus = WeaponTriangle.CalculateWtb(damageInfo.Attacker.Weapon, damageInfo.Defender.Weapon);
         int defense = GetDefenseByWeapon(damageInfo);
         
-        int baseDamage = Convert.ToInt32(Math.Floor(UnitManager.GetTotalStat(damageInfo.Attacker, StatType.Atk, damageInfo.AttackType) * weaponTriangleBonus)) - defense;
+        int baseDamage = Convert.ToInt32(Math.Floor(UnitManager.GetTotalStat(
+                            damageInfo.Attacker, StatType.Atk, damageInfo.AttackType) * weaponTriangleBonus)) - defense;
+        
         return Math.Max(baseDamage, 0);
     }
     
@@ -28,7 +30,9 @@ public static class DamageCalculator
     {
         baseDamage += DamageEffectsController.GetTotalBonus(damageInfo.Attacker.DamageEffects, damageInfo.AttackType);
         
-        double modifiedDamage = baseDamage * DamageEffectsController.GetTotalPercentageReduction(damageInfo.Defender.DamageEffects, damageInfo.AttackType);
+        double modifiedDamage = baseDamage * DamageEffectsController.GetTotalPercentageReduction(
+                                    damageInfo.Defender.DamageEffects, damageInfo.AttackType);
+        
         modifiedDamage = Math.Round(modifiedDamage, 9);
         
         return Convert.ToInt32(Math.Floor(modifiedDamage)) - damageInfo.Defender.DamageEffects.Penalty;
@@ -47,7 +51,8 @@ public static class DamageCalculator
     {
         int baseDamage = CalculateBaseDamage(damageInfo);
         
-        int damageWithBonus = baseDamage + DamageEffectsController.GetTotalBonus(damageInfo.Attacker.DamageEffects, damageInfo.AttackType);
+        int damageWithBonus = baseDamage + DamageEffectsController.GetTotalBonus(
+                                damageInfo.Attacker.DamageEffects, damageInfo.AttackType);
         
         return damageWithBonus;
     }
