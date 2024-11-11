@@ -32,7 +32,7 @@ public class Game
     
     private bool IsTeamFileValid()
     {
-        return _teamLoaderController.IsTeamValid(_teamLoaderController.ChargePlayersInfo());
+        return _teamLoaderController.IsTeamValid(_teamLoaderController.GetPlayersInfo());
     }
 
     private void StartCombat()

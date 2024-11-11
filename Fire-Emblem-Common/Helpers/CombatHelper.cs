@@ -2,9 +2,14 @@ namespace Fire_Emblem_Common.Helpers;
 
 public static class CombatHelper
 {
-    public static (int, int) GetAttackerDefenderIndex(int roundCounter)
+    public static int GetAttackerIndex(int roundCounter)
     {
-        return ((roundCounter + 1) % 2, roundCounter % 2);
+        return (roundCounter + 1) % 2;
+    }
+
+    public static int GetDefenderIndex(int roundCounter)
+    {
+        return roundCounter % 2;
     }
 
     public static string GetPlayerName(int playerIndex)

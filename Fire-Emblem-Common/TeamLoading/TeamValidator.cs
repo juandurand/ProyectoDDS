@@ -28,23 +28,25 @@ public class TeamValidator
     
     private bool IsTeamSizeValid(int playerCount)
     {
-        return playerCount is >= 1 and <= 3;
+        int maxPlayerCount = 3;
+        int minPlayerCount = 1;
+        return (playerCount >= minPlayerCount) && (playerCount <= maxPlayerCount);
     }
     
     private UnitInfo ParseUnit(string line)
     {
         UnitInfo unitInfo = new UnitInfo();
         
-        int index1 = line.IndexOf('(');
+        int indexOfParenthesis = line.IndexOf('(');
         
-        if (index1 == -1) 
+        if (indexOfParenthesis == -1) 
         {
             unitInfo.SetUnitInfo(line.Trim(), new StringList());
             return unitInfo;
         }
 
-        string name = ExtractName(line, index1);
-        string skillsString = ExtractSkillsString(line, index1);
+        string name = ExtractName(line, indexOfParenthesis);
+        string skillsString = ExtractSkillsString(line, indexOfParenthesis);
         StringList skillsList = ParseSkills(skillsString);
         
         unitInfo.SetUnitInfo(name, skillsList);
@@ -53,22 +55,25 @@ public class TeamValidator
     
     private bool AreSkillsValid(StringList skillsInfo)
     {
-        return skillsInfo.Count <= 2 && (skillsInfo.Count < 2 || skillsInfo.Get(0) != skillsInfo.Get(1));
+        int maxSkillsCount = 2;
+        return skillsInfo.Count <= maxSkillsCount && (skillsInfo.Count < maxSkillsCount || 
+                                                      skillsInfo.Get(0) != skillsInfo.Get(1));
     }
 
-    private string ExtractName(string line, int index1)
+    private string ExtractName(string line, int index)
     {
-        line = line.Substring(0, index1);
+        line = line.Substring(0, index);
         return line.Trim();
     }
 
-    private string ExtractSkillsString(string line, int index1)
+    private string ExtractSkillsString(string line, int indexOfFirstParenthesis)
     {
-        int index2 = line.IndexOf(')', index1);
+        int indexOfSecondParenthesis = line.IndexOf(')', indexOfFirstParenthesis);
         
-        if (index2 == -1) { return string.Empty; }
+        if (indexOfSecondParenthesis == -1) { return string.Empty; }
 
-        line = line.Substring(index1 + 1, index2 - index1 - 1);
+        line = line.Substring(indexOfFirstParenthesis + 1,
+            indexOfSecondParenthesis - indexOfFirstParenthesis - 1);
         
         return line.Trim();
     }

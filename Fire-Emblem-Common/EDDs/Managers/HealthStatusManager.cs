@@ -19,9 +19,9 @@ public static class HealthStatusManager
         return (double)healthStatus.ActualHpValue / healthStatus.HpBaseValue;
     }
 
-    public static void ApplyHpPlus15(HealthStatus healthStatus)
+    public static void ApplyHpPlus(HealthStatus healthStatus, int hpBonus)
     {
-        healthStatus.HpBaseValue += 15;
+        healthStatus.HpBaseValue += hpBonus;
         healthStatus.ActualHpValue = healthStatus.HpBaseValue;
     }
 }

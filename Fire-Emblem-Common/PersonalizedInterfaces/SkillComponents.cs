@@ -17,7 +17,7 @@ public class SkillComponentList
         _components.Add((conditionEvaluator, effectApplier));
     }
 
-    public (ConditionEvaluator conditionEvaluator, EffectApplier effectApplier) Get(int index)
+    public (ConditionEvaluator conditionEvaluator, EffectApplier effectApplier) GetComponent(int index)
     {
         return _components[index];
     }

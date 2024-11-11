@@ -44,7 +44,8 @@ public class CombatController
     
     private RoundInfo GetRoundInfo()
     {
-        (int attackerIndex, int defenderIndex) = CombatHelper.GetAttackerDefenderIndex(_roundCounter);
+        int attackerIndex = CombatHelper.GetAttackerIndex(_roundCounter);
+        int defenderIndex = CombatHelper.GetDefenderIndex(_roundCounter);
         
         Unit attacker = _teamManagerController.ChooseUnit(attackerIndex, _view);
         Unit defender = _teamManagerController.ChooseUnit(defenderIndex, _view);
@@ -54,14 +55,16 @@ public class CombatController
     
     private void AnnounceRoundStart(RoundInfo roundInfo)
     {
-        int attackerIndex = CombatHelper.GetAttackerDefenderIndex(_roundCounter).Item1;
+        int attackerIndex = CombatHelper.GetAttackerIndex(_roundCounter);
         
         _view.AnnounceRound(_roundCounter, roundInfo, CombatHelper.GetPlayerName(attackerIndex));
     }
 
     private void ManageRoundEnd(RoundInfo roundInfo)
     {
-        (int attackerIndex, int defenderIndex) = CombatHelper.GetAttackerDefenderIndex(_roundCounter);
+        int attackerIndex = CombatHelper.GetAttackerIndex(_roundCounter);
+        int defenderIndex = CombatHelper.GetDefenderIndex(_roundCounter);
+        
         _view.ReportRoundSummary(roundInfo);
         _teamManagerController.CheckUnitsHealth(roundInfo, attackerIndex, defenderIndex);
     }

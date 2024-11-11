@@ -23,48 +23,30 @@ namespace Fire_Emblem
             _validator = new TeamValidator();
         }
 
-        public (StringList Player1Lines, StringList Player2Lines) ChargePlayersInfo()
+        public (StringList Player1Lines, StringList Player2Lines) GetPlayersInfo()
         {
-            try
+            string teamCode = _view.ReadLine().PadLeft(3, '0');
+            string fileName = GetFileByCode(teamCode, _parser.TestFolder);
+
+            if (string.IsNullOrEmpty(fileName))
             {
-                string teamCode = _view.ReadLine().PadLeft(3, '0');
-                string fileName = FindFileByCode(teamCode, _parser.TestFolder);
-        
-                if (string.IsNullOrEmpty(fileName))
-                {
-                    throw new FileProcessingException($"No se encontró el archivo para el equipo: {teamCode}");
-                }
-                return _parser.ParseTeamsFile(fileName);
+                throw new FileProcessingException($"No se encontró el archivo para el equipo: {teamCode}");
             }
-            catch (FileProcessingException) 
-            {
-                throw;
-            }
-            catch (Exception exception)
-            {
-                throw new FileProcessingException("Error inesperado al cargar la " +
-                                                  "información de los equipos.", exception);
-            }
+
+            return _parser.ParseTeamsFile(fileName);
         }
 
-        private string FindFileByCode(string teamCode, string folder)
+        private static string GetFileByCode(string teamCode, string folder)
         {
-            try
+            var files = Directory.GetFiles(folder, $"{teamCode}*.txt");
+            var path = files.FirstOrDefault();
+    
+            if (string.IsNullOrEmpty(path))
             {
-                var files = Directory.GetFiles(folder, $"{teamCode}*.txt");
-                var path = files.FirstOrDefault();
-        
-                if (string.IsNullOrEmpty(path))
-                {
-                    throw new FileProcessingException($"No se encontró el archivo para el equipo: {teamCode}");
-                }
+                throw new FileProcessingException($"No se encontró el archivo para el equipo: {teamCode}");
+            }
 
-                return Path.GetFileName(path);
-            }
-            catch (Exception exception)
-            {
-                throw new FileProcessingException($"Error al buscar archivo en la carpeta: {folder}", exception);
-            }
+            return Path.GetFileName(path);
         }
         
         public bool IsTeamValid((StringList Player1Lines, StringList Player2Lines) playersInfo)

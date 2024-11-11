@@ -23,7 +23,7 @@ public class CompositeSkill : ISkill
     {
         for (int i = 0; i < _skillsComponents.Count; i++)
         {
-            var (conditionEvaluator, effectApplier) = _skillsComponents.Get(i);
+            var (conditionEvaluator, effectApplier) = _skillsComponents.GetComponent(i);
             if (conditionEvaluator.AreConditionsSatisfied(roundInfo))
             {
                 effectApplier.ApplyEffects(roundInfo, applyOrder);

@@ -55,7 +55,7 @@ public class AttackController
         if (!CanFollowUp(damageInfo.Attacker, damageInfo.Defender) &&
             !CanFollowUp(damageInfo.Defender, damageInfo.Attacker))
         {
-            _view.AnnounceNoFollowUp();
+            _view.ReportNoFollowUp();
         }
     }
 }

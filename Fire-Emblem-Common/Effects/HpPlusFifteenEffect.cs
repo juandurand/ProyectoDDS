@@ -19,7 +19,8 @@ public class HpPlusFifteenEffect:Effect
         if (!_isEffectUsed)
         {
             _isEffectUsed = true;
-            HealthStatusManager.ApplyHpPlus15(unit.HealthStatus);
+            int hpBonus= 15;
+            HealthStatusManager.ApplyHpPlus(unit.HealthStatus, hpBonus);
         }
     }
 }

@@ -33,7 +33,7 @@ public class RoundController
     
     private void StartRound(RoundInfo roundInfo)
     {
-        RoundHelper.RoundStarted(roundInfo);
+        RoundHelper.StartRound(roundInfo);
     }
 
     private void ApplySkills(RoundInfo roundInfo)
@@ -55,7 +55,7 @@ public class RoundController
 
     private void EndRound(RoundInfo roundInfo)
     {
-        RoundHelper.RoundEnded(roundInfo);
+        RoundHelper.EndRound(roundInfo);
     }
     
     private void PerformFollowUp(RoundInfo roundInfo)

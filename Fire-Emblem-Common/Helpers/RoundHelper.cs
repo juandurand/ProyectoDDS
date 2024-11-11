@@ -8,7 +8,7 @@ namespace Fire_Emblem_Common.Helpers;
 
 public static class RoundHelper
 {
-    public static void RoundStarted(RoundInfo roundInfo)
+    public static void StartRound(RoundInfo roundInfo)
     {
         SetAttacker(roundInfo);
         SetActualOpponent(roundInfo);
@@ -33,7 +33,7 @@ public static class RoundHelper
         UnitManager.SetFirstDefense(roundInfo.Defender);
     }
     
-    public static void RoundEnded(RoundInfo roundInfo)
+    public static void EndRound(RoundInfo roundInfo)
     {
         ResetSkills(roundInfo);
         SetLastOpponent(roundInfo);

@@ -26,7 +26,7 @@ public class TeamParser
 
         foreach (var line in lines)
         {
-            if (UpdatePlayersFlag(line))
+            if (ArePlayersFlagUpdated(line))
             {
                 continue;
             }
@@ -43,7 +43,7 @@ public class TeamParser
         return (playerOneInfo, playerTwoInfo);
     }
 
-    private bool UpdatePlayersFlag(string line)
+    private bool ArePlayersFlagUpdated(string line)
     {
         if (line == "Player 1 Team")
         {
