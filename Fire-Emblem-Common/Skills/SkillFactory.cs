@@ -982,6 +982,27 @@ public static class SkillFactory
             conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
         
+        else if (skillName == "Sol")
+        {
+            effectsByUnitType.AddEffect(UnitRole.Unit, new HpPercentageBonusOfDamageEffect(0.25));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
+        }
+        
+        else if (skillName == "Nosferatu")
+        {
+            conditions.Add(new WeaponTypeCondition(UnitRole.Unit, new EnumList<WeaponType>(
+                new List<WeaponType> { WeaponType.Magic })));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new HpPercentageBonusOfDamageEffect(0.5));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
+        }
+        
+        else if (skillName == "Solar Brace")
+        {
+            conditions.Add(new FirstAttackCondition(UnitRole.Unit));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new HpPercentageBonusOfDamageEffect(0.5));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
+        }
+
         else
         {
             throw new NotImplementedSkillException($"La skill {skillName} no está implementada.");
