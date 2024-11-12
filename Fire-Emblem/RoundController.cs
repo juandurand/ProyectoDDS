@@ -8,12 +8,12 @@ namespace Fire_Emblem;
 public class RoundController
 {
     private readonly GeneralView _view;
-    private readonly AttackController _attackManager;
+    private readonly AttackController _attackController;
 
     public RoundController(GeneralView view)
     {
         _view = view;
-        _attackManager = new AttackController(view);
+        _attackController = new AttackController(view);
     }
     
     public void SimulateRound(RoundInfo roundInfo)
@@ -49,12 +49,13 @@ public class RoundController
         DamageInfo counterAttackDamageInfo = new DamageInfo(roundInfo.Defender, roundInfo.Attacker,
                                                             AttackType.FirstAttack);
         
-        return _attackManager.SimulateAttack(attackDamageInfo) || 
-               _attackManager.SimulateAttack(counterAttackDamageInfo);
+        return _attackController.SimulateAttack(attackDamageInfo) || 
+               _attackController.SimulateAttack(counterAttackDamageInfo);
     }
 
     private void EndRound(RoundInfo roundInfo)
     {
+        ApplyDamageEffectsAfterRound(roundInfo);
         RoundHelper.EndRound(roundInfo);
     }
     
@@ -65,9 +66,15 @@ public class RoundController
         DamageInfo defenderFollowUpDamageInfo = new DamageInfo(roundInfo.Defender, roundInfo.Attacker,
                                                                AttackType.FollowUp);
         
-        _attackManager.SimulateFollowUp(attackerFollowUpDamageInfo);
-        _attackManager.SimulateFollowUp(defenderFollowUpDamageInfo);
-        _attackManager.ReportNoFollowUp(attackerFollowUpDamageInfo);
+        _attackController.SimulateFollowUp(attackerFollowUpDamageInfo);
+        _attackController.SimulateFollowUp(defenderFollowUpDamageInfo);
+        _attackController.ReportNoFollowUp(attackerFollowUpDamageInfo);
+    }
+    
+    private void ApplyDamageEffectsAfterRound(RoundInfo roundInfo)
+    {
+        RoundHelper.ApplyDamageEffectsAfterRound(roundInfo);
+        _view.ReportDamageAfterRound(roundInfo);
     }
 }
 

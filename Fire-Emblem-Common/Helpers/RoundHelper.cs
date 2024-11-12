@@ -79,4 +79,10 @@ public static class RoundHelper
             skill.Apply(roundInfo, applyOrder);
         }
     }
+    
+    public static void ApplyDamageEffectsAfterRound(RoundInfo roundInfo)
+    {
+        HealthStatusManager.ApplyEffectsAfterRound(roundInfo.Attacker.HealthStatus);
+        HealthStatusManager.ApplyEffectsAfterRound(roundInfo.Defender.HealthStatus);
+    }
 }

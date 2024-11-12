@@ -24,4 +24,50 @@ public static class HealthStatusManager
         healthStatus.HpBaseValue += hpBonus;
         healthStatus.ActualHpValue = healthStatus.HpBaseValue;
     }
+
+    public static void ResetEffects(HealthStatus healthStatus)
+    {
+        ResetBonus(healthStatus);
+        ResetPenalty(healthStatus);
+    }
+
+    private static void ResetBonus(HealthStatus healthStatus)
+    {
+        healthStatus.PercentageOfDamageBonusAfterAttack = 0;
+        healthStatus.BonusAfterCombat = 0;
+        healthStatus.BonusAfterAttack = 0;
+    }
+    
+    private static void ResetPenalty(HealthStatus healthStatus)
+    {
+        healthStatus.PercentagePenaltyBeforeCombat = 0;
+        healthStatus.PenaltyAfterCombat = 0;
+        healthStatus.PenaltyBeforeCombat = 0;
+    }
+
+    public static void ApplyPercentageOfDamageBonusAfterAttack(HealthStatus healthStatus, int damage)
+    {
+        healthStatus.BonusAfterAttack = Convert.ToInt32(Math.Floor(
+                                        damage * healthStatus.PercentageOfDamageBonusAfterAttack));
+        if (IsUnitAlive(healthStatus)) 
+        {
+            healthStatus.ActualHpValue = Math.Min(healthStatus.ActualHpValue + healthStatus.BonusAfterAttack,
+                                                  healthStatus.HpBaseValue);
+        }
+    }
+
+    public static void ApplyEffectsAfterRound(HealthStatus healthStatus)
+    {
+        int totalEffect = healthStatus.BonusAfterCombat - healthStatus.PenaltyAfterCombat;
+        if (IsUnitAlive(healthStatus))
+        {
+            healthStatus.ActualHpValue = Math.Min(healthStatus.ActualHpValue + totalEffect, healthStatus.HpBaseValue);
+            healthStatus.ActualHpValue = Math.Max(healthStatus.ActualHpValue, 1);
+        }
+        else
+        {
+            healthStatus.BonusAfterAttack = 0;
+            healthStatus.PenaltyAfterCombat = 0;
+        }
+    }
 }

@@ -1002,6 +1002,117 @@ public static class SkillFactory
             effectsByUnitType.AddEffect(UnitRole.Unit, new HpPercentageBonusOfDamageEffect(0.5));
             conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
+        
+        else if (skillName == "Windsweep")
+        {
+            conditions.Add(new FirstAttackCondition(UnitRole.Unit));
+            conditions.Add(new WeaponTypeCondition(UnitRole.Unit, new EnumList<WeaponType>(
+                new List<WeaponType> { WeaponType.Sword })));
+            conditions.Add(new WeaponTypeCondition(UnitRole.Rival, new EnumList<WeaponType>(
+                new List<WeaponType> { WeaponType.Sword })));
+            effectsByUnitType.AddEffect(UnitRole.Rival, new CounterAttackDenialEffect());
+            conditionEvaluator = new AndConditionEvaluator(conditions);
+        }
+        
+        else if (skillName == "Surprise Attack")
+        {
+            conditions.Add(new FirstAttackCondition(UnitRole.Unit));
+            conditions.Add(new WeaponTypeCondition(UnitRole.Unit, new EnumList<WeaponType>(
+                new List<WeaponType> { WeaponType.Bow })));
+            conditions.Add(new WeaponTypeCondition(UnitRole.Rival, new EnumList<WeaponType>(
+                new List<WeaponType> { WeaponType.Bow })));
+            effectsByUnitType.AddEffect(UnitRole.Rival, new CounterAttackDenialEffect());
+            conditionEvaluator = new AndConditionEvaluator(conditions);
+        }
+        
+        else if (skillName == "Hliðskjálf")
+        {
+            conditions.Add(new FirstAttackCondition(UnitRole.Unit));
+            conditions.Add(new WeaponTypeCondition(UnitRole.Unit, new EnumList<WeaponType>(
+                new List<WeaponType> { WeaponType.Magic })));
+            conditions.Add(new WeaponTypeCondition(UnitRole.Rival, new EnumList<WeaponType>(
+                new List<WeaponType> { WeaponType.Magic })));
+            effectsByUnitType.AddEffect(UnitRole.Rival, new CounterAttackDenialEffect());
+            conditionEvaluator = new AndConditionEvaluator(conditions);
+        }
+        
+        else if (skillName == "Null C-Disrupt") 
+        {
+            effectsByUnitType.AddEffect(UnitRole.Unit, new DenialOfCounterAttackDenialEffect());
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
+        }
+        
+        else if (skillName == "Laws of Sacae") 
+        {
+            conditions.Add(new FirstAttackCondition(UnitRole.Unit));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new AtkBonusEffect(6));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new SpdBonusEffect(6));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new DefBonusEffect(6));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new ResBonusEffect(6));
+            
+            compositeSkill.AddComponent(new DefaultConditionEvaluator(conditions),
+                new EffectApplier(effectsByUnitType));
+            
+            secondConditions.Add(new FirstAttackCondition(UnitRole.Unit));
+            secondConditions.Add(new WeaponTypeCondition(UnitRole.Rival, new EnumList<WeaponType>(
+                new List<WeaponType> { WeaponType.Sword, WeaponType.Lance, WeaponType.Axe })));
+            secondConditions.Add(new StatComparisonCondition(5, StatType.Spd, StatType.Spd));
+            secondEffectsByUnitType.AddEffect(UnitRole.Rival, new CounterAttackDenialEffect());
+            
+            compositeSkill.AddComponent(new AndConditionEvaluator(secondConditions),
+                new EffectApplier(secondEffectsByUnitType));
+            
+            return compositeSkill;
+        }
+        
+        else if (skillName == "Eclipse Brace")
+        {
+            conditions.Add(new FirstAttackCondition(UnitRole.Unit));
+            conditions.Add(new WeaponTypeCondition(UnitRole.Unit, new EnumList<WeaponType>(
+                new List<WeaponType> { WeaponType.Sword, WeaponType.Lance, WeaponType.Axe, WeaponType.Bow })));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new SpecificExtraDamageEffect(
+                UnitRole.Rival, StatType.Def, 0.3));
+            
+            compositeSkill.AddComponent(new AndConditionEvaluator(conditions),
+                new EffectApplier(effectsByUnitType));
+            
+            secondConditions.Add(new FirstAttackCondition(UnitRole.Unit));
+            secondEffectsByUnitType.AddEffect(UnitRole.Unit, new HpPercentageBonusOfDamageEffect(0.5));
+            
+            compositeSkill.AddComponent(new DefaultConditionEvaluator(secondConditions),
+                new EffectApplier(secondEffectsByUnitType));
+            
+            return compositeSkill;
+        }
+        
+        else if (skillName == "Resonance")
+        {
+            conditions.Add(new WeaponTypeCondition(UnitRole.Unit, new EnumList<WeaponType>(
+                new List<WeaponType> { WeaponType.Magic })));
+            conditions.Add(new ConstantStatLeftCondition(2, StatType.Hp));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new HpPenaltyBeforeCombatEffect(1));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new ConstantExtraDamageEffect(3));
+            conditionEvaluator = new AndConditionEvaluator(conditions);
+        }
+        
+        else if (skillName == "Flare")
+        {
+            conditions.Add(new WeaponTypeCondition(UnitRole.Unit, new EnumList<WeaponType>(
+                new List<WeaponType> { WeaponType.Magic })));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new HpPercentageBonusOfDamageEffect(0.5));
+            effectsByUnitType.AddEffect(UnitRole.Rival, new ResPercentagePenaltyEffect(0.2));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
+        }
+        
+        else if (skillName == "Fury")
+        {
+            effectsByUnitType.AddEffect(UnitRole.Unit, new AtkBonusEffect(4));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new SpdBonusEffect(4));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new DefBonusEffect(4));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new ResBonusEffect(4));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new HpPenaltyAfterCombatEffect(8));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
+        }
 
         else
         {

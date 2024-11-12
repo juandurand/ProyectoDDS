@@ -30,6 +30,14 @@ public static class UnitManager
         StatManager.ResetEffects(unit.Def);
         StatManager.ResetEffects(unit.Res);
         DamageEffectsController.ResetEffects(unit.DamageEffects);
+        HealthStatusManager.ResetEffects(unit.HealthStatus);
+        ResetDenials(unit);
+    }
+
+    private static void ResetDenials(Unit unit)
+    {
+        unit.CounterAttackDenial = false;
+        unit.DenialOfCounterAttackDenial = false;
     }
     
     public static void SetFirstAttack(Unit unit)

@@ -26,6 +26,9 @@ public class Unit
     public FirstAttack FirstAttack;
     public FirstDefense FirstDefense;
     public bool Attacking;
+    public bool CounterAttackDenial;
+    public bool DenialOfCounterAttackDenial;
+    
 
     public Unit(UnitData unitData)
     {
@@ -46,6 +49,8 @@ public class Unit
         FirstAttack = FirstAttack.HaveNotFirstAttacked;
         FirstDefense = FirstDefense.HaveNotFirstDefended;
         Attacking = false;
+        CounterAttackDenial = false;
+        DenialOfCounterAttackDenial = false;
         
         Skills = SkillFactory.GetSkills(unitData.GetStringList(UnitDataKey.Skills), this);
     }

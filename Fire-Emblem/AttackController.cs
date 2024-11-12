@@ -18,7 +18,12 @@ public class AttackController
     
     public bool SimulateAttack(DamageInfo damageInfo)
     {
+        if (damageInfo.Attacker.CounterAttackDenial && !damageInfo.Attacker.DenialOfCounterAttackDenial) {
+            return false;
+        }
+        
         int damage = CalculateDamage(damageInfo);
+        HealthStatusManager.ApplyPercentageOfDamageBonusAfterAttack(damageInfo.Attacker.HealthStatus, damage);
         ApplyDamage(damageInfo, damage);
         return !HealthStatusManager.IsUnitAlive(damageInfo.Defender.HealthStatus);
     }
@@ -52,10 +57,30 @@ public class AttackController
 
     public void ReportNoFollowUp(DamageInfo damageInfo)
     {
+        if (damageInfo.Defender.CounterAttackDenial && !damageInfo.Defender.DenialOfCounterAttackDenial)
+        {
+            ReportSpecialNoFollowUp(damageInfo);
+        }
+        else
+        {
+            ReportNormalNoFollowUp(damageInfo);
+        }
+    }
+
+    private void ReportSpecialNoFollowUp(DamageInfo damageInfo)
+    {
+        if (!CanFollowUp(damageInfo.Attacker, damageInfo.Defender))
+        {
+            _view.ReportSpecialNoFollowUp(damageInfo);
+        }
+    }
+    
+    private void ReportNormalNoFollowUp(DamageInfo damageInfo)
+    {
         if (!CanFollowUp(damageInfo.Attacker, damageInfo.Defender) &&
             !CanFollowUp(damageInfo.Defender, damageInfo.Attacker))
         {
-            _view.ReportNoFollowUp();
+            _view.ReportNormalNoFollowUp();
         }
     }
 }
