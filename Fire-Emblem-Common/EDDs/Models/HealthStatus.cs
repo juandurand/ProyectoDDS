@@ -12,6 +12,7 @@ public class HealthStatus
 
     public int PenaltyBeforeCombat;
     public int PenaltyAfterCombat;
+    public int PenaltyAfterCombatIfUnitAttacked;
     
     public int BonusAfterCombat;
     public int BonusAfterAttack;

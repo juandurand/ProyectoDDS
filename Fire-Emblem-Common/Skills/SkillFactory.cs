@@ -1113,7 +1113,31 @@ public static class SkillFactory
             effectsByUnitType.AddEffect(UnitRole.Unit, new HpPenaltyAfterCombatEffect(8));
             conditionEvaluator = new DefaultConditionEvaluator(conditions);
         }
+        
+        else if (skillName == "Mystic Boost")
+        {
+            effectsByUnitType.AddEffect(UnitRole.Rival, new AtkPenaltyEffect(5));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new HpBonusAfterCombatEffect(10));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
+        }
 
+        else if (skillName == "Atk/Spd Push")
+        {
+            conditions.Add(new HpPercentageConditionInversed(0.25, UnitRole.Unit));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new AtkBonusEffect(7));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new AtkBonusEffect(7));
+            
+            compositeSkill.AddComponent(new DefaultConditionEvaluator(conditions),
+                new EffectApplier(effectsByUnitType));
+            
+            secondConditions.Add(new FirstAttackCondition(UnitRole.Unit));
+            secondEffectsByUnitType.AddEffect(UnitRole.Unit, new HpPercentageBonusOfDamageEffect(0.5));
+            
+            compositeSkill.AddComponent(new DefaultConditionEvaluator(secondConditions),
+                new EffectApplier(secondEffectsByUnitType));
+            
+            return compositeSkill;
+        }
         else
         {
             throw new NotImplementedSkillException($"La skill {skillName} no está implementada.");

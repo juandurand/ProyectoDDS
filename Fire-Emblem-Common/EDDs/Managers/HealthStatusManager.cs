@@ -66,7 +66,7 @@ public static class HealthStatusManager
         }
         else
         {
-            healthStatus.BonusAfterAttack = 0;
+            healthStatus.BonusAfterCombat = 0;
             healthStatus.PenaltyAfterCombat = 0;
         }
     }
