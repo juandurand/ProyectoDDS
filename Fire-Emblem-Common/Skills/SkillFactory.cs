@@ -1125,19 +1125,93 @@ public static class SkillFactory
         {
             conditions.Add(new HpPercentageConditionInversed(0.25, UnitRole.Unit));
             effectsByUnitType.AddEffect(UnitRole.Unit, new AtkBonusEffect(7));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new SpdBonusEffect(7));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new HpPenaltyAfterCombatIfAttackedEffect(5));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
+        }
+        
+        else if (skillName == "Atk/Def Push")
+        {
+            conditions.Add(new HpPercentageConditionInversed(0.25, UnitRole.Unit));
             effectsByUnitType.AddEffect(UnitRole.Unit, new AtkBonusEffect(7));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new DefBonusEffect(7));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new HpPenaltyAfterCombatIfAttackedEffect(5));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
+        }
+        
+        else if (skillName == "Atk/Res Push")
+        {
+            conditions.Add(new HpPercentageConditionInversed(0.25, UnitRole.Unit));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new AtkBonusEffect(7));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new ResBonusEffect(7));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new HpPenaltyAfterCombatIfAttackedEffect(5));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
+        }
+        
+        else if (skillName == "Spd/Def Push")
+        {
+            conditions.Add(new HpPercentageConditionInversed(0.25, UnitRole.Unit));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new SpdBonusEffect(7));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new DefBonusEffect(7));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new HpPenaltyAfterCombatIfAttackedEffect(5));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
+        }
+        
+        else if (skillName == "Spd/Res Push")
+        {
+            conditions.Add(new HpPercentageConditionInversed(0.25, UnitRole.Unit));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new SpdBonusEffect(7));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new ResBonusEffect(7));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new HpPenaltyAfterCombatIfAttackedEffect(5));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
+        }
+        
+        else if (skillName == "Def/Res Push")
+        {
+            conditions.Add(new HpPercentageConditionInversed(0.25, UnitRole.Unit));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new DefBonusEffect(7));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new ResBonusEffect(7));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new HpPenaltyAfterCombatIfAttackedEffect(5));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
+        }
+        
+        else if (skillName == "True Dragon Wall")
+        {
+            conditions.Add(new StatComparisonCondition(-1, StatType.Res, StatType.Res));
+            throw new NotImplementedSkillException($"La skill {skillName} no está implementada.");
+        }
+        
+        else if (skillName == "Scendscale")
+        {
+            effectsByUnitType.AddEffect(UnitRole.Unit, new SpecificExtraDamageEffect(UnitRole.Unit, StatType.Atk, 0.25));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new HpPenaltyAfterCombatIfAttackedEffect(7));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
+        }
+        
+        else if (skillName == "Mastermind")
+        {
+            conditions.Add(new ConstantStatLeftCondition(2, StatType.Hp));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new HpPenaltyBeforeCombatEffect(1));
             
             compositeSkill.AddComponent(new DefaultConditionEvaluator(conditions),
                 new EffectApplier(effectsByUnitType));
             
             secondConditions.Add(new FirstAttackCondition(UnitRole.Unit));
+            secondEffectsByUnitType.AddEffect(UnitRole.Unit, new AtkBonusEffect(9));
+            secondEffectsByUnitType.AddEffect(UnitRole.Unit, new SpdBonusEffect(9));
             secondEffectsByUnitType.AddEffect(UnitRole.Unit, new HpPercentageBonusOfDamageEffect(0.5));
             
             compositeSkill.AddComponent(new DefaultConditionEvaluator(secondConditions),
                 new EffectApplier(secondEffectsByUnitType));
             
-            return compositeSkill;
+            throw new NotImplementedSkillException($"La skill {skillName} no está implementada.");
         }
+        
+        else if (skillName == "Bewitching Tome")
+        {
+            throw new NotImplementedSkillException($"La skill {skillName} no está implementada.");
+        }
+
         else
         {
             throw new NotImplementedSkillException($"La skill {skillName} no está implementada.");

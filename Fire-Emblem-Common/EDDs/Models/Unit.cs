@@ -26,6 +26,8 @@ public class Unit
     public FirstAttack FirstAttack;
     public FirstDefense FirstDefense;
     public bool Attacking;
+    public bool Attacked;
+        
     public bool CounterAttackDenial;
     public bool DenialOfCounterAttackDenial;
     
@@ -49,6 +51,8 @@ public class Unit
         FirstAttack = FirstAttack.HaveNotFirstAttacked;
         FirstDefense = FirstDefense.HaveNotFirstDefended;
         Attacking = false;
+        Attacked = false;
+        
         CounterAttackDenial = false;
         DenialOfCounterAttackDenial = false;
         

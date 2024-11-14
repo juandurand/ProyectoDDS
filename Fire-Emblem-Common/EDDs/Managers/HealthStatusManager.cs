@@ -43,6 +43,7 @@ public static class HealthStatusManager
         healthStatus.PercentagePenaltyBeforeCombat = 0;
         healthStatus.PenaltyAfterCombat = 0;
         healthStatus.PenaltyBeforeCombat = 0;
+        healthStatus.PenaltyAfterCombatIfUnitAttacked = 0;
     }
 
     public static void ApplyPercentageOfDamageBonusAfterAttack(HealthStatus healthStatus, int damage)
@@ -58,7 +59,8 @@ public static class HealthStatusManager
 
     public static void ApplyEffectsAfterRound(HealthStatus healthStatus)
     {
-        int totalEffect = healthStatus.BonusAfterCombat - healthStatus.PenaltyAfterCombat;
+        int totalEffect = healthStatus.BonusAfterCombat - healthStatus.PenaltyAfterCombat - 
+                          healthStatus.PenaltyAfterCombatIfUnitAttacked;
         if (IsUnitAlive(healthStatus))
         {
             healthStatus.ActualHpValue = Math.Min(healthStatus.ActualHpValue + totalEffect, healthStatus.HpBaseValue);
@@ -68,6 +70,7 @@ public static class HealthStatusManager
         {
             healthStatus.BonusAfterCombat = 0;
             healthStatus.PenaltyAfterCombat = 0;
+            healthStatus.PenaltyAfterCombatIfUnitAttacked = 0;
         }
     }
 }

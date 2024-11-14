@@ -56,6 +56,7 @@ public class RoundController
     private void EndRound(RoundInfo roundInfo)
     {
         ApplyDamageEffectsAfterRound(roundInfo);
+        RoundHelper.ResetAttacked(roundInfo);
         RoundHelper.EndRound(roundInfo);
     }
     
@@ -73,6 +74,7 @@ public class RoundController
     
     private void ApplyDamageEffectsAfterRound(RoundInfo roundInfo)
     {
+        RoundHelper.SetPenaltyAfterCombatIfUnitsAttacked(roundInfo);
         RoundHelper.ApplyDamageEffectsAfterRound(roundInfo);
         _view.ReportDamageAfterRound(roundInfo);
     }

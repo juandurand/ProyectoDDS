@@ -80,9 +80,21 @@ public static class RoundHelper
         }
     }
     
+    public static void SetPenaltyAfterCombatIfUnitsAttacked(RoundInfo roundInfo)
+    {
+        UnitManager.SetPenaltyAfterCombatIfUnitAttacked(roundInfo.Attacker);
+        UnitManager.SetPenaltyAfterCombatIfUnitAttacked(roundInfo.Defender);
+    }
+    
     public static void ApplyDamageEffectsAfterRound(RoundInfo roundInfo)
     {
         HealthStatusManager.ApplyEffectsAfterRound(roundInfo.Attacker.HealthStatus);
         HealthStatusManager.ApplyEffectsAfterRound(roundInfo.Defender.HealthStatus);
+    }
+
+    public static void ResetAttacked(RoundInfo roundInfo)
+    {
+        UnitManager.ResetAttacked(roundInfo.Attacker);
+        UnitManager.ResetAttacked(roundInfo.Defender);
     }
 }

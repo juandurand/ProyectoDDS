@@ -21,7 +21,7 @@ public class AttackController
         if (damageInfo.Attacker.CounterAttackDenial && !damageInfo.Attacker.DenialOfCounterAttackDenial) {
             return false;
         }
-        
+        UnitManager.SetAttacked(damageInfo.Attacker);
         int damage = CalculateDamage(damageInfo);
         HealthStatusManager.ApplyPercentageOfDamageBonusAfterAttack(damageInfo.Attacker.HealthStatus, damage);
         ApplyDamage(damageInfo, damage);

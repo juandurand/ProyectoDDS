@@ -63,4 +63,22 @@ public static class UnitManager
             unit.FirstDefense = FirstDefense.AlreadyFirstDefended;
         }
     }
+    
+    public static void SetPenaltyAfterCombatIfUnitAttacked(Unit unit)
+    {
+        if (!unit.Attacked)
+        {
+            unit.HealthStatus.PenaltyAfterCombatIfUnitAttacked = 0;
+        }
+    }
+    
+    public static void SetAttacked(Unit unit)
+    {
+        unit.Attacked = true;
+    }
+    
+    public static void ResetAttacked(Unit unit)
+    {
+        unit.Attacked = false;
+    }
 }
