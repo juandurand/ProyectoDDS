@@ -1243,7 +1243,7 @@ public static class SkillFactory
         {
             conditions.Add(new HpPercentageConditionInversed(0.6, UnitRole.Unit));
             conditions.Add(new FirstAttackCondition(UnitRole.Rival));
-            effectsByUnitType.AddEffect(UnitRole.Unit, new QuickRiposteEffect());
+            effectsByUnitType.AddEffect(UnitRole.Unit, new FollowUpGuaranteeEffect());
             conditionEvaluator = new AndConditionEvaluator(conditions);
         }
 
