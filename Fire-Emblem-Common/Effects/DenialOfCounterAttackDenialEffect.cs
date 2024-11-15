@@ -6,7 +6,7 @@ namespace Fire_Emblem_Common.Effects;
 public class DenialOfCounterAttackDenialEffect:Effect
 {
     public DenialOfCounterAttackDenialEffect()
-        : base(EffectsApplyOrder.FirstOrder) {}
+        : base(EffectsApplyOrder.SecondOrder) {}
 
     public override void ApplyEffect(Unit unit)
     {

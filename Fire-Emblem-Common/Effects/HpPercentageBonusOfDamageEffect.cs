@@ -8,7 +8,7 @@ public class HpPercentageBonusOfDamageEffect:Effect
     private readonly double _percentageOfDamage;
 
     public HpPercentageBonusOfDamageEffect(double percentageOfDamage)
-        : base(EffectsApplyOrder.FirstOrder)
+        : base(EffectsApplyOrder.SecondOrder)
     {
         _percentageOfDamage = percentageOfDamage;
     }

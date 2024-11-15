@@ -3,13 +3,13 @@ using Fire_Emblem_Common.EDDs.Models;
 
 namespace Fire_Emblem_Common.Effects;
 
-public class FollowUpGuaranteeEffect : Effect
+public class FollowUpDenialOfGuaranteesEffect : Effect
 {
-    public FollowUpGuaranteeEffect()
+    public FollowUpDenialOfGuaranteesEffect()
         : base(EffectsApplyOrder.SecondOrder) { }
 
     public override void ApplyEffect(Unit unit)
     {
-        unit.FollowUpEffects.FollowUpGuarantees++;
+        unit.FollowUpEffects.DenialOfFollowUpGuarantees = true;
     } 
 }

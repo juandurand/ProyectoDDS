@@ -23,6 +23,23 @@ public static class UnitManager
         }
     }
     
+    public static int GetBaseValue(Unit unit, StatType stat)
+    {
+        switch (stat)
+        {
+            case StatType.Atk:
+                return unit.Atk.BaseValue;
+            case StatType.Spd:
+                return unit.Spd.BaseValue;
+            case StatType.Def:
+                return unit.Def.BaseValue;
+            case StatType.Res:
+                return unit.Res.BaseValue;
+            default:
+                return unit.HealthStatus.ActualHpValue;
+        }
+    }
+    
     public static void ResetEffects(Unit unit)
     {
         StatManager.ResetEffects(unit.Atk);

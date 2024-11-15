@@ -28,6 +28,9 @@ public static class SkillFactory
         
         ConditionList secondConditions = new ConditionList();
         EffectByUnitType secondEffectsByUnitType = new EffectByUnitType();
+        
+        ConditionList thirdConditions = new ConditionList();
+        EffectByUnitType thirdEffectsByUnitType = new EffectByUnitType();
         CompositeSkill compositeSkill = new CompositeSkill(new SkillComponentList());
         
         if (skillName == "HP +15")
@@ -1177,7 +1180,7 @@ public static class SkillFactory
         
         else if (skillName == "True Dragon Wall")
         {
-            conditions.Add(new StatComparisonCondition(-1, StatType.Res, StatType.Res));
+            conditions.Add(new StatComparisonCondition(1, StatType.Res, StatType.Res));
             effectsByUnitType.AddEffect(UnitRole.Unit, new ComparisonPercentageReductionEffect(
                 0.6, StatType.Res, StatType.Res, 6, AttackType.FirstAttack));
             effectsByUnitType.AddEffect(UnitRole.Unit, new ComparisonPercentageReductionEffect(
@@ -1245,6 +1248,200 @@ public static class SkillFactory
             conditions.Add(new FirstAttackCondition(UnitRole.Rival));
             effectsByUnitType.AddEffect(UnitRole.Unit, new FollowUpGuaranteeEffect());
             conditionEvaluator = new AndConditionEvaluator(conditions);
+        }
+        
+        else if (skillName == "Follow-Up Ring")
+        {
+            conditions.Add(new HpPercentageConditionInversed(0.5, UnitRole.Unit));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new FollowUpGuaranteeEffect());
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
+        }
+        
+        else if (skillName == "Wary Fighter")
+        {
+            conditions.Add(new HpPercentageConditionInversed(0.5, UnitRole.Unit));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new FollowUpDenialEffect());
+            effectsByUnitType.AddEffect(UnitRole.Rival, new FollowUpDenialEffect());
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
+        }
+        
+        else if (skillName == "Piercing Tribute")
+        {
+            effectsByUnitType.AddEffect(UnitRole.Rival, new FollowUpDenialOfGuaranteesEffect());
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
+        }
+        
+        else if (skillName == "Mjölnir")
+        {
+            effectsByUnitType.AddEffect(UnitRole.Unit, new FollowUpDenialOfDenialsEffect());
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
+        }
+        
+        else if (skillName == "Brash Assault")
+        {
+            conditions.Add(new HpPercentageCondition(0.99, UnitRole.Unit));
+            conditions.Add(new FirstAttackCondition(UnitRole.Unit));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new FollowUpDenialEffect());
+            effectsByUnitType.AddEffect(UnitRole.Rival, new FollowUpDenialEffect());
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
+            throw new NotImplementedSkillException($"La skill {skillName} no está implementada.");
+        }
+        
+        else if (skillName == "Melee Breaker")
+        {
+            conditions.Add(new HpPercentageConditionInversed(0.5, UnitRole.Unit));
+            conditions.Add(new WeaponTypeCondition(UnitRole.Rival, new EnumList<WeaponType>(
+                new List<WeaponType> { WeaponType.Sword, WeaponType.Lance, WeaponType.Axe })));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new FollowUpGuaranteeEffect());
+            effectsByUnitType.AddEffect(UnitRole.Rival, new FollowUpDenialEffect());
+            conditionEvaluator = new AndConditionEvaluator(conditions);
+        }
+        
+        else if (skillName == "Range Breaker")
+        {
+            conditions.Add(new HpPercentageConditionInversed(0.5, UnitRole.Unit));
+            conditions.Add(new WeaponTypeCondition(UnitRole.Rival, new EnumList<WeaponType>(
+                new List<WeaponType> { WeaponType.Bow, WeaponType.Magic })));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new FollowUpGuaranteeEffect());
+            effectsByUnitType.AddEffect(UnitRole.Rival, new FollowUpDenialEffect());
+            conditionEvaluator = new AndConditionEvaluator(conditions);
+        }
+        
+        else if (skillName == "Pegasus Flight")
+        {
+            effectsByUnitType.AddEffect(UnitRole.Rival, new AtkPenaltyEffect(4));
+            effectsByUnitType.AddEffect(UnitRole.Rival, new DefPenaltyEffect(4));
+            
+            compositeSkill.AddComponent(new DefaultConditionEvaluator(conditions),
+                new EffectApplier(effectsByUnitType));
+            
+            secondConditions.Add(new BaseStatComparisonCondition(-10, StatType.Spd, StatType.Spd));
+            secondEffectsByUnitType.AddEffect(UnitRole.Rival, new StatPenaltyFromBaseValueDifferenceEffect(StatType.Res, 
+                new EnumList<StatType>(new List<StatType> { StatType.Atk, StatType.Def }), 
+                8, 0.8));
+            
+            compositeSkill.AddComponent(new DefaultConditionEvaluator(secondConditions),
+                new EffectApplier(secondEffectsByUnitType));
+            
+            thirdConditions.Add(new BaseStatComparisonCondition(-10, StatType.Spd, StatType.Spd));
+            thirdConditions.Add(new DoubleStatComparisonCondition(1, StatType.Spd, StatType.Res, 
+                StatType.Spd, StatType.Res));
+            thirdEffectsByUnitType.AddEffect(UnitRole.Rival, new FollowUpDenialEffect());
+            
+            compositeSkill.AddComponent(new AndConditionEvaluator(thirdConditions),
+                new EffectApplier(thirdEffectsByUnitType));
+            
+            return compositeSkill;
+        }
+        
+        else if (skillName == "Wyvern Flight")
+        {
+            effectsByUnitType.AddEffect(UnitRole.Rival, new AtkPenaltyEffect(4));
+            effectsByUnitType.AddEffect(UnitRole.Rival, new DefPenaltyEffect(4));
+            
+            compositeSkill.AddComponent(new DefaultConditionEvaluator(conditions),
+                new EffectApplier(effectsByUnitType));
+            
+            secondConditions.Add(new BaseStatComparisonCondition(-10, StatType.Spd, StatType.Spd));
+            secondEffectsByUnitType.AddEffect(UnitRole.Rival, new StatPenaltyFromBaseValueDifferenceEffect(StatType.Def, 
+                new EnumList<StatType>(new List<StatType> { StatType.Atk, StatType.Def }), 
+                8, 0.8));
+            
+            compositeSkill.AddComponent(new DefaultConditionEvaluator(secondConditions),
+                new EffectApplier(secondEffectsByUnitType));
+            
+            thirdConditions.Add(new BaseStatComparisonCondition(-10, StatType.Spd, StatType.Spd));
+            thirdConditions.Add(new DoubleStatComparisonCondition(1, StatType.Spd, StatType.Def, 
+                StatType.Spd, StatType.Def));
+            thirdEffectsByUnitType.AddEffect(UnitRole.Rival, new FollowUpDenialEffect());
+            
+            compositeSkill.AddComponent(new AndConditionEvaluator(thirdConditions),
+                new EffectApplier(thirdEffectsByUnitType));
+            
+            return compositeSkill;
+        }
+        
+        else if (skillName == "Null Follow-Up")
+        {
+            effectsByUnitType.AddEffect(UnitRole.Unit, new FollowUpDenialOfDenialsEffect());
+            effectsByUnitType.AddEffect(UnitRole.Rival, new FollowUpDenialOfGuaranteesEffect());
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
+        }
+        
+        else if (skillName == "Sturdy Impact")
+        {
+            conditions.Add(new FirstAttackCondition(UnitRole.Unit));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new AtkBonusEffect(6));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new DefBonusEffect(10));
+            effectsByUnitType.AddEffect(UnitRole.Rival, new FollowUpDenialEffect());
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
+        }
+        
+        else if (skillName == "Mirror Impact")
+        {
+            conditions.Add(new FirstAttackCondition(UnitRole.Unit));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new AtkBonusEffect(6));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new ResBonusEffect(10));
+            effectsByUnitType.AddEffect(UnitRole.Rival, new FollowUpDenialEffect());
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
+        }
+        
+        else if (skillName == "Swift Impact")
+        {
+            conditions.Add(new FirstAttackCondition(UnitRole.Unit));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new SpdBonusEffect(6));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new ResBonusEffect(10));
+            effectsByUnitType.AddEffect(UnitRole.Rival, new FollowUpDenialEffect());
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
+        }
+        
+        else if (skillName == "Steady Impact")
+        {
+            conditions.Add(new FirstAttackCondition(UnitRole.Unit));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new SpdBonusEffect(6));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new DefBonusEffect(10));
+            effectsByUnitType.AddEffect(UnitRole.Rival, new FollowUpDenialEffect());
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
+        }
+        
+        else if (skillName == "Slick Fighter")
+        {
+            conditions.Add(new HpPercentageConditionInversed(0.25, UnitRole.Unit));
+            conditions.Add(new FirstAttackCondition(UnitRole.Rival));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new PenaltyNeutralizationEffect(new EnumList<StatType>(
+                new List<StatType> { StatType.Atk, StatType.Def, StatType.Res, StatType.Spd })));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new FollowUpGuaranteeEffect());
+            conditionEvaluator = new AndConditionEvaluator(conditions);
+        }
+        
+        else if (skillName == "Wily Fighter")
+        {
+            conditions.Add(new HpPercentageConditionInversed(0.25, UnitRole.Unit));
+            conditions.Add(new FirstAttackCondition(UnitRole.Rival));
+            effectsByUnitType.AddEffect(UnitRole.Rival, new BonusNeutralizationEffect(new EnumList<StatType>(
+                new List<StatType> { StatType.Atk, StatType.Def, StatType.Res, StatType.Spd })));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new FollowUpGuaranteeEffect());
+            conditionEvaluator = new AndConditionEvaluator(conditions);
+        }
+        
+        else if (skillName == "Savvy Fighter")
+        {
+            conditions.Add(new FirstAttackCondition(UnitRole.Rival));
+            effectsByUnitType.AddEffect(UnitRole.Rival, new FollowUpDenialOfGuaranteesEffect());
+            effectsByUnitType.AddEffect(UnitRole.Unit, new FollowUpDenialOfDenialsEffect());
+            
+            compositeSkill.AddComponent(new DefaultConditionEvaluator(conditions),
+                new EffectApplier(effectsByUnitType));
+            
+            secondConditions.Add(new FirstAttackCondition(UnitRole.Rival));
+            secondConditions.Add(new StatComparisonCondition(-4, StatType.Spd, StatType.Spd));
+            secondEffectsByUnitType.AddEffect(UnitRole.Unit, new ConstantPercentageReductionEffect(0.3, 
+                AttackType.FirstAttack));
+            
+            compositeSkill.AddComponent(new AndConditionEvaluator(secondConditions),
+                new EffectApplier(secondEffectsByUnitType));
+            
+            return compositeSkill;
         }
 
         else
