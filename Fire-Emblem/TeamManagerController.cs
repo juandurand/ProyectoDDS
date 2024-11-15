@@ -15,6 +15,25 @@ public class TeamManagerController
         _playersUnits = new PlayerArray();
         _playersUnits.Add(UnitsLoader.LoadUnits(playersInfo.Item1), 0);
         _playersUnits.Add(UnitsLoader.LoadUnits(playersInfo.Item2), 1);
+        SetUnitsTeam(_playersUnits.Get(0));
+        SetUnitsTeam(_playersUnits.Get(1));
+    }
+
+    private void SetUnitsTeam(UnitList team)
+    // Más de dos niveles de indentación
+    {
+        for (int j = 0; j < team.Count; j++)
+        {
+            Unit unit = team.Get(j);
+            for (int k = 0; k < team.Count; k++)
+            {
+                if (k != j)
+                {
+                    Unit teamMate = team.Get(k);
+                    unit.Team.Add(teamMate);
+                }
+            }
+        }
     }
 
     public Unit ChooseUnit(int playerIndex, GeneralView view)
@@ -37,6 +56,16 @@ public class TeamManagerController
         if (!HealthStatusManager.IsUnitAlive(unit.HealthStatus))
         {
             _playersUnits.Get(playerIndex).Remove(unit);
+            RemoveDeadUnitFromTeam(unit, playerIndex);
+        }
+    }
+    
+    private void RemoveDeadUnitFromTeam(Unit deadUnit, int playerIndex)
+    {
+        for (int i = 0; i < _playersUnits.Get(playerIndex).Count; i++)
+        {
+            Unit unit = _playersUnits.Get(playerIndex).Get(i);
+            unit.Team.Remove(deadUnit);
         }
     }
 

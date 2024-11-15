@@ -16,6 +16,6 @@ public class HpPenaltyBeforeCombatEffect:Effect
     public override void ApplyEffect(Unit unit)
     {
         unit.HealthStatus.PenaltyBeforeCombat += _hpPenaltyBeforeCombat;
-        unit.HealthStatus.ActualHpValue -= _hpPenaltyBeforeCombat;
+        unit.HealthStatus.ActualHpValue = Math.Max(unit.HealthStatus.ActualHpValue - _hpPenaltyBeforeCombat, 1);
     }
 }

@@ -30,8 +30,9 @@ public class Unit
         
     public bool CounterAttackDenial;
     public bool DenialOfCounterAttackDenial;
-    
 
+    public UnitList Team;
+    
     public Unit(UnitData unitData)
     {
         Name = unitData.GetString(UnitDataKey.Name);
@@ -55,6 +56,8 @@ public class Unit
         
         CounterAttackDenial = false;
         DenialOfCounterAttackDenial = false;
+        
+        Team = new UnitList();
         
         Skills = SkillFactory.GetSkills(unitData.GetStringList(UnitDataKey.Skills), this);
     }

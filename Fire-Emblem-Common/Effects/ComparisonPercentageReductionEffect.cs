@@ -10,20 +10,33 @@ public class ComparisonPercentageReductionEffect:Effect
     private readonly StatType _skillOwnerStat;
     private readonly StatType _rivalStat;
     private readonly int _multiplier;
+    private readonly AttackType _attackType;
 
-    public ComparisonPercentageReductionEffect(double max, StatType skillOwnerStat, StatType rivalStat, int multiplier)
-        :base(EffectsApplyOrder.SecondOrder)
+    public ComparisonPercentageReductionEffect(double max, StatType skillOwnerStat, StatType rivalStat, int multiplier,
+        AttackType attackType = AttackType.None) :base(EffectsApplyOrder.SecondOrder)
     {
         _max = max;
         _skillOwnerStat = skillOwnerStat;
         _rivalStat = rivalStat;
         _multiplier = multiplier;
+        _attackType = attackType;
     }
 
     public override void ApplyEffect(Unit unit)
     {
         double reductionFactor = GetReductionFactor(unit);
-        unit.DamageEffects.PercentageReduction *= (1 - reductionFactor);
+        if (_attackType == AttackType.None)
+        {
+            unit.DamageEffects.PercentageReduction *= (1 - reductionFactor);
+        }
+        else if (_attackType == AttackType.FirstAttack)
+        {
+            unit.DamageEffects.FirstAttackPercentageReduction *= (1 - reductionFactor);
+        }
+        else if (_attackType == AttackType.FollowUp)
+        {
+            unit.DamageEffects.FollowUpPercentageReduction *= (1 - reductionFactor);
+        }
     }
 
     private double GetReductionFactor(Unit unit)

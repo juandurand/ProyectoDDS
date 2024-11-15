@@ -1178,7 +1178,22 @@ public static class SkillFactory
         else if (skillName == "True Dragon Wall")
         {
             conditions.Add(new StatComparisonCondition(-1, StatType.Res, StatType.Res));
-            throw new NotImplementedSkillException($"La skill {skillName} no está implementada.");
+            effectsByUnitType.AddEffect(UnitRole.Unit, new ComparisonPercentageReductionEffect(
+                0.6, StatType.Res, StatType.Res, 6, AttackType.FirstAttack));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new ComparisonPercentageReductionEffect(
+                0.4, StatType.Res, StatType.Res, 4, AttackType.FollowUp));
+            
+            compositeSkill.AddComponent(new DefaultConditionEvaluator(conditions),
+                new EffectApplier(effectsByUnitType));
+
+            secondConditions.Add(new TeamMatesWeaponTypeCondition(new EnumList<WeaponType>(
+                new List<WeaponType> { WeaponType.Magic })));
+            secondEffectsByUnitType.AddEffect(UnitRole.Unit, new HpBonusAfterCombatEffect(7));
+            
+            compositeSkill.AddComponent(new DefaultConditionEvaluator(secondConditions),
+                new EffectApplier(secondEffectsByUnitType));
+            
+            return compositeSkill;
         }
         
         else if (skillName == "Scendscale")
@@ -1212,13 +1227,14 @@ public static class SkillFactory
             conditions.Add(new FirstAttackCondition(UnitRole.Unit));
             conditions.Add(new WeaponTypeCondition(UnitRole.Rival, new EnumList<WeaponType>(
                 new List<WeaponType> { WeaponType.Magic, WeaponType.Bow })));
-            // effect
+            effectsByUnitType.AddEffect(UnitRole.Rival, new BewitchingTomeEffect());
             effectsByUnitType.AddEffect(UnitRole.Unit, new AtkBonusEffect(5));
             effectsByUnitType.AddEffect(UnitRole.Unit, new SpdBonusEffect(5));
             effectsByUnitType.AddEffect(UnitRole.Unit, new DefBonusEffect(5));
             effectsByUnitType.AddEffect(UnitRole.Unit, new ResBonusEffect(5));
-            // effect
-            effectsByUnitType.AddEffect(UnitRole.Rival, new ConstantPercentageReductionEffect(0.3, AttackType.FirstAttack));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new BonusFromPercentageOfOtherStatEffect(new EnumList<StatType>(
+                new List<StatType> { StatType.Atk, StatType.Spd }), StatType.Spd, 0.2));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new ConstantPercentageReductionEffect(0.3, AttackType.FirstAttack));
             effectsByUnitType.AddEffect(UnitRole.Unit, new HpBonusAfterCombatEffect(7));
             conditionEvaluator = new OrConditionEvaluator(conditions);
         }
