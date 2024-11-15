@@ -26,6 +26,7 @@
       <Compile Remove="PersonalizedInterfaces\GenericList.cs" />
       <Compile Remove="Skills\SpecialSkillMapper.cs" />
       <Compile Remove="Enums\SpecialSkills.cs" />
+      <Compile Remove="Enums\FollowUpEffectsResults.cs" />
     </ItemGroup>
 
 </Project>

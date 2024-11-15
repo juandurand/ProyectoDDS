@@ -31,10 +31,11 @@ public static class UnitManager
         StatManager.ResetEffects(unit.Res);
         DamageEffectsController.ResetEffects(unit.DamageEffects);
         HealthStatusManager.ResetEffects(unit.HealthStatus);
-        ResetDenials(unit);
+        ResetCounterAttackDenials(unit);
+        FollowUpEffectsManager.ResetFollowUpEffects(unit.FollowUpEffects);
     }
 
-    private static void ResetDenials(Unit unit)
+    private static void ResetCounterAttackDenials(Unit unit)
     {
         unit.CounterAttackDenial = false;
         unit.DenialOfCounterAttackDenial = false;

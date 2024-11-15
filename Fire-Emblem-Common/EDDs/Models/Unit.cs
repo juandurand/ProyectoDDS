@@ -30,6 +30,8 @@ public class Unit
         
     public bool CounterAttackDenial;
     public bool DenialOfCounterAttackDenial;
+    
+    public FollowUpEffects FollowUpEffects;
 
     public UnitList Team;
     
@@ -56,6 +58,8 @@ public class Unit
         
         CounterAttackDenial = false;
         DenialOfCounterAttackDenial = false;
+        
+        FollowUpEffects = new FollowUpEffects();
         
         Team = new UnitList();
         

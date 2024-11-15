@@ -4,7 +4,6 @@ using Fire_Emblem_Common.EDDs.Managers;
 using Fire_Emblem_Common.Enums;
 using Fire_Emblem_Common.Damage;
 
-
 namespace Fire_Emblem;
 
 public class AttackController
@@ -48,6 +47,20 @@ public class AttackController
     }
 
     private static bool CanFollowUp(Unit attackerUnit, Unit defenderUnit)
+    {
+        FollowUpEffectsResult followUpEffectsResult = FollowUpEffectsManager.GetFollowUpEffects(attackerUnit.FollowUpEffects);
+        if (followUpEffectsResult == FollowUpEffectsResult.Guaranteed)
+        {
+            return true;
+        }
+        if (followUpEffectsResult == FollowUpEffectsResult.Denied)
+        {
+            return false;
+        }
+        return CanFollowUpBasedOnSpd(attackerUnit, defenderUnit);
+    }
+    
+    private static bool CanFollowUpBasedOnSpd(Unit attackerUnit, Unit defenderUnit)
     {
         int followUpSpeedThreshold = 4;
         int actualSpeedDifference = UnitManager.GetTotalStat(attackerUnit, StatType.Spd, AttackType.None) -

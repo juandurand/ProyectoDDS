@@ -1238,6 +1238,14 @@ public static class SkillFactory
             effectsByUnitType.AddEffect(UnitRole.Unit, new HpBonusAfterCombatEffect(7));
             conditionEvaluator = new OrConditionEvaluator(conditions);
         }
+        
+        else if (skillName == "Quick Riposte")
+        {
+            conditions.Add(new HpPercentageConditionInversed(0.6, UnitRole.Unit));
+            conditions.Add(new FirstAttackCondition(UnitRole.Rival));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new QuickRiposteEffect());
+            conditionEvaluator = new AndConditionEvaluator(conditions);
+        }
 
         else
         {
