@@ -27,7 +27,7 @@ public class ExtraDamageCalculator
         {
             if (_analizedStat == StatType.Hp)
             {
-                extraDamage = unit.HealthStatus.ActualHpValue - unit.HealthStatus.HpBaseValue;
+                extraDamage = unit.HealthStatus.HpBaseValue - unit.HealthStatus.ActualHpValue;
             }
             else
             {

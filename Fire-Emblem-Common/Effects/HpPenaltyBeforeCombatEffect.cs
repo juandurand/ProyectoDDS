@@ -8,7 +8,7 @@ public class HpPenaltyBeforeCombatEffect:Effect
     private readonly int _hpPenaltyBeforeCombat;
 
     public HpPenaltyBeforeCombatEffect(int hpPenaltyBeforeCombat)
-        : base(EffectsApplyOrder.SecondOrder)
+        : base(EffectsApplyOrder.ThirdOrder)
     {
         _hpPenaltyBeforeCombat = hpPenaltyBeforeCombat;
     }

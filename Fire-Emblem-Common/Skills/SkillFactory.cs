@@ -1199,17 +1199,28 @@ public static class SkillFactory
             secondConditions.Add(new FirstAttackCondition(UnitRole.Unit));
             secondEffectsByUnitType.AddEffect(UnitRole.Unit, new AtkBonusEffect(9));
             secondEffectsByUnitType.AddEffect(UnitRole.Unit, new SpdBonusEffect(9));
-            secondEffectsByUnitType.AddEffect(UnitRole.Unit, new HpPercentageBonusOfDamageEffect(0.5));
+            secondEffectsByUnitType.AddEffect(UnitRole.Unit, new MastermindEffect());
             
             compositeSkill.AddComponent(new DefaultConditionEvaluator(secondConditions),
                 new EffectApplier(secondEffectsByUnitType));
-            
-            throw new NotImplementedSkillException($"La skill {skillName} no está implementada.");
+
+            return compositeSkill;
         }
         
         else if (skillName == "Bewitching Tome")
         {
-            throw new NotImplementedSkillException($"La skill {skillName} no está implementada.");
+            conditions.Add(new FirstAttackCondition(UnitRole.Unit));
+            conditions.Add(new WeaponTypeCondition(UnitRole.Rival, new EnumList<WeaponType>(
+                new List<WeaponType> { WeaponType.Magic, WeaponType.Bow })));
+            // effect
+            effectsByUnitType.AddEffect(UnitRole.Unit, new AtkBonusEffect(5));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new SpdBonusEffect(5));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new DefBonusEffect(5));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new ResBonusEffect(5));
+            // effect
+            effectsByUnitType.AddEffect(UnitRole.Rival, new ConstantPercentageReductionEffect(0.3, AttackType.FirstAttack));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new HpBonusAfterCombatEffect(7));
+            conditionEvaluator = new OrConditionEvaluator(conditions);
         }
 
         else

@@ -5,29 +5,66 @@ namespace Fire_Emblem_Common.Effects;
 
 public class MastermindEffect:Effect
 {
-    private readonly int _damageBonus;
-    private readonly AttackType _attackType;
-
-    public MastermindEffect(int damageBonus, AttackType attackType = AttackType.None)
-        : base(EffectsApplyOrder.SecondOrder)
-    {
-        _damageBonus = damageBonus;
-        _attackType = attackType;
-    }
+    public MastermindEffect()
+        : base(EffectsApplyOrder.ThirdOrder) { }
 
     public override void ApplyEffect(Unit unit)
     {
-        if (_attackType == AttackType.None)
+        int extraDamage = GetExtraDamage(unit);
+        unit.DamageEffects.Bonus += extraDamage;
+    }
+    
+    private int GetExtraDamage(Unit unit)
+    {
+        int extraDamage = 0;
+        extraDamage += GetSkillOwnerBonus(unit);
+        extraDamage += GetOpponentPenalty(unit.ActualOpponent);
+        return extraDamage;
+    }
+    
+    private int GetSkillOwnerBonus(Unit unit)
+    {
+        int skillOwnerBonus = 0;
+        if (!unit.Atk.BonusNeutralized)
         {
-            unit.DamageEffects.Bonus += _damageBonus;
+            skillOwnerBonus += unit.Atk.Bonus;
         }
-        else if (_attackType == AttackType.FirstAttack)
+        if (!unit.Spd.BonusNeutralized)
         {
-            unit.DamageEffects.FirstAttackBonus += _damageBonus;
+            skillOwnerBonus += unit.Spd.Bonus;
         }
-        else if (_attackType == AttackType.FollowUp)
+        if (!unit.Def.BonusNeutralized)
         {
-            unit.DamageEffects.FollowUpBonus += _damageBonus;
+            skillOwnerBonus += unit.Def.Bonus;
         }
+        if (!unit.Res.BonusNeutralized)
+        {
+            skillOwnerBonus += unit.Res.Bonus;
+        }
+        skillOwnerBonus =  Convert.ToInt32(Math.Floor(skillOwnerBonus * 0.8));
+        return skillOwnerBonus;
+    }
+    
+    private int GetOpponentPenalty(Unit opponent)
+    {
+        int opponentPenalty = 0;
+        if (!opponent.Atk.PenaltyNeutralized)
+        {
+            opponentPenalty += opponent.Atk.Penalty;
+        }
+        if (!opponent.Spd.PenaltyNeutralized)
+        {
+            opponentPenalty += opponent.Spd.Penalty;
+        }
+        if (!opponent.Def.PenaltyNeutralized)
+        {
+            opponentPenalty += opponent.Def.Penalty;
+        }
+        if (!opponent.Res.PenaltyNeutralized)
+        {
+            opponentPenalty += opponent.Res.Penalty;
+        }
+        opponentPenalty =  Convert.ToInt32(Math.Floor(opponentPenalty * 0.8));
+        return opponentPenalty;
     }
 }
