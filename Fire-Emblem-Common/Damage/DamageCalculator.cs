@@ -30,8 +30,11 @@ public static class DamageCalculator
     {
         baseDamage += DamageEffectsController.GetTotalBonus(damageInfo.Attacker.DamageEffects, damageInfo.AttackType);
         
-        double modifiedDamage = baseDamage * DamageEffectsController.GetTotalPercentageReduction(
-                                    damageInfo.Defender.DamageEffects, damageInfo.AttackType);
+        double percentageReduction = damageInfo.Attacker.DamageEffects.ReductionOfPercentageReduction * 
+                                     (1 - DamageEffectsController.GetTotalPercentageReduction(
+                                         damageInfo.Defender.DamageEffects, damageInfo.AttackType));
+        
+        double modifiedDamage = baseDamage * (1 - percentageReduction);
         
         modifiedDamage = Math.Round(modifiedDamage, 9);
         

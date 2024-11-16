@@ -9,6 +9,7 @@ public static class DamageEffectsController
         damageEffects.Bonus = 0;
         damageEffects.Penalty = 0;
         damageEffects.PercentageReduction = 1.0;
+        damageEffects.ReductionOfPercentageReduction = 1.0;
         damageEffects.FirstAttackBonus = 0;
         damageEffects.FollowUpBonus = 0;
         damageEffects.FirstAttackPercentageReduction = 1.0;

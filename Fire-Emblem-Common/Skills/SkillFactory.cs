@@ -1421,6 +1421,26 @@ public static class SkillFactory
             compositeSkill.AddComponent(new DefaultConditionEvaluator(thirdConditions), new EffectApplier(thirdEffectsByUnitType));
             return compositeSkill;
         }
+        
+        else if (skillName == "Phys. Null Follow")
+        {
+            effectsByUnitType.AddEffect(UnitRole.Rival, new SpdPenaltyEffect(4));
+            effectsByUnitType.AddEffect(UnitRole.Rival, new DefPenaltyEffect(4));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new FollowUpDenialOfDenialsEffect());
+            effectsByUnitType.AddEffect(UnitRole.Rival, new FollowUpDenialOfGuaranteesEffect());
+            effectsByUnitType.AddEffect(UnitRole.Unit, new ReductionOfPercentageReductionEffect(0.5));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
+        }
+        
+        else if (skillName == "Mag. Null Follow")
+        {
+            effectsByUnitType.AddEffect(UnitRole.Rival, new SpdPenaltyEffect(4));
+            effectsByUnitType.AddEffect(UnitRole.Rival, new ResPenaltyEffect(4));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new FollowUpDenialOfDenialsEffect());
+            effectsByUnitType.AddEffect(UnitRole.Rival, new FollowUpDenialOfGuaranteesEffect());
+            effectsByUnitType.AddEffect(UnitRole.Unit, new ReductionOfPercentageReductionEffect(0.5));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
+        }
 
         else
         {

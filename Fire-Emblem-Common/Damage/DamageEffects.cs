@@ -11,6 +11,8 @@ public class DamageEffects
     public double PercentageReduction;
     public double FirstAttackPercentageReduction;
     public double FollowUpPercentageReduction;
+    
+    public double ReductionOfPercentageReduction;
 
     public DamageEffects()
     {
