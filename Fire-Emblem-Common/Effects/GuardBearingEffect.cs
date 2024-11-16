@@ -16,7 +16,7 @@ public class GuardBearingEffect:Effect
     public override void ApplyEffect(Unit unit)
     {
         double reductionFactor = GetReductionFactor(unit);
-        
+        reductionFactor = unit.ActualOpponent.DamageEffects.ReductionOfPercentageReduction * reductionFactor;
         if (_attackType == AttackType.None)
         {
             unit.DamageEffects.PercentageReduction *= (1 - reductionFactor);

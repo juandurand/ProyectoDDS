@@ -8,7 +8,7 @@ public class ReductionOfPercentageReductionEffect : Effect
     private readonly double _reduction;
     
     public ReductionOfPercentageReductionEffect(double reduction)
-        : base(EffectsApplyOrder.SecondOrder)
+        : base(EffectsApplyOrder.FirstOrder)
     {
         _reduction = reduction;
     }

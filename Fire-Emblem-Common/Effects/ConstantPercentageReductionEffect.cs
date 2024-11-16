@@ -17,17 +17,18 @@ public class ConstantPercentageReductionEffect:Effect
 
     public override void ApplyEffect(Unit unit)
     {
+        double reductionFactor = unit.ActualOpponent.DamageEffects.ReductionOfPercentageReduction * _reduction;
         if (_attackType == AttackType.None)
         {
-            unit.DamageEffects.PercentageReduction *= (1 - _reduction);
+            unit.DamageEffects.PercentageReduction *= (1 - reductionFactor);
         }
         else if (_attackType == AttackType.FirstAttack)
         {
-            unit.DamageEffects.FirstAttackPercentageReduction *= (1 - _reduction);
+            unit.DamageEffects.FirstAttackPercentageReduction *= (1 - reductionFactor);
         }
         else if (_attackType == AttackType.FollowUp)
         {
-            unit.DamageEffects.FollowUpPercentageReduction *= (1 - _reduction);
+            unit.DamageEffects.FollowUpPercentageReduction *= (1 - reductionFactor);
         }
     }
 }
