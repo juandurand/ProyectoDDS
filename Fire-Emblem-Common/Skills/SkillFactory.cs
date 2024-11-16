@@ -1443,6 +1443,65 @@ public static class SkillFactory
             
             return compositeSkill;
         }
+        
+        else if (skillName == "Flow Force")
+        {
+            conditions.Add(new FirstAttackCondition(UnitRole.Unit));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new FollowUpDenialOfDenialsEffect());
+            effectsByUnitType.AddEffect(UnitRole.Unit, new PenaltyNeutralizationEffect(new EnumList<StatType>(
+                new List<StatType> { StatType.Atk, StatType.Spd })));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
+        }
+        
+        else if (skillName == "Flow Refresh")
+        {
+            conditions.Add(new FirstAttackCondition(UnitRole.Unit));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new FollowUpDenialOfDenialsEffect());
+            effectsByUnitType.AddEffect(UnitRole.Unit, new HpBonusAfterCombatEffect(10));
+            conditionEvaluator = new DefaultConditionEvaluator(conditions);
+        }
+        
+        else if (skillName == "Flow Feather")
+        {
+            conditions.Add(new FirstAttackCondition(UnitRole.Unit));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new FollowUpDenialOfDenialsEffect());
+            
+            compositeSkill.AddComponent(new DefaultConditionEvaluator(conditions),
+                new EffectApplier(effectsByUnitType));
+            
+            secondConditions.Add(new FirstAttackCondition(UnitRole.Unit));
+            secondConditions.Add(new StatComparisonCondition(-10, StatType.Spd, StatType.Spd));
+            secondEffectsByUnitType.AddEffect(UnitRole.Unit, new SpecificExtraDamageEffect(UnitRole.Both, StatType.Res,
+                0.7, StatType.Res, AttackType.None, 7));
+            secondEffectsByUnitType.AddEffect(UnitRole.Unit, new SpecificDamageReductionEffect(0.7, StatType.Res,
+                StatType.Res, 7, 0));
+            
+            compositeSkill.AddComponent(new AndConditionEvaluator(secondConditions),
+                new EffectApplier(secondEffectsByUnitType));
+            
+            return compositeSkill;
+        }
+        
+        else if (skillName == "Flow Flight")
+        {
+            conditions.Add(new FirstAttackCondition(UnitRole.Unit));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new FollowUpDenialOfDenialsEffect());
+            
+            compositeSkill.AddComponent(new DefaultConditionEvaluator(conditions),
+                new EffectApplier(effectsByUnitType));
+            
+            secondConditions.Add(new FirstAttackCondition(UnitRole.Unit));
+            secondConditions.Add(new StatComparisonCondition(-10, StatType.Spd, StatType.Spd));
+            secondEffectsByUnitType.AddEffect(UnitRole.Unit, new SpecificExtraDamageEffect(UnitRole.Both, StatType.Def,
+                0.7, StatType.Def, AttackType.None, 7));
+            secondEffectsByUnitType.AddEffect(UnitRole.Unit, new SpecificDamageReductionEffect(0.7, StatType.Def,
+                StatType.Def, 7, 0));
+            
+            compositeSkill.AddComponent(new AndConditionEvaluator(secondConditions),
+                new EffectApplier(secondEffectsByUnitType));
+            
+            return compositeSkill;
+        }
 
         else
         {
