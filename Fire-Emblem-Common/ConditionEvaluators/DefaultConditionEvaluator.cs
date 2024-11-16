@@ -5,10 +5,16 @@ namespace Fire_Emblem_Common.ConditionEvaluators;
 
 public class DefaultConditionEvaluator : ConditionEvaluator
 {
-    public DefaultConditionEvaluator(ConditionList conditions) : base(conditions) { }
+    
+    private readonly ConditionList _conditions;
+
+    public DefaultConditionEvaluator(ConditionList conditions)
+    {
+        _conditions = conditions;
+    }
 
     public override bool AreConditionsSatisfied(RoundInfo roundInfo)
     {
-        return Conditions.Count == 0 || Conditions.Get(0).IsConditionSatisfied(roundInfo);
+        return _conditions.Count == 0 || _conditions.Get(0).IsConditionSatisfied(roundInfo);
     }
 }

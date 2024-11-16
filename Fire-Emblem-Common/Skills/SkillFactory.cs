@@ -1159,10 +1159,14 @@ public static class SkillFactory
         {
             conditions.Add(new HpPercentageCondition(0.99, UnitRole.Unit));
             conditions.Add(new FirstAttackCondition(UnitRole.Unit));
-            effectsByUnitType.AddEffect(UnitRole.Unit, new FollowUpDenialEffect());
-            effectsByUnitType.AddEffect(UnitRole.Rival, new FollowUpDenialEffect());
-            conditionEvaluator = new DefaultConditionEvaluator(conditions);
-            throw new NotImplementedSkillException($"La skill {skillName} no está implementada.");
+            secondConditions.Add(new HpPercentageCondition(1, UnitRole.Rival));
+            secondConditions.Add(new FirstAttackCondition(UnitRole.Unit));
+            effectsByUnitType.AddEffect(UnitRole.Rival, new DefPenaltyEffect(4));
+            effectsByUnitType.AddEffect(UnitRole.Rival, new ResPenaltyEffect(4));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new ConstantPercentageReductionEffect(0.3, AttackType.FirstAttack));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new FollowUpGuaranteeEffect());
+            effectsByUnitType.AddEffect(UnitRole.Unit, new BrashAssaultEffect());
+            conditionEvaluator = new ComplexConditionEvaluator(conditions, secondConditions);
         }
         
         else if (skillName == "Melee Breaker")
@@ -1409,8 +1413,8 @@ public static class SkillFactory
             
             secondConditions.Add(new HpPercentageConditionInversed(0.25, UnitRole.Unit));
             secondConditions.Add(new StatComparisonCondition(1, StatType.Res, StatType.Res));
-            effectsByUnitType.AddEffect(UnitRole.Unit, new ComparisonPercentageReductionEffect(0.4, StatType.Res, StatType.Res, 4));
-            compositeSkill.AddComponent(new AndConditionEvaluator(secondConditions), new EffectApplier(effectsByUnitType));
+            secondEffectsByUnitType.AddEffect(UnitRole.Unit, new ComparisonPercentageReductionEffect(0.4, StatType.Res, StatType.Res, 4));
+            compositeSkill.AddComponent(new AndConditionEvaluator(secondConditions), new EffectApplier(secondEffectsByUnitType));
             
             thirdConditions.Add(new HpPercentageConditionInversed(0.4, UnitRole.Unit));
             thirdEffectsByUnitType.AddEffect(UnitRole.Rival, new FollowUpDenialEffect());

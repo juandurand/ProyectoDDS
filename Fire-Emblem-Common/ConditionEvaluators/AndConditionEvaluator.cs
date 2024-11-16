@@ -5,10 +5,15 @@ namespace Fire_Emblem_Common.ConditionEvaluators;
 
 public class AndConditionEvaluator : ConditionEvaluator
 {
-    public AndConditionEvaluator(ConditionList conditions) : base(conditions) { }
+    private readonly ConditionList _conditions;
+
+    public AndConditionEvaluator(ConditionList conditions)
+    {
+        _conditions = conditions;
+    }
 
     public override bool AreConditionsSatisfied(RoundInfo roundInfo)
     {
-        return Conditions.All(condition => condition.IsConditionSatisfied(roundInfo));
+        return _conditions.All(condition => condition.IsConditionSatisfied(roundInfo));
     }
 }
