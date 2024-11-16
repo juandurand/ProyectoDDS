@@ -1,5 +1,6 @@
 using Fire_Emblem_Common.Helpers;
 using Fire_Emblem_Common.EDDs.Models;
+using Fire_Emblem_Common.EDDs.Managers;
 using Fire_Emblem_View.PersonalizedViews;
 using Fire_Emblem_Common.Enums;
 
@@ -68,7 +69,10 @@ public class RoundController
                                                                AttackType.FollowUp);
         
         _attackController.SimulateFollowUp(attackerFollowUpDamageInfo);
-        _attackController.SimulateFollowUp(defenderFollowUpDamageInfo);
+        if (HealthStatusManager.IsUnitAlive(roundInfo.Defender.HealthStatus))
+        {
+            _attackController.SimulateFollowUp(defenderFollowUpDamageInfo);
+        }
         _attackController.ReportNoFollowUp(attackerFollowUpDamageInfo);
     }
     
