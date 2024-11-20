@@ -16,17 +16,15 @@ public class WeaponTypeCondition:Condition
     }
     
     public override bool IsConditionSatisfied(RoundInfo roundInfo)
-    {
-        (Unit starter, Unit rival, Unit skillOwner) = GetUnits(roundInfo);
-        
+    { 
         if (_analyzedUnit == UnitRole.Unit)
         {
-            return _requiredWeaponTypes.Contains(skillOwner.Weapon);
+            return _requiredWeaponTypes.Contains(roundInfo.SkillOwner.Weapon);
         }
 
         if (_analyzedUnit == UnitRole.Rival)
         {
-            return _requiredWeaponTypes.Contains(rival.Weapon);
+            return _requiredWeaponTypes.Contains(roundInfo.Rival.Weapon);
         }
 
         return false;

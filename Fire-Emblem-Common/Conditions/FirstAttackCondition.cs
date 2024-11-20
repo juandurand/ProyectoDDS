@@ -14,16 +14,14 @@ public class FirstAttackCondition:Condition
     
     public override bool IsConditionSatisfied(RoundInfo roundInfo)
     {
-        (Unit starter, Unit rival, Unit skillOwner) = GetUnits(roundInfo);
-        
         if (_analyzedUnit == UnitRole.Unit)
         {
-            return starter == skillOwner;
+            return roundInfo.Attacker == roundInfo.SkillOwner;
         }
         
         if (_analyzedUnit == UnitRole.Rival)
         {
-            return starter != skillOwner;
+            return roundInfo.Attacker != roundInfo.SkillOwner;
         }
         
         return false;

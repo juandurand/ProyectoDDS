@@ -24,11 +24,9 @@ public class DoubleStatComparisonCondition:Condition
     
     public override bool IsConditionSatisfied(RoundInfo roundInfo)
     {
-        (Unit starter, Unit rival, Unit skillOwner) = GetUnits(roundInfo);
-        
-        return UnitManager.GetTotalStat(skillOwner, _firstSkillOwnerStat, AttackType.None) + 
-               UnitManager.GetTotalStat(skillOwner, _secondSkillOwnerStat, AttackType.None) >= 
-               _requiredDifference + UnitManager.GetTotalStat(rival, _firstRivalStat, AttackType.None) + 
-               UnitManager.GetTotalStat(rival, _secondRivalStat, AttackType.None);
+        return UnitManager.GetTotalStat(roundInfo.SkillOwner, _firstSkillOwnerStat, AttackType.None) + 
+               UnitManager.GetTotalStat(roundInfo.SkillOwner, _secondSkillOwnerStat, AttackType.None) >= 
+               _requiredDifference + UnitManager.GetTotalStat(roundInfo.Rival, _firstRivalStat, AttackType.None) + 
+               UnitManager.GetTotalStat(roundInfo.Rival, _secondRivalStat, AttackType.None);
     }
 }

@@ -19,9 +19,7 @@ public class BaseStatComparisonCondition:Condition
     
     public override bool IsConditionSatisfied(RoundInfo roundInfo)
     {
-        (Unit starter, Unit rival, Unit skillOwner) = GetUnits(roundInfo);
-        
-        return UnitManager.GetBaseValue(skillOwner, _skillOwnerStat) >= 
-               _requiredDifference + UnitManager.GetBaseValue(rival, _rivalStat);
+        return UnitManager.GetBaseValue(roundInfo.SkillOwner, _skillOwnerStat) >= 
+               _requiredDifference + UnitManager.GetBaseValue(roundInfo.Rival, _rivalStat);
     }
 }

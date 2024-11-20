@@ -19,9 +19,7 @@ public class StatComparisonCondition:Condition
     
     public override bool IsConditionSatisfied(RoundInfo roundInfo)
     {
-        (Unit starter, Unit rival, Unit skillOwner) = GetUnits(roundInfo);
-        
-        return UnitManager.GetTotalStat(skillOwner, _skillOwnerStat, AttackType.None) >= 
-               _requiredDifference + UnitManager.GetTotalStat(rival, _rivalStat, AttackType.None);
+        return UnitManager.GetTotalStat(roundInfo.SkillOwner, _skillOwnerStat, AttackType.None) >= 
+               _requiredDifference + UnitManager.GetTotalStat(roundInfo.Rival, _rivalStat, AttackType.None);
     }
 }

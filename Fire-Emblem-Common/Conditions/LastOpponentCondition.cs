@@ -6,8 +6,6 @@ public class LastOpponentCondition:Condition
 {
     public override bool IsConditionSatisfied(RoundInfo roundInfo)
     {
-        (Unit starter, Unit rival, Unit skillOwner) = GetUnits(roundInfo);
-
-        return skillOwner.LastOpponent == rival;
+        return roundInfo.SkillOwner.LastOpponent == roundInfo.Rival;
     }
 }

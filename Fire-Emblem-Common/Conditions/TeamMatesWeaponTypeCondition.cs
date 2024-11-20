@@ -15,9 +15,7 @@ public class TeamMatesWeaponTypeCondition:Condition
     
     public override bool IsConditionSatisfied(RoundInfo roundInfo)
     {
-        (Unit starter, Unit rival, Unit skillOwner) = GetUnits(roundInfo);
-        
-        foreach (Unit unit in skillOwner.Team)
+        foreach (Unit unit in roundInfo.SkillOwner.Team)
         {
             if (_requiredWeaponTypes.Contains(unit.Weapon))
             {

@@ -6,8 +6,6 @@ public class ManRivalCondition:Condition
 {
     public override bool IsConditionSatisfied(RoundInfo roundInfo)
     {
-        (Unit starter, Unit rival, Unit skillOwner) = GetUnits(roundInfo);
-        
-        return rival.Gender == "Male";
+        return roundInfo.Rival.Gender == "Male";
     }
 }

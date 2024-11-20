@@ -4,7 +4,7 @@ using Fire_Emblem_Common.EDDs.Models;
 
 namespace Fire_Emblem_Common.Conditions;
 
-public class ChaosStyleCondition:Condition
+public class ChaosStyleCondition : Condition
 {
     private readonly EnumList<WeaponType> _requiredWeaponTypes = new EnumList<WeaponType>(
         new List<WeaponType> 
@@ -17,15 +17,8 @@ public class ChaosStyleCondition:Condition
     
     public override bool IsConditionSatisfied(RoundInfo roundInfo)
     {
-        (Unit starter, Unit rival, Unit skillOwner) = GetUnits(roundInfo);
-        
-        if (starter != skillOwner)
-        {
-            return false;
-        }
-        
-        return IsChaosStyleConditionSatisfied(starter, rival) || 
-               IsChaosStyleConditionSatisfied(rival, starter);
+        return IsChaosStyleConditionSatisfied(roundInfo.SkillOwner, roundInfo.Rival) || 
+               IsChaosStyleConditionSatisfied(roundInfo.Rival, roundInfo.SkillOwner);
     }
 
     private bool IsChaosStyleConditionSatisfied(Unit unit, Unit rival)

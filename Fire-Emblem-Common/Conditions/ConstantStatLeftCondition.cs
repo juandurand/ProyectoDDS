@@ -17,8 +17,6 @@ public class ConstantStatLeftCondition:Condition
     
     public override bool IsConditionSatisfied(RoundInfo roundInfo)
     {
-        (Unit starter, Unit rival, Unit skillOwner) = GetUnits(roundInfo);
-        
-        return UnitManager.GetTotalStat(skillOwner, _skillOwnerStat, AttackType.None) >= _requireLeftValue;
+        return UnitManager.GetTotalStat(roundInfo.SkillOwner, _skillOwnerStat, AttackType.None) >= _requireLeftValue;
     }
 }
