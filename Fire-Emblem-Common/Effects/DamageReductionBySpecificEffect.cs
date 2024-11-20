@@ -4,7 +4,7 @@ using Fire_Emblem_Common.EDDs.Managers;
 
 namespace Fire_Emblem_Common.Effects;
 
-public class SpecificDamageReductionEffect : Effect
+public class DamageReductionBySpecificEffect : Effect
 {
     private readonly double _percentage;
     private readonly StatType _skillOwnerStatType;
@@ -12,7 +12,7 @@ public class SpecificDamageReductionEffect : Effect
     private readonly int _max;
     private readonly int _min;
     
-    public SpecificDamageReductionEffect(double percentage, StatType skillOwnerStatType, StatType rivalStatType, int max, int min)
+    public DamageReductionBySpecificEffect(double percentage, StatType skillOwnerStatType, StatType rivalStatType, int max, int min)
         : base(EffectsApplyOrder.SecondOrder)
     {
         _percentage = percentage;

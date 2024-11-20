@@ -3,12 +3,12 @@ using Fire_Emblem_Common.EDDs.Models;
 
 namespace Fire_Emblem_Common.Effects;
 
-public class ConstantPercentageReductionEffect:Effect
+public class DamagePercentageReductionByConstantEffect:Effect
 {
     private readonly double _reduction;
     private readonly AttackType _attackType;
 
-    public ConstantPercentageReductionEffect(double reduction, AttackType attackType = AttackType.None)
+    public DamagePercentageReductionByConstantEffect(double reduction, AttackType attackType = AttackType.None)
         :base(EffectsApplyOrder.SecondOrder)
     {
         _reduction = reduction;

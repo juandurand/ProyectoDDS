@@ -3,12 +3,12 @@ using Fire_Emblem_Common.EDDs.Models;
 
 namespace Fire_Emblem_Common.Effects;
 
-public class ConstantExtraDamageEffect:Effect
+public class DamageExtraByConstantEffect:Effect
 {
     private readonly int _damageBonus;
     private readonly AttackType _attackType;
 
-    public ConstantExtraDamageEffect(int damageBonus, AttackType attackType = AttackType.None)
+    public DamageExtraByConstantEffect(int damageBonus, AttackType attackType = AttackType.None)
         : base(EffectsApplyOrder.SecondOrder)
     {
         _damageBonus = damageBonus;

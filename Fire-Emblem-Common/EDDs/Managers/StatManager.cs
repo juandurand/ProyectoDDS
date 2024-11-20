@@ -60,19 +60,35 @@ public static class StatManager
         stat.PenaltyNeutralized = false;
     }
     
-    public static void ApplyBonus(Stat stat, int bonus, AttackType attackType)
+    public static void ApplyBonus(Stat stat, int bonusValue, AttackType attackType)
     {
         if (attackType == AttackType.None)
         {
-            stat.Bonus += bonus;
+            stat.Bonus += bonusValue;
         }
         else if (attackType == AttackType.FirstAttack)
         {
-            stat.FirstAttackBonus += bonus;
+            stat.FirstAttackBonus += bonusValue;
         }
         else if (attackType == AttackType.FollowUp)
         {
-            stat.FollowUpBonus += bonus;
+            stat.FollowUpBonus += bonusValue;
+        }
+    }
+    
+    public static void ApplyPenalty(Stat stat, int penaltyValue, AttackType attackType = AttackType.None)
+    {
+        if (attackType == AttackType.None)
+        {
+            stat.Penalty += penaltyValue;
+        }
+        else if (attackType == AttackType.FirstAttack)
+        {
+            stat.FirstAttackPenalty += penaltyValue;
+        }
+        else if (attackType == AttackType.FollowUp)
+        {
+            stat.FollowUpPenalty += penaltyValue;
         }
     }
 }

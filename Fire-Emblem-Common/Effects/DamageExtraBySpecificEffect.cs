@@ -4,12 +4,12 @@ using Fire_Emblem_Common.EDDs.Models;
 
 namespace Fire_Emblem_Common.Effects;
 
-public class SpecificExtraDamageEffect:Effect
+public class DamageExtraBySpecificEffect:Effect
 {
     private readonly ExtraDamageCalculator _extraDamageCalculator;
     private readonly AttackType _attackType;
 
-    public SpecificExtraDamageEffect(UnitRole analizedUnit, StatType firstAnalizedStat, double percentage, 
+    public DamageExtraBySpecificEffect(UnitRole analizedUnit, StatType firstAnalizedStat, double percentage, 
                                      StatType secondAnalizedStat = StatType.None, AttackType attackType = AttackType.None, int max = 10000)
         : base(EffectsApplyOrder.SecondOrder)
     {

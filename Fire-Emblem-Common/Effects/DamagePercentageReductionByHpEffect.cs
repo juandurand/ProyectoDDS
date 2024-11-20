@@ -4,12 +4,12 @@ using Fire_Emblem_Common.EDDs.Managers;
 
 namespace Fire_Emblem_Common.Effects;
 
-public class PercentageReductionByHpEffect:Effect
+public class DamagePercentageReductionByHpEffect:Effect
 {
     private readonly double _percentage;
     private readonly AttackType _attackType;
 
-    public PercentageReductionByHpEffect(double percentage, AttackType attackType = AttackType.None)
+    public DamagePercentageReductionByHpEffect(double percentage, AttackType attackType = AttackType.None)
         :base(EffectsApplyOrder.SecondOrder)
     {
         _percentage = percentage;

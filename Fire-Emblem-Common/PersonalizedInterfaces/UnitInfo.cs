@@ -11,12 +11,12 @@ namespace Fire_Emblem_Common.PersonalizedInterfaces
         
         public string GetUnitName()
         {
-            return _unitInfo?.Item1;
+            return _unitInfo.Item1;
         }
         
         public StringList GetUnitSkills()
         {
-            return _unitInfo?.Item2;
+            return _unitInfo.Item2;
         }
     }
 }

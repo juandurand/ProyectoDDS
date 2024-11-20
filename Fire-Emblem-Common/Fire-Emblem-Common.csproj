@@ -27,6 +27,14 @@
       <Compile Remove="Skills\SpecialSkillMapper.cs" />
       <Compile Remove="Enums\SpecialSkills.cs" />
       <Compile Remove="Enums\FollowUpEffectsResults.cs" />
+      <Compile Remove="Effects\AtkBonusEffect.cs" />
+      <Compile Remove="Effects\DefBonusEffect.cs" />
+      <Compile Remove="Effects\SpdBonusEffect.cs" />
+      <Compile Remove="Effects\ResBonusEffect.cs" />
+      <Compile Remove="Effects\AtkPenaltyEffect.cs" />
+      <Compile Remove="Effects\DefPenaltyEffect.cs" />
+      <Compile Remove="Effects\ResPenaltyEffect.cs" />
+      <Compile Remove="Effects\SpdPenaltyEffect.cs" />
     </ItemGroup>
 
 </Project>

@@ -3,11 +3,11 @@ using Fire_Emblem_Common.EDDs.Models;
 
 namespace Fire_Emblem_Common.Effects;
 
-public class ReductionOfPercentageReductionEffect : Effect
+public class DamageReductionOfPercentageReductionEffect : Effect
 {
     private readonly double _reduction;
     
-    public ReductionOfPercentageReductionEffect(double reduction)
+    public DamageReductionOfPercentageReductionEffect(double reduction)
         : base(EffectsApplyOrder.FirstOrder)
     {
         _reduction = reduction;

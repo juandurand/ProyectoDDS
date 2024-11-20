@@ -5,13 +5,13 @@ using Fire_Emblem_Common.EDDs.Managers;
 
 namespace Fire_Emblem_Common.Effects;
 
-public class BonusFromPercentageOfOtherStatEffect:Effect
+public class StatBonusFromPercentageOfOtherStatEffect:Effect
 {
     private readonly EnumList<StatType> _benefitedStatTypes;
     private readonly StatType _bonusOriginStatType;
     private readonly double _percentage;
 
-    public BonusFromPercentageOfOtherStatEffect(EnumList<StatType> benefitedStatTypes, StatType bonusOriginStatType, double percentage)
+    public StatBonusFromPercentageOfOtherStatEffect(EnumList<StatType> benefitedStatTypes, StatType bonusOriginStatType, double percentage)
         : base(EffectsApplyOrder.FirstOrder)
     {
         _benefitedStatTypes = benefitedStatTypes;

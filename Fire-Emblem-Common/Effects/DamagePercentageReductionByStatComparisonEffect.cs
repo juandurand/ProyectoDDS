@@ -4,7 +4,7 @@ using Fire_Emblem_Common.EDDs.Managers;
 
 namespace Fire_Emblem_Common.Effects;
 
-public class ComparisonPercentageReductionEffect:Effect
+public class DamagePercentageReductionByStatComparisonEffect:Effect
 {
     private readonly double _max;
     private readonly StatType _skillOwnerStat;
@@ -12,7 +12,7 @@ public class ComparisonPercentageReductionEffect:Effect
     private readonly int _multiplier;
     private readonly AttackType _attackType;
 
-    public ComparisonPercentageReductionEffect(double max, StatType skillOwnerStat, StatType rivalStat, int multiplier,
+    public DamagePercentageReductionByStatComparisonEffect(double max, StatType skillOwnerStat, StatType rivalStat, int multiplier,
         AttackType attackType = AttackType.None) :base(EffectsApplyOrder.SecondOrder)
     {
         _max = max;
