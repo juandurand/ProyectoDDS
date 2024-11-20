@@ -6,7 +6,7 @@ namespace Fire_Emblem_Common.PersonalizedInterfaces
     {
         private readonly List<UnitInfo> _playerInfo = new List<UnitInfo>();
         
-        public void Add(UnitInfo unitInfo) => _playerInfo.Add(unitInfo);
+        public void AddUnitInfo(UnitInfo unitInfo) => _playerInfo.Add(unitInfo);
         
         public bool IsDuplicateUnit(string name)
         {

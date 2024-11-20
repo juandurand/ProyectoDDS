@@ -6,7 +6,7 @@ namespace Fire_Emblem_Common.PersonalizedInterfaces
     {
         private readonly UnitList[] _playerArray = new UnitList[2];
         
-        public void Add(UnitList unitList, int index)
+        public void AddUnitList(UnitList unitList, int index)
         {
             if (index < 0 || index >= _playerArray.Length)
             {
@@ -15,7 +15,7 @@ namespace Fire_Emblem_Common.PersonalizedInterfaces
             _playerArray[index] = unitList;
         }
         
-        public UnitList Get(int index)
+        public UnitList GetUnitList(int index)
         {
             if (index < 0 || index >= _playerArray.Length)
             {

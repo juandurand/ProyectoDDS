@@ -59,4 +59,20 @@ public static class StatManager
         stat.FollowUpPenalty = 0;
         stat.PenaltyNeutralized = false;
     }
+    
+    public static void ApplyBonus(Stat stat, int bonus, AttackType attackType)
+    {
+        if (attackType == AttackType.None)
+        {
+            stat.Bonus += bonus;
+        }
+        else if (attackType == AttackType.FirstAttack)
+        {
+            stat.FirstAttackBonus += bonus;
+        }
+        else if (attackType == AttackType.FollowUp)
+        {
+            stat.FollowUpBonus += bonus;
+        }
+    }
 }

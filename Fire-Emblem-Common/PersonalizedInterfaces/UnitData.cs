@@ -43,7 +43,7 @@ namespace Fire_Emblem_Common.PersonalizedInterfaces
             return (StringList)_data[key];
         }
 
-        public void Set(UnitDataKey key, object value)
+        public void SetData(UnitDataKey key, object value)
         {
             _data[key] = value;
         }

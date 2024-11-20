@@ -10,13 +10,13 @@ public class TeamManagerController
 {
     private readonly PlayerArray _playersUnits;
 
-    public TeamManagerController((PlayerUnitsInfo, PlayerUnitsInfo) playersInfo)
+    public TeamManagerController(PlayerUnitsInfo playerOneUnitsInfo, PlayerUnitsInfo playerTwoUnitsInfo)
     {
         _playersUnits = new PlayerArray();
-        _playersUnits.Add(UnitsLoader.LoadUnits(playersInfo.Item1), 0);
-        _playersUnits.Add(UnitsLoader.LoadUnits(playersInfo.Item2), 1);
-        SetUnitsTeam(_playersUnits.Get(0));
-        SetUnitsTeam(_playersUnits.Get(1));
+        _playersUnits.AddUnitList(UnitsLoader.LoadUnits(playerOneUnitsInfo), 0);
+        _playersUnits.AddUnitList(UnitsLoader.LoadUnits(playerTwoUnitsInfo), 1);
+        SetUnitsTeam(_playersUnits.GetUnitList(0));
+        SetUnitsTeam(_playersUnits.GetUnitList(1));
     }
 
     private void SetUnitsTeam(UnitList team)
@@ -24,13 +24,13 @@ public class TeamManagerController
     {
         for (int j = 0; j < team.Count; j++)
         {
-            Unit unit = team.Get(j);
+            Unit unit = team.GetUnit(j);
             for (int k = 0; k < team.Count; k++)
             {
                 if (k != j)
                 {
-                    Unit teamMate = team.Get(k);
-                    unit.Team.Add(teamMate);
+                    Unit teamMate = team.GetUnit(k);
+                    unit.Team.AddUnit(teamMate);
                 }
             }
         }
@@ -38,11 +38,11 @@ public class TeamManagerController
 
     public Unit ChooseUnit(int playerIndex, GeneralView view)
     {
-        view.DisplayPlayerTeam(playerIndex + 1, _playersUnits.Get(playerIndex));
+        view.DisplayPlayerTeam(playerIndex + 1, _playersUnits.GetUnitList(playerIndex));
         
         int unitIndex = Convert.ToInt32(view.ReadLine());
         
-        return _playersUnits.Get(playerIndex).Get(unitIndex);
+        return _playersUnits.GetUnitList(playerIndex).GetUnit(unitIndex);
     }
 
     public void CheckUnitsHealth(RoundInfo roundInfo, int attackerIndex, int defenderIndex)
@@ -55,21 +55,21 @@ public class TeamManagerController
     {
         if (!HealthStatusManager.IsUnitAlive(unit.HealthStatus))
         {
-            _playersUnits.Get(playerIndex).Remove(unit);
+            _playersUnits.GetUnitList(playerIndex).RemoveUnit(unit);
             RemoveDeadUnitFromTeam(unit, playerIndex);
         }
     }
     
     private void RemoveDeadUnitFromTeam(Unit deadUnit, int playerIndex)
     {
-        for (int i = 0; i < _playersUnits.Get(playerIndex).Count; i++)
+        for (int i = 0; i < _playersUnits.GetUnitList(playerIndex).Count; i++)
         {
-            Unit unit = _playersUnits.Get(playerIndex).Get(i);
-            unit.Team.Remove(deadUnit);
+            Unit unit = _playersUnits.GetUnitList(playerIndex).GetUnit(i);
+            unit.Team.RemoveUnit(deadUnit);
         }
     }
 
-    public bool AreTeamsAlive() => _playersUnits.Get(0).Count > 0 && _playersUnits.Get(1).Count > 0;
+    public bool AreTeamsAlive() => _playersUnits.GetUnitList(0).Count > 0 && _playersUnits.GetUnitList(1).Count > 0;
 
     public PlayerArray GetPlayersUnits() => _playersUnits;
 }

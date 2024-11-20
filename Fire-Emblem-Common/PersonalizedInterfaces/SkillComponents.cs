@@ -12,12 +12,12 @@ public class SkillComponentList
         _components = new List<(ConditionEvaluator, EffectApplier)>();
     }
     
-    public void Add(ConditionEvaluator conditionEvaluator, EffectApplier effectApplier)
+    public void AddSkillComponent(ConditionEvaluator conditionEvaluator, EffectApplier effectApplier)
     {
         _components.Add((conditionEvaluator, effectApplier));
     }
 
-    public (ConditionEvaluator conditionEvaluator, EffectApplier effectApplier) GetComponent(int index)
+    public (ConditionEvaluator conditionEvaluator, EffectApplier effectApplier) GetSkillComponent(int index)
     {
         return _components[index];
     }

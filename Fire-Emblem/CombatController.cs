@@ -12,16 +12,16 @@ public class CombatController
     private readonly GeneralView _view;
     private int _roundCounter = 1;
 
-    public CombatController((PlayerUnitsInfo, PlayerUnitsInfo) playersInfo, GeneralView view)
+    public CombatController(PlayerUnitsInfo playerOneUnitsInfo, PlayerUnitsInfo playerTwoUnitsInfo, GeneralView view)
     {
-        _teamManagerController = new TeamManagerController(playersInfo);
+        _teamManagerController = new TeamManagerController(playerOneUnitsInfo, playerTwoUnitsInfo);
         _view = view;
         _roundController = new RoundController(view);
     }
     
-    public void AnnounceWinner()
+    public void ReportWinner()
     {
-        _view.AnnounceWinner(_teamManagerController.GetPlayersUnits());
+        _view.ReportWinner(_teamManagerController.GetPlayersUnits());
     }
     
     public void SimulateCombat()
@@ -57,7 +57,7 @@ public class CombatController
     {
         int attackerIndex = CombatHelper.GetAttackerIndex(_roundCounter);
         
-        _view.AnnounceRound(_roundCounter, roundInfo, CombatHelper.GetPlayerName(attackerIndex));
+        _view.ReportRound(_roundCounter, roundInfo, CombatHelper.GetPlayerName(attackerIndex));
     }
 
     private void ManageRoundEnd(RoundInfo roundInfo)

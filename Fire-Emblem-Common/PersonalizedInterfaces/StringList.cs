@@ -6,11 +6,11 @@ public class StringList : IEnumerable<string>
 {
     private readonly List<string> _stringList = new List<string>();
     
-    public void Add(string line) => _stringList.Add(line);
+    public void AddString(string line) => _stringList.Add(line);
 
     public int Count => _stringList.Count;
     
-    public string Get(int index) => _stringList[index];
+    public string GetString(int index) => _stringList[index];
     
     public IEnumerator<string> GetEnumerator()
     {

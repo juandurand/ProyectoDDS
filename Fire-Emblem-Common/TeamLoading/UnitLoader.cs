@@ -15,7 +15,7 @@ public static class UnitsLoader
         foreach (var unitInfo in playerUnitsInfo)
         {
             var unit = CreateUnit(unitInfo);
-            playerUnits.Add(unit);
+            playerUnits.AddUnit(unit);
         }
         
         return playerUnits;
@@ -50,16 +50,16 @@ public static class UnitsLoader
     {
         UnitData unitData = new UnitData();
         
-        unitData.Set(UnitDataKey.Name, GetJsonString(unitElement, "Name"));
-        unitData.Set(UnitDataKey.Weapon, GetJsonString(unitElement, "Weapon"));
-        unitData.Set(UnitDataKey.Gender, GetJsonString(unitElement, "Gender"));
-        unitData.Set(UnitDataKey.DeathQuote, GetJsonString(unitElement, "DeathQuote"));
-        unitData.Set(UnitDataKey.Hp, GetJsonInt(unitElement, "HP"));
-        unitData.Set(UnitDataKey.Atk, GetJsonInt(unitElement, "Atk"));
-        unitData.Set(UnitDataKey.Spd, GetJsonInt(unitElement, "Spd"));
-        unitData.Set(UnitDataKey.Def, GetJsonInt(unitElement, "Def"));
-        unitData.Set(UnitDataKey.Res, GetJsonInt(unitElement, "Res"));
-        unitData.Set(UnitDataKey.Skills, skills);
+        unitData.SetData(UnitDataKey.Name, GetJsonString(unitElement, "Name"));
+        unitData.SetData(UnitDataKey.Weapon, GetJsonString(unitElement, "Weapon"));
+        unitData.SetData(UnitDataKey.Gender, GetJsonString(unitElement, "Gender"));
+        unitData.SetData(UnitDataKey.DeathQuote, GetJsonString(unitElement, "DeathQuote"));
+        unitData.SetData(UnitDataKey.Hp, GetJsonInt(unitElement, "HP"));
+        unitData.SetData(UnitDataKey.Atk, GetJsonInt(unitElement, "Atk"));
+        unitData.SetData(UnitDataKey.Spd, GetJsonInt(unitElement, "Spd"));
+        unitData.SetData(UnitDataKey.Def, GetJsonInt(unitElement, "Def"));
+        unitData.SetData(UnitDataKey.Res, GetJsonInt(unitElement, "Res"));
+        unitData.SetData(UnitDataKey.Skills, skills);
         
         return unitData;
     }

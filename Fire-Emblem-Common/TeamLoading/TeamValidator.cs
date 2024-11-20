@@ -4,9 +4,9 @@ namespace Fire_Emblem_Common.TeamLoading;
 
 public class TeamValidator
 {
-    public bool IsPlayerValid(StringList playerLines, out PlayerUnitsInfo playerUnitsInfo)
+    public bool IsPlayerValid(StringList playerLines)
     {
-        playerUnitsInfo = new PlayerUnitsInfo();
+        PlayerUnitsInfo playerUnitsInfo = new PlayerUnitsInfo();
         
         if (!IsTeamSizeValid(playerLines.Count)) 
         {
@@ -20,7 +20,7 @@ public class TeamValidator
             {
                 return false;
             }
-            playerUnitsInfo.Add(unitInfo);
+            playerUnitsInfo.AddUnitInfo(unitInfo);
         }
 
         return true;
@@ -57,7 +57,7 @@ public class TeamValidator
     {
         int maxSkillsCount = 2;
         return skillsInfo.Count <= maxSkillsCount && (skillsInfo.Count < maxSkillsCount || 
-                                                      skillsInfo.Get(0) != skillsInfo.Get(1));
+                                                      skillsInfo.GetString(0) != skillsInfo.GetString(1));
     }
 
     private string ExtractName(string line, int index)
@@ -108,9 +108,22 @@ public class TeamValidator
         
         foreach (var skill in skills)
         {
-            skillsList.Add(skill);
+            skillsList.AddString(skill);
         }
 
         return skillsList;
+    }
+    
+    public PlayerUnitsInfo GetPlayerInfo(StringList playerLines)
+    {
+        PlayerUnitsInfo playerUnitsInfo = new PlayerUnitsInfo();
+
+        foreach (string line in playerLines)
+        {
+            var unitInfo = ParseUnit(line);
+            playerUnitsInfo.AddUnitInfo(unitInfo);
+        }
+
+        return playerUnitsInfo;
     }
 }

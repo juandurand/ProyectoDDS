@@ -7,7 +7,7 @@ public class SkillList : IEnumerable<ISkill>
 {
     private readonly List<ISkill> _skills = new List<ISkill>();
 
-    public void Add(ISkill skill) => _skills.Add(skill);
+    public void AddSkill(ISkill skill) => _skills.Add(skill);
     
     public IEnumerator<ISkill> GetEnumerator()
     {

@@ -15,16 +15,20 @@ public class AttackController
         _view = view;
     }
     
-    public bool SimulateAttack(DamageInfo damageInfo)
+    public void SimulateAttack(DamageInfo damageInfo)
     {
-        if (damageInfo.Attacker.CounterAttackDenial && !damageInfo.Attacker.DenialOfCounterAttackDenial) {
-            return false;
+        if (IsUnitUnableToCounterAttack(damageInfo.Attacker)) {
+            return;
         }
         UnitManager.SetAttacked(damageInfo.Attacker);
         int damage = CalculateDamage(damageInfo);
         HealthStatusManager.ApplyPercentageOfDamageBonusAfterAttack(damageInfo.Attacker.HealthStatus, damage);
         ApplyDamage(damageInfo, damage);
-        return !HealthStatusManager.IsUnitAlive(damageInfo.Defender.HealthStatus);
+    }
+    
+    private bool IsUnitUnableToCounterAttack(Unit unit)
+    {
+        return unit.CounterAttackDenial && !unit.DenialOfCounterAttackDenial;
     }
     
     private int CalculateDamage(DamageInfo damageInfo)

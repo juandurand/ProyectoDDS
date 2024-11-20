@@ -16,14 +16,14 @@ public class CompositeSkill : ISkill
     
     public void AddComponent(ConditionEvaluator conditionEvaluator, EffectApplier effectApplier)
     {
-        _skillsComponents.Add(conditionEvaluator, effectApplier);
+        _skillsComponents.AddSkillComponent(conditionEvaluator, effectApplier);
     }
     
     public void Apply(RoundInfo roundInfo, EffectsApplyOrder applyOrder)
     {
         for (int i = 0; i < _skillsComponents.Count; i++)
         {
-            var (conditionEvaluator, effectApplier) = _skillsComponents.GetComponent(i);
+            var (conditionEvaluator, effectApplier) = _skillsComponents.GetSkillComponent(i);
             if (conditionEvaluator.AreConditionsSatisfied(roundInfo))
             {
                 effectApplier.ApplyEffects(roundInfo, applyOrder);

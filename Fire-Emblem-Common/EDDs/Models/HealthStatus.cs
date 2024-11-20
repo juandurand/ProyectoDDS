@@ -8,7 +8,6 @@ public class HealthStatus
     public int ActualHpValue;
 
     public double PercentageOfDamageBonusAfterAttack;
-    public double PercentagePenaltyBeforeCombat;
 
     public int PenaltyBeforeCombat;
     public int PenaltyAfterCombat;

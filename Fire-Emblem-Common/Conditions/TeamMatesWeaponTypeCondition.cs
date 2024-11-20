@@ -17,7 +17,7 @@ public class TeamMatesWeaponTypeCondition:Condition
     {
         (Unit starter, Unit rival, Unit skillOwner) = GetUnits(roundInfo);
         
-        foreach (Unit unit in roundInfo.SkillOwner.Team)
+        foreach (Unit unit in skillOwner.Team)
         {
             if (_requiredWeaponTypes.Contains(unit.Weapon))
             {

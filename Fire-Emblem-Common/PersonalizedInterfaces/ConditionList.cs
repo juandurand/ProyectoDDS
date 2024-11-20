@@ -9,7 +9,7 @@ public class ConditionList : IEnumerable<Condition>
 
     public void Add(Condition condition) => _conditions.Add(condition);
     
-    public Condition Get(int index) => _conditions[index];
+    public Condition GetCondition(int index) => _conditions[index];
     
     public int Count => _conditions.Count;
     

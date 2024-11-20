@@ -26,19 +26,20 @@ public class Game
         }
         else
         {
-            _view.AnnounceInvalidTeamSelection();
+            _view.ReportInvalidTeamSelection();
         }
     }
     
     private bool IsTeamFileValid()
     {
-        return _teamLoaderController.IsTeamValid(_teamLoaderController.GetPlayersInfo());
+        _teamLoaderController.ParsePlayersInfo();
+        return _teamLoaderController.IsTeamValid();
     }
 
     private void StartCombat()
     {
-        CombatController combatController = new CombatController(_teamLoaderController.GetPlayers(), _view);
+        CombatController combatController = new CombatController(_teamLoaderController.GetPlayerOneUnitsInfo(), _teamLoaderController.GetPlayerTwoUnitsInfo(), _view);
         combatController.SimulateCombat();
-        combatController.AnnounceWinner();
+        combatController.ReportWinner();
     }
 }

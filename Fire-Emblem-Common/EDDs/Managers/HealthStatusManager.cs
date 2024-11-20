@@ -40,7 +40,6 @@ public static class HealthStatusManager
     
     private static void ResetPenalty(HealthStatus healthStatus)
     {
-        healthStatus.PercentagePenaltyBeforeCombat = 0;
         healthStatus.PenaltyAfterCombat = 0;
         healthStatus.PenaltyBeforeCombat = 0;
         healthStatus.PenaltyAfterCombatIfUnitAttacked = 0;

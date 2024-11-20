@@ -8,22 +8,18 @@ namespace Fire_Emblem
 {
     public class TeamLoaderController
     {
-        private PlayerUnitsInfo _player1UnitsInfo;
-        private PlayerUnitsInfo _player2UnitsInfo;
         private readonly GeneralView _view;
         private readonly TeamParser _parser;
         private readonly TeamValidator _validator;
         
         public TeamLoaderController(GeneralView view, TeamParser parser)
         {
-            _player1UnitsInfo = new PlayerUnitsInfo();
-            _player2UnitsInfo = new PlayerUnitsInfo();
             _view = view;
             _parser = parser;
             _validator = new TeamValidator();
         }
 
-        public (StringList Player1Lines, StringList Player2Lines) GetPlayersInfo()
+        public void ParsePlayersInfo()
         {
             string teamCode = _view.ReadLine().PadLeft(3, '0');
             string fileName = GetFileByCode(teamCode, _parser.TestFolder);
@@ -33,7 +29,7 @@ namespace Fire_Emblem
                 throw new FileProcessingException($"No se encontró el archivo para el equipo: {teamCode}");
             }
 
-            return _parser.ParseTeamsFile(fileName);
+            _parser.ParseTeamsFile(fileName);
         }
 
         private static string GetFileByCode(string teamCode, string folder)
@@ -49,16 +45,19 @@ namespace Fire_Emblem
             return Path.GetFileName(path);
         }
         
-        public bool IsTeamValid((StringList Player1Lines, StringList Player2Lines) playersInfo)
+        public bool IsTeamValid()
         {
-            return _validator.IsPlayerValid(playersInfo.Player1Lines, out _player1UnitsInfo) &&
-                   _validator.IsPlayerValid(playersInfo.Player2Lines, out _player2UnitsInfo);
+            return _validator.IsPlayerValid(_parser.PlayerOneInfo) && _validator.IsPlayerValid(_parser.PlayerTwoInfo);
         }
         
-        public (PlayerUnitsInfo Player1, PlayerUnitsInfo Player2) GetPlayers()
+        public PlayerUnitsInfo GetPlayerOneUnitsInfo()
         {
-            return (_player1UnitsInfo, _player2UnitsInfo);
+            return _validator.GetPlayerInfo(_parser.PlayerOneInfo);
         }
         
+        public PlayerUnitsInfo GetPlayerTwoUnitsInfo()
+        {
+            return _validator.GetPlayerInfo(_parser.PlayerTwoInfo);
+        }
     }    
 }

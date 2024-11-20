@@ -21,5 +21,4 @@ public class Stat
         BaseValue = baseValue;
         StatManager.ResetEffects(this);
     }
-    
 }
