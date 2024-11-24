@@ -4,11 +4,6 @@ namespace Fire_Emblem_Common.EDDs.Managers;
 
 public static class HealthStatusManager
 {
-    public static bool IsUnitAlive(HealthStatus healthStatus)
-    {
-        return healthStatus.ActualHpValue > 0;
-    }
-    
     public static void DealDamage(HealthStatus healthStatus, int damage)
     {
         healthStatus.ActualHpValue = Math.Max(0, healthStatus.ActualHpValue - damage);
@@ -40,26 +35,33 @@ public static class HealthStatusManager
     
     private static void ResetPenalty(HealthStatus healthStatus)
     {
-        healthStatus.PenaltyAfterCombat = 0;
-        healthStatus.PenaltyBeforeCombat = 0;
-        healthStatus.PenaltyAfterCombatIfUnitAttacked = 0;
+        healthStatus.PenaltyAfterRound = 0;
+        healthStatus.PenaltyBeforeRound = 0;
+        healthStatus.PenaltyAfterRoundIfUnitAttacked = 0;
     }
 
     public static void ApplyPercentageOfDamageBonusAfterAttack(HealthStatus healthStatus, int damage)
     {
         healthStatus.BonusAfterAttack = Convert.ToInt32(Math.Floor(
                                         damage * healthStatus.PercentageOfDamageBonusAfterAttack));
+        
         if (IsUnitAlive(healthStatus)) 
         {
             healthStatus.ActualHpValue = Math.Min(healthStatus.ActualHpValue + healthStatus.BonusAfterAttack,
                                                   healthStatus.HpBaseValue);
         }
     }
+    
+    public static bool IsUnitAlive(HealthStatus healthStatus)
+    {
+        return healthStatus.ActualHpValue > 0;
+    }
 
     public static void ApplyEffectsAfterRound(HealthStatus healthStatus)
     {
-        int totalEffect = healthStatus.BonusAfterCombat - healthStatus.PenaltyAfterCombat - 
-                          healthStatus.PenaltyAfterCombatIfUnitAttacked;
+        int totalEffect = healthStatus.BonusAfterCombat - healthStatus.PenaltyAfterRound - 
+                          healthStatus.PenaltyAfterRoundIfUnitAttacked;
+        
         if (IsUnitAlive(healthStatus))
         {
             healthStatus.ActualHpValue = Math.Min(healthStatus.ActualHpValue + totalEffect, healthStatus.HpBaseValue);
@@ -68,8 +70,8 @@ public static class HealthStatusManager
         else
         {
             healthStatus.BonusAfterCombat = 0;
-            healthStatus.PenaltyAfterCombat = 0;
-            healthStatus.PenaltyAfterCombatIfUnitAttacked = 0;
+            healthStatus.PenaltyAfterRound = 0;
+            healthStatus.PenaltyAfterRoundIfUnitAttacked = 0;
         }
     }
 }

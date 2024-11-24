@@ -15,17 +15,14 @@ public class WeaponAdvantageCondition:Condition
     public override bool IsConditionSatisfied(RoundInfo roundInfo)
     {
         double advantageValue = 1.2;
-        
-        if (_analyzedUnit == UnitRole.Unit)
-        {
-            return WeaponTriangle.CalculateWtb(roundInfo.SkillOwner.Weapon, roundInfo.Rival.Weapon) == advantageValue;
-        }
 
-        if (_analyzedUnit == UnitRole.Rival)
+        return _analyzedUnit switch
         {
-            return WeaponTriangle.CalculateWtb(roundInfo.Rival.Weapon, roundInfo.SkillOwner.Weapon) == advantageValue;
-        }
-
-        return false;
+            UnitRole.Unit => WeaponTriangle.GetWtb(roundInfo.SkillOwner.Weapon, roundInfo.Rival.Weapon) ==
+                             advantageValue,
+            UnitRole.Rival => WeaponTriangle.GetWtb(roundInfo.Rival.Weapon, roundInfo.SkillOwner.Weapon) ==
+                              advantageValue,
+            _ => false
+        };
     }
 }

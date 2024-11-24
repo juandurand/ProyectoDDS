@@ -17,16 +17,13 @@ public class HpPercentageCondition:Condition
     
     public override bool IsConditionSatisfied(RoundInfo roundInfo)
     {
-        if (_analyzedUnit == UnitRole.Unit)
+        return _analyzedUnit switch
         {
-            return HealthStatusManager.GetHpPercentage(roundInfo.SkillOwner.HealthStatus) <= _requiredPercentage;
-        }
-
-        if (_analyzedUnit == UnitRole.Rival)
-        {
-            return HealthStatusManager.GetHpPercentage(roundInfo.Rival.HealthStatus) >= _requiredPercentage;
-        }
-
-        return false;
+            UnitRole.Unit => HealthStatusManager.GetHpPercentage(roundInfo.SkillOwner.HealthStatus) <= 
+                             _requiredPercentage,
+            UnitRole.Rival => HealthStatusManager.GetHpPercentage(roundInfo.Rival.HealthStatus) >= 
+                              _requiredPercentage,
+            _ => false
+        };
     }
 }

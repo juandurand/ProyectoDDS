@@ -22,4 +22,10 @@
       <Compile Remove="IUnitList.cs" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Reference Include="Fire-Emblem-GUI">
+        <HintPath>..\..\..\..\..\..\..\Downloads\Fire-Emblem-With-Gui\Fire-Emblem-View\GuiLib\Fire-Emblem-GUI.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
 </Project>

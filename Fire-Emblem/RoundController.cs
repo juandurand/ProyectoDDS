@@ -23,7 +23,7 @@ public class RoundController
         ApplySkills(roundInfo);
         SimulateFirstAttacks(roundInfo);
         
-        if (!IsUnitAlive(roundInfo.Defender) || !IsUnitAlive(roundInfo.Attacker))
+        if (AreUnitsDead(roundInfo))
         {
             EndRound(roundInfo);
             return;
@@ -47,20 +47,21 @@ public class RoundController
     private void SimulateFirstAttacks(RoundInfo roundInfo)
     {
         SimulateAttack(roundInfo.Attacker, roundInfo.Defender);
+        
         if (IsUnitAlive(roundInfo.Defender))
         {
             SimulateAttack(roundInfo.Defender, roundInfo.Attacker);
         }
     }
     
-    private bool IsUnitAlive(Unit unit)
+    private bool AreUnitsDead(RoundInfo roundInfo)
     {
-        return HealthStatusManager.IsUnitAlive(unit.HealthStatus);
+        return !IsUnitAlive(roundInfo.Attacker) || !IsUnitAlive(roundInfo.Defender);
     }
 
     private void EndRound(RoundInfo roundInfo)
     {
-        ApplyDamageEffectsAfterRound(roundInfo);
+        ApplyEffectsAfterRound(roundInfo);
         RoundHelper.ResetAttacked(roundInfo);
         RoundHelper.EndRound(roundInfo);
     }
@@ -68,22 +69,30 @@ public class RoundController
     private void SimulateFollowUps(RoundInfo roundInfo)
     {
         SimulateFollowUp(roundInfo.Attacker, roundInfo.Defender);
+        
         if (IsUnitAlive(roundInfo.Defender))
         {
             SimulateFollowUp(roundInfo.Defender, roundInfo.Attacker);
         }
+        
         ReportNoFollowUp(roundInfo);
     }
     
     private void SimulateAttack(Unit attacker, Unit defender)
     {
         DamageInfo damageInfo = new DamageInfo(attacker, defender, AttackType.FirstAttack);
+        
         _attackController.SimulateAttack(damageInfo);
     }
     
-    private void ApplyDamageEffectsAfterRound(RoundInfo roundInfo)
+    private bool IsUnitAlive(Unit unit)
     {
-        RoundHelper.SetPenaltyAfterCombatIfUnitsAttacked(roundInfo);
+        return HealthStatusManager.IsUnitAlive(unit.HealthStatus);
+    }
+    
+    private void ApplyEffectsAfterRound(RoundInfo roundInfo)
+    {
+        RoundHelper.SetPenaltyAfterRoundIfUnitsAttacked(roundInfo);
         RoundHelper.ApplyDamageEffectsAfterRound(roundInfo);
         _view.ReportDamageAfterRound(roundInfo);
     }
@@ -91,12 +100,14 @@ public class RoundController
     private void SimulateFollowUp(Unit attacker, Unit defender)
     {
         DamageInfo damageInfo = new DamageInfo(attacker, defender, AttackType.FollowUp);
+        
         _attackController.SimulateFollowUp(damageInfo);
     }
     
     private void ReportNoFollowUp(RoundInfo roundInfo)
     {
         DamageInfo damageInfo = new DamageInfo(roundInfo.Attacker, roundInfo.Defender, AttackType.FollowUp);
+        
         _attackController.ReportNoFollowUp(damageInfo);
     }
 }

@@ -13,7 +13,7 @@ public class DoubleStatComparisonCondition:Condition
     private readonly StatType _secondRivalStat;
     
     public DoubleStatComparisonCondition(int requiredDifference, StatType firstSkillOwnerStat,
-        StatType secondSkillOwnerStat, StatType firstRivalStat, StatType secondRivalStat) 
+                                    StatType secondSkillOwnerStat, StatType firstRivalStat, StatType secondRivalStat) 
     {
         _requiredDifference = requiredDifference;
         _firstSkillOwnerStat = firstSkillOwnerStat;

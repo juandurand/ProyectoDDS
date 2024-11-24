@@ -14,16 +14,12 @@ public class FirstAttackCondition:Condition
     
     public override bool IsConditionSatisfied(RoundInfo roundInfo)
     {
-        if (_analyzedUnit == UnitRole.Unit)
+        return _analyzedUnit switch
         {
-            return roundInfo.Attacker == roundInfo.SkillOwner;
-        }
-        
-        if (_analyzedUnit == UnitRole.Rival)
-        {
-            return roundInfo.Attacker != roundInfo.SkillOwner;
-        }
-        
-        return false;
+            UnitRole.Unit => roundInfo.Attacker == roundInfo.SkillOwner,
+            UnitRole.Rival => roundInfo.Attacker != roundInfo.SkillOwner,
+            _ => false
+        };
     }
+
 }

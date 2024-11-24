@@ -6,60 +6,53 @@ namespace Fire_Emblem_Common.Damage;
 
 public class ExtraDamageCalculator
 {
-    private readonly UnitRole _analizedUnit;
-    private readonly StatType _firstAnalizedStat;
-    private readonly StatType _secondAnalizedStat;
+    private readonly UnitRole _analyzedUnit;
+    private readonly StatType _firstAnalyzedStat;
+    private readonly StatType _secondAnalyzedStat;
     private readonly double _percentage;
     private readonly int _max;
     
-    public ExtraDamageCalculator(UnitRole analizedUnit, StatType firstAnalizedStat, StatType secondAnalizedStat, double percentage, int max)
+    public ExtraDamageCalculator(UnitRole analyzedUnit, StatType firstAnalyzedStat, StatType secondAnalyzedStat,
+                                 double percentage, int max)
     {
-        _analizedUnit = analizedUnit;
-        _firstAnalizedStat = firstAnalizedStat;
-        _secondAnalizedStat = secondAnalizedStat;
+        _analyzedUnit = analyzedUnit;
+        _firstAnalyzedStat = firstAnalyzedStat;
+        _secondAnalyzedStat = secondAnalyzedStat;
         _percentage = percentage;
         _max = max;
     }
     
     public int GetExtraDamage(Unit unit)
     {
-        int extraDamage = 0;
-        
-        if (_analizedUnit == UnitRole.Unit)
+        int extraDamage = _analyzedUnit switch
         {
-            extraDamage = GetExtraDamageForUnit(unit);
-        }
-        else if (_analizedUnit == UnitRole.Rival)
-        {
-            extraDamage = GetExtraDamageForRival(unit);
-        }
-        else if (_analizedUnit == UnitRole.Both)
-        {
-            extraDamage = Math.Max(GetExtraDamageForBoth(unit), 0);
-        }
-        
+            UnitRole.Unit => GetExtraDamageForUnit(unit),
+            UnitRole.Rival => GetExtraDamageForRival(unit),
+            UnitRole.Both => Math.Max(GetExtraDamageForBoth(unit), 0),
+            _ => 0
+        };
+
         extraDamage = Convert.ToInt32(Math.Floor(extraDamage * _percentage));
         return Math.Min(extraDamage, _max);
     }
 
-
     private int GetExtraDamageForUnit(Unit unit)
     {
-        if (_firstAnalizedStat == StatType.Hp)
+        if (_firstAnalyzedStat == StatType.Hp)
         {
             return unit.HealthStatus.HpBaseValue - unit.HealthStatus.ActualHpValue;
         }
-        return UnitManager.GetTotalStat(unit, _firstAnalizedStat, AttackType.None);
+        return UnitManager.GetTotalStat(unit, _firstAnalyzedStat, AttackType.None);
     }
     
     private int GetExtraDamageForRival(Unit unit)
     {
-        return UnitManager.GetTotalStat(unit.ActualOpponent, _firstAnalizedStat, AttackType.None);
+        return UnitManager.GetTotalStat(unit.ActualOpponent, _firstAnalyzedStat, AttackType.None);
     }
     
     private int GetExtraDamageForBoth(Unit unit)
     {
-        return UnitManager.GetTotalStat(unit, _firstAnalizedStat, AttackType.None) - 
-               UnitManager.GetTotalStat(unit.ActualOpponent, _secondAnalizedStat, AttackType.None);
+        return UnitManager.GetTotalStat(unit, _firstAnalyzedStat, AttackType.None) - 
+               UnitManager.GetTotalStat(unit.ActualOpponent, _secondAnalyzedStat, AttackType.None);
     }
 }

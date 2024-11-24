@@ -21,7 +21,9 @@ public class CombatController
     
     public void ReportWinner()
     {
-        _view.ReportWinner(_teamManagerController.GetPlayersUnits());
+        PlayerArray playersArray = _teamManagerController.GetPlayersUnits();
+        
+        _view.ReportWinner(playersArray);
     }
     
     public void SimulateCombat()
@@ -35,37 +37,38 @@ public class CombatController
 
     private void ProcessCombatRound()
     {
-        RoundInfo roundInfo = GetRoundInfo();
+        PlayerIndexes playerIndexes = GetPlayerIndexes();
+        RoundInfo roundInfo = GetRoundInfo(playerIndexes);
         
-        AnnounceRoundStart(roundInfo);
+        ReportRoundStart(roundInfo, playerIndexes);
         _roundController.SimulateRound(roundInfo);
-        ManageRoundEnd(roundInfo);
+        ManageRoundEnd(roundInfo, playerIndexes);
     }
     
-    private RoundInfo GetRoundInfo()
+    private PlayerIndexes GetPlayerIndexes()
     {
-        int attackerIndex = CombatHelper.GetAttackerIndex(_roundCounter);
-        int defenderIndex = CombatHelper.GetDefenderIndex(_roundCounter);
-        
-        Unit attacker = _teamManagerController.ChooseUnit(attackerIndex, _view);
-        Unit defender = _teamManagerController.ChooseUnit(defenderIndex, _view);
+        return new PlayerIndexes(CombatHelper.GetAttackerIndex(_roundCounter),
+                                 CombatHelper.GetDefenderIndex(_roundCounter));
+    }
+    
+    private RoundInfo GetRoundInfo(PlayerIndexes playerIndexes)
+    {
+        Unit attacker = _teamManagerController.ChooseUnit(playerIndexes.AttackerIndex, _view);
+        Unit defender = _teamManagerController.ChooseUnit(playerIndexes.DefenderIndex, _view);
         
         return new RoundInfo(attacker, defender);
     }
     
-    private void AnnounceRoundStart(RoundInfo roundInfo)
+    private void ReportRoundStart(RoundInfo roundInfo, PlayerIndexes playerIndexes)
     {
-        int attackerIndex = CombatHelper.GetAttackerIndex(_roundCounter);
+        string attackerName = CombatHelper.GetPlayerName(playerIndexes.AttackerIndex);
         
-        _view.ReportRound(_roundCounter, roundInfo, CombatHelper.GetPlayerName(attackerIndex));
+        _view.ReportRound(_roundCounter, roundInfo, attackerName);
     }
 
-    private void ManageRoundEnd(RoundInfo roundInfo)
+    private void ManageRoundEnd(RoundInfo roundInfo, PlayerIndexes playerIndexes)
     {
-        int attackerIndex = CombatHelper.GetAttackerIndex(_roundCounter);
-        int defenderIndex = CombatHelper.GetDefenderIndex(_roundCounter);
-        
         _view.ReportRoundSummary(roundInfo);
-        _teamManagerController.CheckUnitsHealth(roundInfo, attackerIndex, defenderIndex);
+        _teamManagerController.CheckUnitsHealth(roundInfo, playerIndexes.AttackerIndex, playerIndexes.DefenderIndex);
     }
 }

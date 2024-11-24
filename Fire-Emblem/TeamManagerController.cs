@@ -15,23 +15,28 @@ public class TeamManagerController
         _playersUnits = new PlayerArray();
         _playersUnits.AddUnitList(UnitsLoader.LoadUnits(playerOneUnitsInfo), 0);
         _playersUnits.AddUnitList(UnitsLoader.LoadUnits(playerTwoUnitsInfo), 1);
+        
         SetUnitsTeam(_playersUnits.GetUnitList(0));
         SetUnitsTeam(_playersUnits.GetUnitList(1));
     }
-
+    
     private void SetUnitsTeam(UnitList team)
-    // Más de dos niveles de indentación
     {
-        for (int j = 0; j < team.Count; j++)
+        for (int unitIndex = 0; unitIndex < team.Count; unitIndex++)
         {
-            Unit unit = team.GetUnit(j);
-            for (int k = 0; k < team.Count; k++)
+            Unit unit = team.GetUnit(unitIndex);
+            AddTeamMates(unit, team, unitIndex);
+        }
+    }
+
+    private void AddTeamMates(Unit unit, UnitList team, int currentUnitIndex)
+    {
+        for (int teamMateIndex = 0; teamMateIndex < team.Count; teamMateIndex++)
+        {
+            if (teamMateIndex != currentUnitIndex)
             {
-                if (k != j)
-                {
-                    Unit teamMate = team.GetUnit(k);
-                    unit.Team.AddUnit(teamMate);
-                }
+                Unit teamMate = team.GetUnit(teamMateIndex);
+                unit.Team.AddUnit(teamMate);
             }
         }
     }
@@ -62,14 +67,14 @@ public class TeamManagerController
     
     private void RemoveDeadUnitFromTeam(Unit deadUnit, int playerIndex)
     {
-        for (int i = 0; i < _playersUnits.GetUnitList(playerIndex).Count; i++)
+        for (int teamMateIndex = 0; teamMateIndex < _playersUnits.GetUnitList(playerIndex).Count; teamMateIndex++)
         {
-            Unit unit = _playersUnits.GetUnitList(playerIndex).GetUnit(i);
+            Unit unit = _playersUnits.GetUnitList(playerIndex).GetUnit(teamMateIndex);
             unit.Team.RemoveUnit(deadUnit);
         }
     }
 
-    public bool AreTeamsAlive() => _playersUnits.GetUnitList(0).Count > 0 && _playersUnits.GetUnitList(1).Count > 0;
+    public bool AreTeamsAlive() => _playersUnits.GetUnitList(0).Count > 0 &&_playersUnits.GetUnitList(1).Count > 0;
 
     public PlayerArray GetPlayersUnits() => _playersUnits;
 }

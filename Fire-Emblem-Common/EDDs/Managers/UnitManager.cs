@@ -8,48 +8,43 @@ public static class UnitManager
 {
     public static int GetTotalStat(Unit unit, StatType stat, AttackType attackType)
     {
-        switch (stat)
+        return stat switch
         {
-            case StatType.Atk:
-                return StatManager.GetTotalStat(unit.Atk, attackType);
-            case StatType.Spd:
-                return StatManager.GetTotalStat(unit.Spd, attackType);
-            case StatType.Def:
-                return StatManager.GetTotalStat(unit.Def, attackType);
-            case StatType.Res:
-                return StatManager.GetTotalStat(unit.Res, attackType);
-            default:
-                return unit.HealthStatus.ActualHpValue;
-        }
+            StatType.Atk => StatManager.GetTotalStat(unit.Atk, attackType),
+            StatType.Spd => StatManager.GetTotalStat(unit.Spd, attackType),
+            StatType.Def => StatManager.GetTotalStat(unit.Def, attackType),
+            StatType.Res => StatManager.GetTotalStat(unit.Res, attackType),
+            _ => unit.HealthStatus.ActualHpValue
+        };
     }
     
     public static int GetBaseValue(Unit unit, StatType stat)
     {
-        switch (stat)
+        return stat switch
         {
-            case StatType.Atk:
-                return unit.Atk.BaseValue;
-            case StatType.Spd:
-                return unit.Spd.BaseValue;
-            case StatType.Def:
-                return unit.Def.BaseValue;
-            case StatType.Res:
-                return unit.Res.BaseValue;
-            default:
-                return unit.HealthStatus.ActualHpValue;
-        }
+            StatType.Atk => unit.Atk.BaseValue,
+            StatType.Spd => unit.Spd.BaseValue,
+            StatType.Def => unit.Def.BaseValue,
+            StatType.Res => unit.Res.BaseValue,
+            _ => unit.HealthStatus.ActualHpValue
+        };
     }
     
     public static void ResetEffects(Unit unit)
+    {
+        ResetStatEffects(unit);
+        ResetCounterAttackDenials(unit);
+        DamageEffectsController.ResetEffects(unit.DamageEffects);
+        HealthStatusManager.ResetEffects(unit.HealthStatus);
+        FollowUpEffectsManager.ResetFollowUpEffects(unit.FollowUpEffects);
+    }
+
+    private static void ResetStatEffects(Unit unit)
     {
         StatManager.ResetEffects(unit.Atk);
         StatManager.ResetEffects(unit.Spd);
         StatManager.ResetEffects(unit.Def);
         StatManager.ResetEffects(unit.Res);
-        DamageEffectsController.ResetEffects(unit.DamageEffects);
-        HealthStatusManager.ResetEffects(unit.HealthStatus);
-        ResetCounterAttackDenials(unit);
-        FollowUpEffectsManager.ResetFollowUpEffects(unit.FollowUpEffects);
     }
 
     private static void ResetCounterAttackDenials(Unit unit)
@@ -60,33 +55,29 @@ public static class UnitManager
     
     public static void SetFirstAttack(Unit unit)
     {
-        if (unit.FirstAttack == FirstAttack.HaveNotFirstAttacked)
+        unit.FirstAttack = unit.FirstAttack switch
         {
-            unit.FirstAttack = FirstAttack.ActuallyFirstAttacking;
-        }
-        else if (unit.FirstAttack == FirstAttack.ActuallyFirstAttacking)
-        {
-            unit.FirstAttack = FirstAttack.AlreadyFirstAttacked;
-        }
+            FirstAttack.HaveNotFirstAttacked => FirstAttack.ActuallyFirstAttacking,
+            FirstAttack.ActuallyFirstAttacking => FirstAttack.AlreadyFirstAttacked,
+            _ => unit.FirstAttack
+        };
     }
     
     public static void SetFirstDefense(Unit unit)
     {
-        if (unit.FirstDefense == FirstDefense.HaveNotFirstDefended)
+        unit.FirstDefense = unit.FirstDefense switch
         {
-            unit.FirstDefense = FirstDefense.ActuallyFirstDefending;
-        }
-        else if (unit.FirstDefense == FirstDefense.ActuallyFirstDefending)
-        {
-            unit.FirstDefense = FirstDefense.AlreadyFirstDefended;
-        }
+            FirstDefense.HaveNotFirstDefended => FirstDefense.ActuallyFirstDefending,
+            FirstDefense.ActuallyFirstDefending => FirstDefense.AlreadyFirstDefended,
+            _ => unit.FirstDefense
+        };
     }
     
-    public static void SetPenaltyAfterCombatIfUnitAttacked(Unit unit)
+    public static void SetPenaltyAfterRoundIfUnitAttacked(Unit unit)
     {
         if (!unit.Attacked)
         {
-            unit.HealthStatus.PenaltyAfterCombatIfUnitAttacked = 0;
+            unit.HealthStatus.PenaltyAfterRoundIfUnitAttacked = 0;
         }
     }
     

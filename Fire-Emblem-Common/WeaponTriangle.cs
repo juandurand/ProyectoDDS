@@ -13,7 +13,7 @@ public static class WeaponTriangle
         { WeaponType.Bow, (WeaponType.None, WeaponType.None) }
     };
 
-    public static double CalculateWtb(WeaponType attackerWeapon, WeaponType defenderWeapon)
+    public static double GetWtb(WeaponType attackerWeapon, WeaponType defenderWeapon)
     {
         var (advantage, disadvantage) = WeaponTriangleDic[attackerWeapon];
 

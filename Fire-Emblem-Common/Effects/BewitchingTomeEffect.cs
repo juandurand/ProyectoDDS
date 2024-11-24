@@ -12,7 +12,7 @@ public class BewitchingTomeEffect : Effect
     public override void ApplyEffect(Unit unit)
     {
         int hpLoss = GetHpLoss(unit.ActualOpponent);
-        unit.HealthStatus.PenaltyBeforeCombat += hpLoss;
+        unit.HealthStatus.PenaltyBeforeRound += hpLoss;
         unit.HealthStatus.ActualHpValue = Math.Max(unit.HealthStatus.ActualHpValue - hpLoss, 1);
     }
     
@@ -26,7 +26,7 @@ public class BewitchingTomeEffect : Effect
     private double GetMultiplier(Unit unit)
     {
         double multiplier = 0.2;
-        double wtb = WeaponTriangle.CalculateWtb(unit.Weapon, unit.ActualOpponent.Weapon);
+        double wtb = WeaponTriangle.GetWtb(unit.Weapon, unit.ActualOpponent.Weapon);
         double advantageValue = 1.2;
         
         if (wtb == advantageValue || (UnitManager.GetTotalStat(unit, StatType.Spd, AttackType.None) > 

@@ -8,20 +8,21 @@ public static class DamageCalculator
 {
     public static int GetDamage(DamageInfo damageInfo)
     {
-        int baseDamage = CalculateBaseDamage(damageInfo);
+        int baseDamage = GetBaseDamage(damageInfo);
         
         int damageWithEffects = ApplyDamageEffects(baseDamage, damageInfo);
         
         return Math.Max(damageWithEffects, 0);
     }
 
-    private static int CalculateBaseDamage(DamageInfo damageInfo)
+    private static int GetBaseDamage(DamageInfo damageInfo)
     {
-        double weaponTriangleBonus = WeaponTriangle.CalculateWtb(damageInfo.Attacker.Weapon, damageInfo.Defender.Weapon);
+        double weaponTriangleBonus = WeaponTriangle.GetWtb(damageInfo.Attacker.Weapon,
+                                                                 damageInfo.Defender.Weapon);
         int defense = GetDefenseByWeapon(damageInfo);
         
-        int baseDamage = Convert.ToInt32(Math.Floor(UnitManager.GetTotalStat(
-                            damageInfo.Attacker, StatType.Atk, damageInfo.AttackType) * weaponTriangleBonus)) - defense;
+        int baseDamage = Convert.ToInt32(Math.Floor(UnitManager.GetTotalStat(damageInfo.Attacker, StatType.Atk,
+                                                        damageInfo.AttackType) * weaponTriangleBonus)) - defense;
         
         return Math.Max(baseDamage, 0);
     }
@@ -40,16 +41,16 @@ public static class DamageCalculator
     
     private static int GetDefenseByWeapon(DamageInfo damageInfo)
     {
-        if (damageInfo.Attacker.Weapon == WeaponType.Magic)
+        return damageInfo.Attacker.Weapon switch
         {
-            return UnitManager.GetTotalStat(damageInfo.Defender, StatType.Res, damageInfo.AttackType);
-        }
-        return UnitManager.GetTotalStat(damageInfo.Defender, StatType.Def, damageInfo.AttackType);
+            WeaponType.Magic => UnitManager.GetTotalStat(damageInfo.Defender, StatType.Res, damageInfo.AttackType),
+            _ => UnitManager.GetTotalStat(damageInfo.Defender, StatType.Def, damageInfo.AttackType)
+        };
     }
     
     public static int GetDamageWithoutDamageReductions(DamageInfo damageInfo)
     {
-        int baseDamage = CalculateBaseDamage(damageInfo);
+        int baseDamage = GetBaseDamage(damageInfo);
         
         int damageWithBonus = baseDamage + DamageEffectsController.GetTotalBonus(
                                 damageInfo.Attacker.DamageEffects, damageInfo.AttackType);

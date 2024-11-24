@@ -38,7 +38,9 @@ public class Game
 
     private void StartCombat()
     {
-        CombatController combatController = new CombatController(_teamLoaderController.GetPlayerOneUnitsInfo(), _teamLoaderController.GetPlayerTwoUnitsInfo(), _view);
+        CombatController combatController = new CombatController(_teamLoaderController.GetPlayerOneUnitsInfo(),
+                                                                 _teamLoaderController.GetPlayerTwoUnitsInfo(), 
+                                                                 _view);
         combatController.SimulateCombat();
         combatController.ReportWinner();
     }

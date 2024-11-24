@@ -17,11 +17,13 @@ public class AttackController
     
     public void SimulateAttack(DamageInfo damageInfo)
     {
-        if (IsUnitUnableToCounterAttack(damageInfo.Attacker)) {
+        if (IsUnitUnableToCounterAttack(damageInfo.Attacker))
+        {
             return;
         }
+        int damage = DamageCalculator.GetDamage(damageInfo);
+        
         UnitManager.SetAttacked(damageInfo.Attacker);
-        int damage = CalculateDamage(damageInfo);
         HealthStatusManager.ApplyPercentageOfDamageBonusAfterAttack(damageInfo.Attacker.HealthStatus, damage);
         ApplyDamage(damageInfo, damage);
     }
@@ -29,11 +31,6 @@ public class AttackController
     private bool IsUnitUnableToCounterAttack(Unit unit)
     {
         return unit.CounterAttackDenial && !unit.DenialOfCounterAttackDenial;
-    }
-    
-    private int CalculateDamage(DamageInfo damageInfo)
-    {
-        return DamageCalculator.GetDamage(damageInfo);
     }
 
     private void ApplyDamage(DamageInfo damageInfo, int damage)
@@ -52,16 +49,12 @@ public class AttackController
 
     private static bool CanFollowUp(Unit attackerUnit, Unit defenderUnit)
     {
-        FollowUpEffectsResult followUpEffectsResult = FollowUpEffectsManager.GetFollowUpEffects(attackerUnit.FollowUpEffects);
-        if (followUpEffectsResult == FollowUpEffectsResult.Guaranteed)
+        return FollowUpEffectsManager.GetFollowUpEffects(attackerUnit.FollowUpEffects) switch
         {
-            return true;
-        }
-        if (followUpEffectsResult == FollowUpEffectsResult.Denied)
-        {
-            return false;
-        }
-        return CanFollowUpBasedOnSpd(attackerUnit, defenderUnit);
+            FollowUpEffectsResult.Guaranteed => true,
+            FollowUpEffectsResult.Denied => false,
+            _ => CanFollowUpBasedOnSpd(attackerUnit, defenderUnit)
+        };
     }
     
     private static bool CanFollowUpBasedOnSpd(Unit attackerUnit, Unit defenderUnit)
@@ -69,12 +62,13 @@ public class AttackController
         int followUpSpeedThreshold = 4;
         int actualSpeedDifference = UnitManager.GetTotalStat(attackerUnit, StatType.Spd, AttackType.None) -
                                     UnitManager.GetTotalStat(defenderUnit, StatType.Spd, AttackType.None);
+        
         return actualSpeedDifference > followUpSpeedThreshold;
     }
 
     public void ReportNoFollowUp(DamageInfo damageInfo)
     {
-        if (damageInfo.Defender.CounterAttackDenial && !damageInfo.Defender.DenialOfCounterAttackDenial)
+        if (IsUnitUnableToCounterAttack(damageInfo.Defender))
         {
             ReportSpecialNoFollowUp(damageInfo);
         }

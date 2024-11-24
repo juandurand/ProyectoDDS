@@ -890,7 +890,7 @@ public static class SkillFactory
         {
             conditions.Add(new WeaponTypeCondition(UnitRole.Unit, new EnumList<WeaponType>(new List<WeaponType> { WeaponType.Magic })));
             conditions.Add(new ConstantStatLeftCondition(2, StatType.Hp));
-            effectsByUnitType.AddEffect(UnitRole.Unit, new HpPenaltyBeforeCombatEffect(1));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new HpPenaltyBeforeRoundEffect(1));
             effectsByUnitType.AddEffect(UnitRole.Unit, new DamageExtraByConstantEffect(3));
             conditionEvaluatorType = ConditionEvaluatorType.And;
         }
@@ -908,7 +908,7 @@ public static class SkillFactory
             effectsByUnitType.AddEffect(UnitRole.Unit, new StatBonusEffect(4, StatType.Spd));
             effectsByUnitType.AddEffect(UnitRole.Unit, new StatBonusEffect(4, StatType.Def));
             effectsByUnitType.AddEffect(UnitRole.Unit, new StatBonusEffect(4, StatType.Res));
-            effectsByUnitType.AddEffect(UnitRole.Unit, new HpPenaltyAfterCombatEffect(8));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new HpPenaltyAfterRoundEffect(8));
         }
         
         else if (skillName == "Mystic Boost")
@@ -922,7 +922,7 @@ public static class SkillFactory
             conditions.Add(new HpPercentageConditionInversed(0.25, UnitRole.Unit));
             effectsByUnitType.AddEffect(UnitRole.Unit, new StatBonusEffect(7, StatType.Atk));
             effectsByUnitType.AddEffect(UnitRole.Unit, new StatBonusEffect(7, StatType.Spd));
-            effectsByUnitType.AddEffect(UnitRole.Unit, new HpPenaltyAfterCombatIfAttackedEffect(5));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new HpPenaltyAfterRoundIfAttackedEffect(5));
         }
         
         else if (skillName == "Atk/Def Push")
@@ -930,7 +930,7 @@ public static class SkillFactory
             conditions.Add(new HpPercentageConditionInversed(0.25, UnitRole.Unit));
             effectsByUnitType.AddEffect(UnitRole.Unit, new StatBonusEffect(7, StatType.Atk));
             effectsByUnitType.AddEffect(UnitRole.Unit, new StatBonusEffect(7, StatType.Def));
-            effectsByUnitType.AddEffect(UnitRole.Unit, new HpPenaltyAfterCombatIfAttackedEffect(5));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new HpPenaltyAfterRoundIfAttackedEffect(5));
         }
         
         else if (skillName == "Atk/Res Push")
@@ -938,7 +938,7 @@ public static class SkillFactory
             conditions.Add(new HpPercentageConditionInversed(0.25, UnitRole.Unit));
             effectsByUnitType.AddEffect(UnitRole.Unit, new StatBonusEffect(7, StatType.Atk));
             effectsByUnitType.AddEffect(UnitRole.Unit, new StatBonusEffect(7, StatType.Res));
-            effectsByUnitType.AddEffect(UnitRole.Unit, new HpPenaltyAfterCombatIfAttackedEffect(5));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new HpPenaltyAfterRoundIfAttackedEffect(5));
         }
         
         else if (skillName == "Spd/Def Push")
@@ -946,7 +946,7 @@ public static class SkillFactory
             conditions.Add(new HpPercentageConditionInversed(0.25, UnitRole.Unit));
             effectsByUnitType.AddEffect(UnitRole.Unit, new StatBonusEffect(7, StatType.Spd));
             effectsByUnitType.AddEffect(UnitRole.Unit, new StatBonusEffect(7, StatType.Def));
-            effectsByUnitType.AddEffect(UnitRole.Unit, new HpPenaltyAfterCombatIfAttackedEffect(5));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new HpPenaltyAfterRoundIfAttackedEffect(5));
         }
         
         else if (skillName == "Spd/Res Push")
@@ -954,7 +954,7 @@ public static class SkillFactory
             conditions.Add(new HpPercentageConditionInversed(0.25, UnitRole.Unit));
             effectsByUnitType.AddEffect(UnitRole.Unit, new StatBonusEffect(7, StatType.Spd));
             effectsByUnitType.AddEffect(UnitRole.Unit, new StatBonusEffect(7, StatType.Res));
-            effectsByUnitType.AddEffect(UnitRole.Unit, new HpPenaltyAfterCombatIfAttackedEffect(5));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new HpPenaltyAfterRoundIfAttackedEffect(5));
         }
         
         else if (skillName == "Def/Res Push")
@@ -962,7 +962,7 @@ public static class SkillFactory
             conditions.Add(new HpPercentageConditionInversed(0.25, UnitRole.Unit));
             effectsByUnitType.AddEffect(UnitRole.Unit, new StatBonusEffect(7, StatType.Def));
             effectsByUnitType.AddEffect(UnitRole.Unit, new StatBonusEffect(7, StatType.Res));
-            effectsByUnitType.AddEffect(UnitRole.Unit, new HpPenaltyAfterCombatIfAttackedEffect(5));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new HpPenaltyAfterRoundIfAttackedEffect(5));
         }
         
         else if (skillName == "True Dragon Wall")
@@ -981,13 +981,13 @@ public static class SkillFactory
         else if (skillName == "Scendscale")
         {
             effectsByUnitType.AddEffect(UnitRole.Unit, new DamageExtraBySpecificEffect(UnitRole.Unit, StatType.Atk, 0.25));
-            effectsByUnitType.AddEffect(UnitRole.Unit, new HpPenaltyAfterCombatIfAttackedEffect(7));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new HpPenaltyAfterRoundIfAttackedEffect(7));
         }
         
         else if (skillName == "Mastermind")
         {
             conditions.Add(new ConstantStatLeftCondition(2, StatType.Hp));
-            effectsByUnitType.AddEffect(UnitRole.Unit, new HpPenaltyBeforeCombatEffect(1));
+            effectsByUnitType.AddEffect(UnitRole.Unit, new HpPenaltyBeforeRoundEffect(1));
             compositeSkill.AddComponent(new DefaultConditionEvaluator(conditions), new EffectApplier(effectsByUnitType));
             
             secondConditions.Add(new FirstAttackCondition(UnitRole.Unit));

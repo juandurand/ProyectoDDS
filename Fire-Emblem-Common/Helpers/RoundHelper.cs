@@ -80,10 +80,10 @@ public static class RoundHelper
         }
     }
     
-    public static void SetPenaltyAfterCombatIfUnitsAttacked(RoundInfo roundInfo)
+    public static void SetPenaltyAfterRoundIfUnitsAttacked(RoundInfo roundInfo)
     {
-        UnitManager.SetPenaltyAfterCombatIfUnitAttacked(roundInfo.Attacker);
-        UnitManager.SetPenaltyAfterCombatIfUnitAttacked(roundInfo.Defender);
+        UnitManager.SetPenaltyAfterRoundIfUnitAttacked(roundInfo.Attacker);
+        UnitManager.SetPenaltyAfterRoundIfUnitAttacked(roundInfo.Defender);
     }
     
     public static void ApplyDamageEffectsAfterRound(RoundInfo roundInfo)

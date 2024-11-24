@@ -27,9 +27,12 @@ public static class DamageEffectsController
     
     private static int GetSpecificAttackBonus(DamageEffects damageEffects, AttackType attackType)
     {
-        if (attackType == AttackType.FirstAttack) return damageEffects.FirstAttackBonus;
-        if (attackType == AttackType.FollowUp) return damageEffects.FollowUpBonus;
-        return 0;
+        return attackType switch
+        {
+            AttackType.FirstAttack => damageEffects.FirstAttackBonus,
+            AttackType.FollowUp => damageEffects.FollowUpBonus,
+            _ => 0
+        };
     }
     
     public static double GetTotalPercentageReduction(DamageEffects damageEffects, AttackType attackType)
@@ -43,8 +46,11 @@ public static class DamageEffectsController
     
     private static double GetSpecificAttackPercentageReduction(DamageEffects damageEffects, AttackType attackType)
     {
-        if (attackType == AttackType.FirstAttack) return damageEffects.FirstAttackPercentageReduction;
-        if (attackType == AttackType.FollowUp) return damageEffects.FollowUpPercentageReduction;
-        return 0;
+        return attackType switch
+        {
+            AttackType.FirstAttack => damageEffects.FirstAttackPercentageReduction,
+            AttackType.FollowUp => damageEffects.FollowUpPercentageReduction,
+            _ => 0
+        };
     }
 }

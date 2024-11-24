@@ -9,9 +9,9 @@ public class HealthStatus
 
     public double PercentageOfDamageBonusAfterAttack;
 
-    public int PenaltyBeforeCombat;
-    public int PenaltyAfterCombat;
-    public int PenaltyAfterCombatIfUnitAttacked;
+    public int PenaltyBeforeRound;
+    public int PenaltyAfterRound;
+    public int PenaltyAfterRoundIfUnitAttacked;
     
     public int BonusAfterCombat;
     public int BonusAfterAttack;
