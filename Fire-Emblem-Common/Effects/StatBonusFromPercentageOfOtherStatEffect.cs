@@ -1,7 +1,6 @@
 using Fire_Emblem_Common.Enums;
 using Fire_Emblem_Common.PersonalizedInterfaces;
-using Fire_Emblem_Common.EDDs.Models;
-using Fire_Emblem_Common.EDDs.Managers;
+using Fire_Emblem_Common.Models;
 
 namespace Fire_Emblem_Common.Effects;
 
@@ -22,45 +21,37 @@ public class StatBonusFromPercentageOfOtherStatEffect:Effect
     public override void ApplyEffect(Unit unit)
     {
         int bonusBeforePercentage = GetBonusBeforePercentage(unit);
+        int bonusValue = Convert.ToInt32(Math.Floor(bonusBeforePercentage * _percentage));
+
         foreach (StatType stat in _benefitedStatTypes)
         {
-            if (stat == StatType.Atk)
+            switch (stat)
             {
-                unit.Atk.Bonus += Convert.ToInt32(Math.Floor(bonusBeforePercentage * _percentage));
-            }
-            else if (stat == StatType.Def)
-            {
-                unit.Def.Bonus += Convert.ToInt32(Math.Floor(bonusBeforePercentage * _percentage));
-            }
-            else if (stat == StatType.Spd)
-            {
-                unit.Spd.Bonus += Convert.ToInt32(Math.Floor(bonusBeforePercentage * _percentage));
-            }
-            else if (stat == StatType.Res)
-            {
-                unit.Res.Bonus += Convert.ToInt32(Math.Floor(bonusBeforePercentage * _percentage));
+                case StatType.Atk:
+                    unit.Atk.Bonus += bonusValue;
+                    break;
+                case StatType.Def:
+                    unit.Def.Bonus += bonusValue;
+                    break;
+                case StatType.Spd:
+                    unit.Spd.Bonus += bonusValue;
+                    break;
+                case StatType.Res:
+                    unit.Res.Bonus += bonusValue;
+                    break;
             }
         }
     }
-    
+
     private int GetBonusBeforePercentage(Unit unit)
     {
-        if (_bonusOriginStatType == StatType.Atk)
+        return _bonusOriginStatType switch
         {
-            return unit.Atk.BaseValue;
-        }
-        if (_bonusOriginStatType == StatType.Def)
-        {
-            return unit.Def.BaseValue;
-        }
-        if (_bonusOriginStatType == StatType.Spd)
-        {
-            return unit.Spd.BaseValue;
-        }
-        if (_bonusOriginStatType == StatType.Res)
-        {
-            return unit.Res.BaseValue;
-        }
-        return unit.HealthStatus.HpBaseValue;
+            StatType.Atk => unit.Atk.BaseValue,
+            StatType.Def => unit.Def.BaseValue,
+            StatType.Spd => unit.Spd.BaseValue,
+            StatType.Res => unit.Res.BaseValue,
+            _ => unit.HealthStatus.HpBaseValue
+        };
     }
 }

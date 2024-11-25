@@ -1,5 +1,5 @@
 using Fire_Emblem_Common.Enums;
-using Fire_Emblem_Common.EDDs.Models;
+using Fire_Emblem_Common.Models;
 
 namespace Fire_Emblem_Common.Effects;
 
@@ -24,7 +24,8 @@ public class SandstormEffect:Effect
 
     private int GetAdjustment(Unit unit)
     {
-        int newTotalAtk = Convert.ToInt32(Math.Floor(1.5 * unit.Def.BaseValue));
+        double multiplier = 1.5;
+        int newTotalAtk = Convert.ToInt32(Math.Floor(multiplier * unit.Def.BaseValue));
         return newTotalAtk - unit.Atk.BaseValue;
     }
 }

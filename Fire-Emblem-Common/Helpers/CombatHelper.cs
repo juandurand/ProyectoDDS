@@ -4,12 +4,14 @@ public static class CombatHelper
 {
     public static int GetAttackerIndex(int roundCounter)
     {
-        return (roundCounter + 1) % 2;
+        int numberTwo = 2;
+        return (roundCounter + 1) % numberTwo;
     }
 
     public static int GetDefenderIndex(int roundCounter)
     {
-        return roundCounter % 2;
+        int numberTwo = 2;
+        return roundCounter % numberTwo;
     }
 
     public static string GetPlayerName(int playerIndex)

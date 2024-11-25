@@ -1,17 +1,19 @@
 using Fire_Emblem_Common.Enums;
-using Fire_Emblem_Common.EDDs.Models;
-using Fire_Emblem_Common.EDDs.Managers;
+using Fire_Emblem_Common.Models;
+using Fire_Emblem_Common.Helpers;
 
 namespace Fire_Emblem_Common.Effects;
 
-public class HpPlusFifteenEffect:Effect
+public class HpBaseValuePlusConstantEffect:Effect
 {
     private bool _isEffectUsed;
+    private readonly int _bonusValue;
 
-    public HpPlusFifteenEffect()
+    public HpBaseValuePlusConstantEffect(int bonusValue)
         : base(EffectsApplyOrder.FirstOrder)
     {
         _isEffectUsed = false;
+        _bonusValue = bonusValue;
     }
     
     public override void ApplyEffect(Unit unit)
@@ -19,8 +21,7 @@ public class HpPlusFifteenEffect:Effect
         if (!_isEffectUsed)
         {
             _isEffectUsed = true;
-            int hpBonus= 15;
-            HealthStatusManager.ApplyHpBaseValueBonus(unit.HealthStatus, hpBonus);
+            HealthStatusHelper.ApplyHpBaseValueBonus(unit.HealthStatus, _bonusValue);
         }
     }
 }

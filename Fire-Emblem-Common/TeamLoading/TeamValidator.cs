@@ -16,7 +16,7 @@ public class TeamValidator
         foreach (string line in playerLines)
         {
             var unitInfo = ParseUnit(line);
-            if (playerUnitsInfo.IsDuplicateUnit(unitInfo.GetUnitName()) || !AreSkillsValid(unitInfo.GetUnitSkills())) 
+            if (IsUnitInvalid(unitInfo, playerUnitsInfo)) 
             {
                 return false;
             }
@@ -39,10 +39,9 @@ public class TeamValidator
         
         int indexOfParenthesis = line.IndexOf('(');
         
-        if (indexOfParenthesis == -1) 
+        if (indexOfParenthesis == -1)
         {
-            unitInfo.SetUnitInfo(line.Trim(), new StringList());
-            return unitInfo;
+            return GetNoSkillsUnitInfo(unitInfo, line);
         }
 
         string name = ExtractName(line, indexOfParenthesis);
@@ -53,11 +52,15 @@ public class TeamValidator
         return unitInfo;
     }
     
-    private bool AreSkillsValid(StringList skillsInfo)
+    private bool IsUnitInvalid(UnitInfo unitInfo, PlayerUnitsInfo playerUnitsInfo)
     {
-        int maxSkillsCount = 2;
-        return skillsInfo.Count <= maxSkillsCount && (skillsInfo.Count < maxSkillsCount || 
-                                                      skillsInfo.GetString(0) != skillsInfo.GetString(1));
+        return playerUnitsInfo.IsDuplicateUnit(unitInfo.GetUnitName()) || !AreSkillsValid(unitInfo.GetUnitSkills());
+    }
+    
+    private UnitInfo GetNoSkillsUnitInfo(UnitInfo unitInfo, string name)
+    {
+        unitInfo.SetUnitInfo(name.Trim(), new StringList());
+        return unitInfo;
     }
 
     private string ExtractName(string line, int index)
@@ -112,6 +115,13 @@ public class TeamValidator
         }
 
         return skillsList;
+    }
+    
+    private bool AreSkillsValid(StringList skillsInfo)
+    {
+        int maxSkillsCount = 2;
+        return skillsInfo.Count <= maxSkillsCount && (skillsInfo.Count < maxSkillsCount || 
+                                                      skillsInfo.GetString(0) != skillsInfo.GetString(1));
     }
     
     public PlayerUnitsInfo GetPlayerInfo(StringList playerLines)

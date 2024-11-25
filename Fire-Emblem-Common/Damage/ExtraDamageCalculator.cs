@@ -1,6 +1,6 @@
 using Fire_Emblem_Common.Enums;
-using Fire_Emblem_Common.EDDs.Models;
-using Fire_Emblem_Common.EDDs.Managers;
+using Fire_Emblem_Common.Models;
+using Fire_Emblem_Common.Helpers;
 
 namespace Fire_Emblem_Common.Damage;
 
@@ -42,17 +42,17 @@ public class ExtraDamageCalculator
         {
             return unit.HealthStatus.HpBaseValue - unit.HealthStatus.ActualHpValue;
         }
-        return UnitManager.GetTotalStat(unit, _firstAnalyzedStat, AttackType.None);
+        return UnitHelper.GetTotalStat(unit, _firstAnalyzedStat, AttackType.None);
     }
     
     private int GetExtraDamageForRival(Unit unit)
     {
-        return UnitManager.GetTotalStat(unit.ActualOpponent, _firstAnalyzedStat, AttackType.None);
+        return UnitHelper.GetTotalStat(unit.ActualOpponent, _firstAnalyzedStat, AttackType.None);
     }
     
     private int GetExtraDamageForBoth(Unit unit)
     {
-        return UnitManager.GetTotalStat(unit, _firstAnalyzedStat, AttackType.None) - 
-               UnitManager.GetTotalStat(unit.ActualOpponent, _secondAnalyzedStat, AttackType.None);
+        return UnitHelper.GetTotalStat(unit, _firstAnalyzedStat, AttackType.None) - 
+               UnitHelper.GetTotalStat(unit.ActualOpponent, _secondAnalyzedStat, AttackType.None);
     }
 }

@@ -1,4 +1,4 @@
-namespace Fire_Emblem_Common.Damage;
+namespace Fire_Emblem_Common.Models;
 
 public class DamageEffects
 {
@@ -16,6 +16,13 @@ public class DamageEffects
 
     public DamageEffects()
     {
-        DamageEffectsController.ResetEffects(this);
+        Bonus = 0;
+        FirstAttackBonus = 0;
+        FollowUpBonus = 0;
+        Penalty = 0;
+        PercentageReduction = 1.0;
+        FirstAttackPercentageReduction = 1.0;
+        FollowUpPercentageReduction = 1.0;
+        ReductionOfPercentageReduction = 1.0;
     }
 }

@@ -1,4 +1,5 @@
 using Fire_Emblem_Common.Enums;
+
 namespace Fire_Emblem_Common;
 
 public static class WeaponTriangle

@@ -1,6 +1,6 @@
 using Fire_Emblem_Common.Enums;
-using Fire_Emblem_Common.EDDs.Models;
-using Fire_Emblem_Common.EDDs.Managers;
+using Fire_Emblem_Common.Models;
+using Fire_Emblem_Common.Helpers;
 
 namespace Fire_Emblem_Common.Effects;
 
@@ -12,8 +12,8 @@ public class DamagePercentageReductionByStatComparisonEffect:Effect
     private readonly int _multiplier;
     private readonly AttackType _attackType;
 
-    public DamagePercentageReductionByStatComparisonEffect(double max, StatType skillOwnerStat, StatType rivalStat, int multiplier,
-        AttackType attackType = AttackType.None) :base(EffectsApplyOrder.SecondOrder)
+    public DamagePercentageReductionByStatComparisonEffect(double max, StatType skillOwnerStat, StatType rivalStat,
+        int multiplier, AttackType attackType = AttackType.None) :base(EffectsApplyOrder.SecondOrder)
     {
         _max = max;
         _skillOwnerStat = skillOwnerStat;
@@ -26,25 +26,28 @@ public class DamagePercentageReductionByStatComparisonEffect:Effect
     {
         double reductionFactor = GetReductionFactor(unit);
         reductionFactor = unit.ActualOpponent.DamageEffects.ReductionOfPercentageReduction * reductionFactor;
-        if (_attackType == AttackType.None)
+
+        switch (_attackType)
         {
-            unit.DamageEffects.PercentageReduction *= (1 - reductionFactor);
-        }
-        else if (_attackType == AttackType.FirstAttack)
-        {
-            unit.DamageEffects.FirstAttackPercentageReduction *= (1 - reductionFactor);
-        }
-        else if (_attackType == AttackType.FollowUp)
-        {
-            unit.DamageEffects.FollowUpPercentageReduction *= (1 - reductionFactor);
+            case AttackType.None:
+                unit.DamageEffects.PercentageReduction *= (1 - reductionFactor);
+                break;
+            case AttackType.FirstAttack:
+                unit.DamageEffects.FirstAttackPercentageReduction *= (1 - reductionFactor);
+                break;
+            case AttackType.FollowUp:
+                unit.DamageEffects.FollowUpPercentageReduction *= (1 - reductionFactor);
+                break;
         }
     }
 
     private double GetReductionFactor(Unit unit)
     {
-        int statDifference = UnitManager.GetTotalStat(unit, _skillOwnerStat, AttackType.None) - 
-                             UnitManager.GetTotalStat(unit.ActualOpponent, _rivalStat, AttackType.None);
-        double reductionFactor = (statDifference * _multiplier) / 100.0;
+        int statDifference = UnitHelper.GetTotalStat(unit, _skillOwnerStat, AttackType.None) - 
+                             UnitHelper.GetTotalStat(unit.ActualOpponent, _rivalStat, AttackType.None);
+        double oneHundred = 100.0;
+        
+        double reductionFactor = (statDifference * _multiplier) / oneHundred;
         return Math.Min(reductionFactor, _max);
     }
 }

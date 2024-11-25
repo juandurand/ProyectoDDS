@@ -1,6 +1,6 @@
 using Fire_Emblem_Common.Enums;
-using Fire_Emblem_Common.EDDs.Models;
-using Fire_Emblem_Common.EDDs.Managers;
+using Fire_Emblem_Common.Models;
+using Fire_Emblem_Common.Helpers;
 
 namespace Fire_Emblem_Common.Effects;
 
@@ -10,8 +10,8 @@ public class StatPenaltyByPercentageOfBaseValueEffect:Effect
     private readonly StatType _statType;
     private readonly AttackType _attackType;
 
-    public StatPenaltyByPercentageOfBaseValueEffect(double percentage, StatType statType, AttackType attackType = AttackType.None)
-        : base(EffectsApplyOrder.FirstOrder)
+    public StatPenaltyByPercentageOfBaseValueEffect(double percentage, StatType statType,
+        AttackType attackType = AttackType.None) : base(EffectsApplyOrder.FirstOrder)
     {
         _percentage = percentage;
         _statType = statType;
@@ -21,43 +21,35 @@ public class StatPenaltyByPercentageOfBaseValueEffect:Effect
     public override void ApplyEffect(Unit unit)
     {
         int penaltyValue = GetPenalty(unit);
-        
-        if (_statType == StatType.Atk)
+    
+        switch (_statType)
         {
-            StatManager.ApplyPenalty(unit.Atk, penaltyValue, _attackType);
-        }
-        else if (_statType == StatType.Def)
-        {
-            StatManager.ApplyPenalty(unit.Def, penaltyValue, _attackType);
-        }
-        else if (_statType == StatType.Res)
-        {
-            StatManager.ApplyPenalty(unit.Res, penaltyValue, _attackType);
-        }
-        else if (_statType == StatType.Spd)
-        {
-            StatManager.ApplyPenalty(unit.Spd, penaltyValue, _attackType);
+            case StatType.Atk:
+                StatHelper.ApplyPenalty(unit.Atk, penaltyValue, _attackType);
+                break;
+            case StatType.Def:
+                StatHelper.ApplyPenalty(unit.Def, penaltyValue, _attackType);
+                break;
+            case StatType.Res:
+                StatHelper.ApplyPenalty(unit.Res, penaltyValue, _attackType);
+                break;
+            case StatType.Spd:
+                StatHelper.ApplyPenalty(unit.Spd, penaltyValue, _attackType);
+                break;
         }
     }
-    
+
     private int GetPenalty(Unit unit)
     {
-        if (_statType == StatType.Atk)
+        double baseValue = _statType switch
         {
-            return Convert.ToInt32(Math.Floor(_percentage * unit.Atk.BaseValue));
-        }
-        if (_statType == StatType.Def)
-        {
-            return Convert.ToInt32(Math.Floor(_percentage * unit.Def.BaseValue));
-        }
-        if (_statType == StatType.Res)
-        {
-            return Convert.ToInt32(Math.Floor(_percentage * unit.Res.BaseValue));
-        }
-        if (_statType == StatType.Spd)
-        {
-            return Convert.ToInt32(Math.Floor(_percentage * unit.Spd.BaseValue));
-        }
-        return 0;
+            StatType.Atk => unit.Atk.BaseValue,
+            StatType.Def => unit.Def.BaseValue,
+            StatType.Res => unit.Res.BaseValue,
+            StatType.Spd => unit.Spd.BaseValue,
+            _ => 0
+        };
+    
+        return Convert.ToInt32(Math.Floor(_percentage * baseValue));
     }
 }

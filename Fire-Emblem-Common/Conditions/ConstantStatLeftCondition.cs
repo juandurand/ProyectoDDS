@@ -1,6 +1,6 @@
 using Fire_Emblem_Common.Enums;
-using Fire_Emblem_Common.EDDs.Models;
-using Fire_Emblem_Common.EDDs.Managers;
+using Fire_Emblem_Common.Models;
+using Fire_Emblem_Common.Helpers;
 
 namespace Fire_Emblem_Common.Conditions;
 
@@ -17,6 +17,8 @@ public class ConstantStatLeftCondition:Condition
     
     public override bool IsConditionSatisfied(RoundInfo roundInfo)
     {
-        return UnitManager.GetTotalStat(roundInfo.SkillOwner, _skillOwnerStat, AttackType.None) >= _requireLeftValue;
+        Unit skillOwner = GetSkillOwner(roundInfo);
+        
+        return UnitHelper.GetTotalStat(skillOwner, _skillOwnerStat, AttackType.None) >= _requireLeftValue;
     }
 }

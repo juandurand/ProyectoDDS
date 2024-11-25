@@ -1,5 +1,5 @@
 using Fire_Emblem_Common.Enums;
-using Fire_Emblem_Common.EDDs.Models;
+using Fire_Emblem_Common.Models;
 using Fire_Emblem_Common.ConditionEvaluators;
 using Fire_Emblem_Common.PersonalizedInterfaces;
 
@@ -23,10 +23,10 @@ public class CompositeSkill : ISkill
     {
         for (int i = 0; i < _skillsComponents.Count; i++)
         {
-            var (conditionEvaluator, effectApplier) = _skillsComponents.GetSkillComponent(i);
-            if (conditionEvaluator.AreConditionsSatisfied(roundInfo))
+            var skillComponent = _skillsComponents.GetSkillComponent(i);
+            if (skillComponent.ConditionEvaluator.AreConditionsSatisfied(roundInfo))
             {
-                effectApplier.ApplyEffects(roundInfo, applyOrder);
+                skillComponent.EffectApplier.ApplyEffects(roundInfo, applyOrder);
             }
         }
     }

@@ -1,6 +1,6 @@
 using Fire_Emblem_Common.Enums;
-using Fire_Emblem_Common.EDDs.Models;
-using Fire_Emblem_Common.EDDs.Managers;
+using Fire_Emblem_Common.Models;
+using Fire_Emblem_Common.Helpers;
 
 namespace Fire_Emblem_Common.Effects;
 
@@ -20,21 +20,20 @@ public class StatBonusEffect:Effect
 
     public override void ApplyEffect(Unit unit)
     {
-        if (_statType == StatType.Atk)
+        switch (_statType)
         {
-            StatManager.ApplyBonus(unit.Atk, _bonusValue, _attackType);
-        }
-        else if (_statType == StatType.Def)
-        {
-            StatManager.ApplyBonus(unit.Def, _bonusValue, _attackType);
-        }
-        else if (_statType == StatType.Res)
-        {
-            StatManager.ApplyBonus(unit.Res, _bonusValue, _attackType);
-        }
-        else if (_statType == StatType.Spd)
-        {
-            StatManager.ApplyBonus(unit.Spd, _bonusValue, _attackType);
+            case StatType.Atk:
+                StatHelper.ApplyBonus(unit.Atk, _bonusValue, _attackType);
+                break;
+            case StatType.Def:
+                StatHelper.ApplyBonus(unit.Def, _bonusValue, _attackType);
+                break;
+            case StatType.Res:
+                StatHelper.ApplyBonus(unit.Res, _bonusValue, _attackType);
+                break;
+            case StatType.Spd:
+                StatHelper.ApplyBonus(unit.Spd, _bonusValue, _attackType);
+                break;
         }
     }
 }

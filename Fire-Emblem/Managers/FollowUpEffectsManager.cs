@@ -1,7 +1,7 @@
-using Fire_Emblem_Common.EDDs.Models;
+using Fire_Emblem_Common.Models;
 using Fire_Emblem_Common.Enums;
 
-namespace Fire_Emblem_Common.EDDs.Managers;
+namespace Fire_Emblem.Managers;
 
 public static class FollowUpEffectsManager
 {

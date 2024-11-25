@@ -1,6 +1,6 @@
 using Fire_Emblem_Common.Enums;
-using Fire_Emblem_Common.EDDs.Models;
-using Fire_Emblem_Common.EDDs.Managers;
+using Fire_Emblem_Common.Models;
+using Fire_Emblem_Common.Helpers;
 
 namespace Fire_Emblem_Common.Conditions;
 
@@ -24,9 +24,11 @@ public class DoubleStatComparisonCondition:Condition
     
     public override bool IsConditionSatisfied(RoundInfo roundInfo)
     {
-        return UnitManager.GetTotalStat(roundInfo.SkillOwner, _firstSkillOwnerStat, AttackType.None) + 
-               UnitManager.GetTotalStat(roundInfo.SkillOwner, _secondSkillOwnerStat, AttackType.None) >= 
-               _requiredDifference + UnitManager.GetTotalStat(roundInfo.Rival, _firstRivalStat, AttackType.None) + 
-               UnitManager.GetTotalStat(roundInfo.Rival, _secondRivalStat, AttackType.None);
+        Unit skillOwner = GetSkillOwner(roundInfo);
+        
+        return UnitHelper.GetTotalStat(skillOwner, _firstSkillOwnerStat, AttackType.None) + 
+               UnitHelper.GetTotalStat(skillOwner, _secondSkillOwnerStat, AttackType.None) >= _requiredDifference + 
+               UnitHelper.GetTotalStat(skillOwner.ActualOpponent, _firstRivalStat, AttackType.None) + 
+               UnitHelper.GetTotalStat(skillOwner.ActualOpponent, _secondRivalStat, AttackType.None);
     }
 }

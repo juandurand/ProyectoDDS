@@ -1,6 +1,6 @@
 using Fire_Emblem_Common.Enums;
 using Fire_Emblem_Common.PersonalizedInterfaces;
-using Fire_Emblem_Common.EDDs.Models;
+using Fire_Emblem_Common.Models;
 
 namespace Fire_Emblem_Common.Effects;
 
@@ -18,21 +18,20 @@ public class PenaltyNeutralizationEffect:Effect
     {
         foreach (StatType stat in _statsTypes)
         {
-            if (stat == StatType.Atk)
+            switch (stat)
             {
-                unit.Atk.PenaltyNeutralized = true;
-            }
-            else if (stat == StatType.Def)
-            {
-                unit.Def.PenaltyNeutralized = true;
-            }
-            else if (stat == StatType.Spd)
-            {
-                unit.Spd.PenaltyNeutralized = true;
-            }
-            else if (stat == StatType.Res)
-            {
-                unit.Res.PenaltyNeutralized = true;
+                case StatType.Atk:
+                    unit.Atk.PenaltyNeutralized = true;
+                    break;
+                case StatType.Def:
+                    unit.Def.PenaltyNeutralized = true;
+                    break;
+                case StatType.Spd:
+                    unit.Spd.PenaltyNeutralized = true;
+                    break;
+                case StatType.Res:
+                    unit.Res.PenaltyNeutralized = true;
+                    break;
             }
         }
     }

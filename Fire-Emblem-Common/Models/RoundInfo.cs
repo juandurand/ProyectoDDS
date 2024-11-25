@@ -1,11 +1,10 @@
-namespace Fire_Emblem_Common.EDDs.Models;
+namespace Fire_Emblem_Common.Models;
 
 public class RoundInfo
 {
     public readonly Unit Attacker;
     public readonly Unit Defender;
     public Unit SkillOwner;
-    public Unit Rival;
 
     public RoundInfo(Unit attacker, Unit defender)
     {
@@ -13,9 +12,8 @@ public class RoundInfo
         Defender = defender;
     }
     
-    public void SetCurrentSkillOwnerAndRival(Unit skillOwner, Unit rival)
+    public void SetCurrentSkillOwner(Unit skillOwner)
     {
         SkillOwner = skillOwner;
-        Rival = rival;
     }
 }

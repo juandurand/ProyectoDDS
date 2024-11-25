@@ -1,5 +1,5 @@
 using Fire_Emblem_Common.Enums;
-using Fire_Emblem_Common.EDDs.Models;
+using Fire_Emblem_Common.Models;
 
 namespace Fire_Emblem_Common.Effects;
 
@@ -18,6 +18,7 @@ public class WrathEffect:Effect
 
     private int GetBonus(Unit unit)
     {
-        return Math.Min(Math.Max(unit.HealthStatus.HpBaseValue - unit.HealthStatus.ActualHpValue, 0), 30);
+        int maxValue = 30;
+        return Math.Min(Math.Max(unit.HealthStatus.HpBaseValue - unit.HealthStatus.ActualHpValue, 0), maxValue);
     }
 }

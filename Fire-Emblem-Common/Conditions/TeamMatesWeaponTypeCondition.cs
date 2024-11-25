@@ -1,6 +1,6 @@
 using Fire_Emblem_Common.Enums;
 using Fire_Emblem_Common.PersonalizedInterfaces;
-using Fire_Emblem_Common.EDDs.Models;
+using Fire_Emblem_Common.Models;
 
 namespace Fire_Emblem_Common.Conditions;
 
@@ -15,7 +15,9 @@ public class TeamMatesWeaponTypeCondition:Condition
     
     public override bool IsConditionSatisfied(RoundInfo roundInfo)
     {
-        foreach (Unit unit in roundInfo.SkillOwner.Team)
+        Unit skillOwner = GetSkillOwner(roundInfo);
+        
+        foreach (Unit unit in skillOwner.Team)
         {
             if (_requiredWeaponTypes.Contains(unit.Weapon))
             {

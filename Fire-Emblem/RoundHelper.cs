@@ -1,10 +1,10 @@
 using Fire_Emblem_Common.Enums;
 using Fire_Emblem_Common.Skills;
 using Fire_Emblem_Common.PersonalizedInterfaces;
-using Fire_Emblem_Common.EDDs.Managers;
-using Fire_Emblem_Common.EDDs.Models;
+using Fire_Emblem.Managers;
+using Fire_Emblem_Common.Models;
 
-namespace Fire_Emblem_Common.Helpers;
+namespace Fire_Emblem;
 
 public static class RoundHelper
 {
@@ -64,16 +64,15 @@ public static class RoundHelper
         
         foreach (EffectsApplyOrder applyOrder in applyOrders)
         {
-            roundInfo.SetCurrentSkillOwnerAndRival(roundInfo.Defender, roundInfo.Attacker);
-            ApplySkills(roundInfo, applyOrder);
-
-            roundInfo.SetCurrentSkillOwnerAndRival(roundInfo.Attacker, roundInfo.Defender);
-            ApplySkills(roundInfo, applyOrder);
+            ApplySkillsForSpecificSkillOwner(roundInfo, roundInfo.Defender, applyOrder);
+            ApplySkillsForSpecificSkillOwner(roundInfo, roundInfo.Attacker, applyOrder);
         }
     }
-
-    private static void ApplySkills(RoundInfo roundInfo, EffectsApplyOrder applyOrder)
+    
+    private static void ApplySkillsForSpecificSkillOwner(RoundInfo roundInfo, Unit skillOwner,
+                                                         EffectsApplyOrder applyOrder)
     {
+        roundInfo.SetCurrentSkillOwner(skillOwner);
         foreach (ISkill skill in roundInfo.SkillOwner.Skills)
         {
             skill.Apply(roundInfo, applyOrder);

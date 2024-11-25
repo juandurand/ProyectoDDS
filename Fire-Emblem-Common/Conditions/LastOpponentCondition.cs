@@ -1,4 +1,4 @@
-using Fire_Emblem_Common.EDDs.Models;
+using Fire_Emblem_Common.Models;
 
 namespace Fire_Emblem_Common.Conditions;
 
@@ -6,6 +6,8 @@ public class LastOpponentCondition:Condition
 {
     public override bool IsConditionSatisfied(RoundInfo roundInfo)
     {
-        return roundInfo.SkillOwner.LastOpponent == roundInfo.Rival;
+        Unit skillOwner = GetSkillOwner(roundInfo);
+        
+        return skillOwner.LastOpponent == skillOwner.ActualOpponent;
     }
 }

@@ -1,4 +1,4 @@
-using Fire_Emblem_Common.EDDs.Models;
+using Fire_Emblem_Common.Models;
 using System.Text.Json;
 using Fire_Emblem_Common.PersonalizedInterfaces;
 using Fire_Emblem_Common.Enums;
@@ -27,14 +27,14 @@ public static class UnitsLoader
         
         JsonElement rootElement = doc.RootElement;
         
-        JsonElement unitElement = FindUnitElement(rootElement, unitInfo.GetUnitName());
+        JsonElement unitElement = GetUnitElement(rootElement, unitInfo.GetUnitName());
 
         UnitData unitData = GetUnitData(unitElement, unitInfo.GetUnitSkills());
         
         return new Unit(unitData);
     }
     
-    private static JsonElement FindUnitElement(JsonElement rootElement, string unitName)
+    private static JsonElement GetUnitElement(JsonElement rootElement, string unitName)
     {
         foreach (JsonElement element in rootElement.EnumerateArray())
         {
@@ -66,11 +66,15 @@ public static class UnitsLoader
     
     private static string GetJsonString(JsonElement element, string propertyName)
     {
-        return element.GetProperty(propertyName).GetString();
+        JsonElement propertyElement = element.GetProperty(propertyName);
+        return propertyElement.GetString();
     }
-
+    
     private static int GetJsonInt(JsonElement element, string propertyName)
     {
-        return int.Parse(element.GetProperty(propertyName).GetString());
+        JsonElement propertyElement = element.GetProperty(propertyName);
+        string propertyValue = propertyElement.GetString();
+        return int.Parse(propertyValue);
     }
+
 }

@@ -1,6 +1,6 @@
 using Fire_Emblem_Common.Enums;
 using Fire_Emblem_Common.PersonalizedInterfaces;
-using Fire_Emblem_Common.EDDs.Models;
+using Fire_Emblem_Common.Models;
 
 namespace Fire_Emblem_Common.Conditions;
 
@@ -17,10 +17,12 @@ public class WeaponTypeCondition:Condition
     
     public override bool IsConditionSatisfied(RoundInfo roundInfo)
     {
+        Unit skillOwner = GetSkillOwner(roundInfo);
+        
         return _analyzedUnit switch
         {
-            UnitRole.Unit => _requiredWeaponTypes.Contains(roundInfo.SkillOwner.Weapon),
-            UnitRole.Rival => _requiredWeaponTypes.Contains(roundInfo.Rival.Weapon),
+            UnitRole.Unit => _requiredWeaponTypes.Contains(skillOwner.Weapon),
+            UnitRole.Rival => _requiredWeaponTypes.Contains(skillOwner.ActualOpponent.Weapon),
             _ => false
         };
     }

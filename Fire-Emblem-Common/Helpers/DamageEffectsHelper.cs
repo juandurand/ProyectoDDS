@@ -1,21 +1,10 @@
+using Fire_Emblem_Common.Models;
 using Fire_Emblem_Common.Enums;
 
-namespace Fire_Emblem_Common.Damage;
+namespace Fire_Emblem_Common.Helpers;
 
-public static class DamageEffectsController
+public static class DamageEffectsHelper
 {
-    public static void ResetEffects(DamageEffects damageEffects)
-    {
-        damageEffects.Bonus = 0;
-        damageEffects.Penalty = 0;
-        damageEffects.PercentageReduction = 1.0;
-        damageEffects.ReductionOfPercentageReduction = 1.0;
-        damageEffects.FirstAttackBonus = 0;
-        damageEffects.FollowUpBonus = 0;
-        damageEffects.FirstAttackPercentageReduction = 1.0;
-        damageEffects.FollowUpPercentageReduction = 1.0;
-    }
-    
     public static int GetTotalBonus(DamageEffects damageEffects, AttackType attackType)
     {
         int totalBonus = damageEffects.Bonus;

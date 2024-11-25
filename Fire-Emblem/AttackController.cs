@@ -1,6 +1,7 @@
 using Fire_Emblem_View.PersonalizedViews;
-using Fire_Emblem_Common.EDDs.Models;
-using Fire_Emblem_Common.EDDs.Managers;
+using Fire_Emblem_Common.Models;
+using Fire_Emblem_Common.Helpers;
+using Fire_Emblem.Managers;
 using Fire_Emblem_Common.Enums;
 using Fire_Emblem_Common.Damage;
 
@@ -60,8 +61,8 @@ public class AttackController
     private static bool CanFollowUpBasedOnSpd(Unit attackerUnit, Unit defenderUnit)
     {
         int followUpSpeedThreshold = 4;
-        int actualSpeedDifference = UnitManager.GetTotalStat(attackerUnit, StatType.Spd, AttackType.None) -
-                                    UnitManager.GetTotalStat(defenderUnit, StatType.Spd, AttackType.None);
+        int actualSpeedDifference = UnitHelper.GetTotalStat(attackerUnit, StatType.Spd, AttackType.None) -
+                                    UnitHelper.GetTotalStat(defenderUnit, StatType.Spd, AttackType.None);
         
         return actualSpeedDifference > followUpSpeedThreshold;
     }

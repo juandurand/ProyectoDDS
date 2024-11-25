@@ -1,6 +1,6 @@
 using Fire_Emblem_Common.Enums;
 using Fire_Emblem_Common.PersonalizedInterfaces;
-using Fire_Emblem_Common.EDDs.Models;
+using Fire_Emblem_Common.Models;
 
 namespace Fire_Emblem_Common.Conditions;
 
@@ -17,8 +17,10 @@ public class ChaosStyleCondition : Condition
     
     public override bool IsConditionSatisfied(RoundInfo roundInfo)
     {
-        return IsChaosStyleConditionSatisfied(roundInfo.SkillOwner, roundInfo.Rival) || 
-               IsChaosStyleConditionSatisfied(roundInfo.Rival, roundInfo.SkillOwner);
+        Unit skillOwner = GetSkillOwner(roundInfo);
+        
+        return IsChaosStyleConditionSatisfied(skillOwner, skillOwner.ActualOpponent) || 
+               IsChaosStyleConditionSatisfied(skillOwner.ActualOpponent, skillOwner);
     }
 
     private bool IsChaosStyleConditionSatisfied(Unit unit, Unit rival)

@@ -1,23 +1,24 @@
 using Fire_Emblem_Common.ConditionEvaluators;
 using Fire_Emblem_Common.Skills;
+using Fire_Emblem_Common.Models;
 
 namespace Fire_Emblem_Common.PersonalizedInterfaces;
 
 public class SkillComponentList 
 {
-    private readonly List<(ConditionEvaluator conditionEvaluator, EffectApplier effectApplier)> _components;
+    private readonly List<SkillComponent> _components;
 
     public SkillComponentList()
     {
-        _components = new List<(ConditionEvaluator, EffectApplier)>();
+        _components = new List<SkillComponent>();
     }
     
     public void AddSkillComponent(ConditionEvaluator conditionEvaluator, EffectApplier effectApplier)
     {
-        _components.Add((conditionEvaluator, effectApplier));
+        _components.Add(new SkillComponent(conditionEvaluator, effectApplier));
     }
 
-    public (ConditionEvaluator conditionEvaluator, EffectApplier effectApplier) GetSkillComponent(int index)
+    public SkillComponent GetSkillComponent(int index)
     {
         return _components[index];
     }

@@ -1,6 +1,6 @@
-using Fire_Emblem_Common.EDDs.Managers;
+using Fire_Emblem_Common.Helpers;
 using Fire_Emblem_Common.Enums;
-using Fire_Emblem_Common.EDDs.Models;
+using Fire_Emblem_Common.Models;
 using Fire_Emblem_Common.PersonalizedInterfaces;
 
 namespace Fire_Emblem_Common.Effects;
@@ -12,8 +12,9 @@ public class StatPenaltyFromBaseValueDifferenceEffect : Effect
     private readonly int _maxPenalty;
     private readonly double _penaltyPercentage;
     
-    public StatPenaltyFromBaseValueDifferenceEffect(StatType analizedBaseValueStatType, EnumList<StatType> affectedStatTypes,
-        int maxPenalty, double penaltyPercentage) : base(EffectsApplyOrder.FirstOrder)
+    public StatPenaltyFromBaseValueDifferenceEffect(StatType analizedBaseValueStatType,
+        EnumList<StatType> affectedStatTypes, int maxPenalty, double penaltyPercentage) 
+        : base(EffectsApplyOrder.FirstOrder)
     {
         _analizedBaseValueStatType = analizedBaseValueStatType;
         _affectedStatTypes = affectedStatTypes;
@@ -24,33 +25,34 @@ public class StatPenaltyFromBaseValueDifferenceEffect : Effect
     public override void ApplyEffect(Unit unit)
     {
         int penaltyValue = GetPenaltyValue(unit);
+    
         foreach (StatType stat in _affectedStatTypes)
         {
-            if (stat == StatType.Atk)
+            switch (stat)
             {
-                unit.Atk.Penalty += penaltyValue;
-            }
-            else if (stat == StatType.Def)
-            {
-                unit.Def.Penalty += penaltyValue;
-            }
-            else if (stat == StatType.Spd)
-            {
-                unit.Spd.Penalty += penaltyValue;
-            }
-            else if (stat == StatType.Res)
-            {
-                unit.Res.Penalty += penaltyValue;
+                case StatType.Atk:
+                    unit.Atk.Penalty += penaltyValue;
+                    break;
+                case StatType.Def:
+                    unit.Def.Penalty += penaltyValue;
+                    break;
+                case StatType.Spd:
+                    unit.Spd.Penalty += penaltyValue;
+                    break;
+                case StatType.Res:
+                    unit.Res.Penalty += penaltyValue;
+                    break;
             }
         }
     }
     
     private int GetPenaltyValue(Unit unit)
     {
-        int penaltyValue = Math.Min(UnitManager.GetBaseValue(unit, _analizedBaseValueStatType) - 
-                           UnitManager.GetBaseValue(unit.ActualOpponent, _analizedBaseValueStatType), 0);
+        int penaltyValue = Math.Min(UnitHelper.GetBaseValue(unit, _analizedBaseValueStatType) - 
+                           UnitHelper.GetBaseValue(unit.ActualOpponent, _analizedBaseValueStatType), 0);
         penaltyValue = Math.Abs(penaltyValue);
         penaltyValue = Convert.ToInt32(Math.Floor(penaltyValue * _penaltyPercentage));
+        
         return Math.Min(penaltyValue, _maxPenalty);
     }
 }

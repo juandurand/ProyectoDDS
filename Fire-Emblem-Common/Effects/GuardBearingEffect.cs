@@ -1,5 +1,5 @@
 using Fire_Emblem_Common.Enums;
-using Fire_Emblem_Common.EDDs.Models;
+using Fire_Emblem_Common.Models;
 
 namespace Fire_Emblem_Common.Effects;
 
@@ -17,17 +17,18 @@ public class GuardBearingEffect:Effect
     {
         double reductionFactor = GetReductionFactor(unit);
         reductionFactor = unit.ActualOpponent.DamageEffects.ReductionOfPercentageReduction * reductionFactor;
-        if (_attackType == AttackType.None)
+
+        switch (_attackType)
         {
-            unit.DamageEffects.PercentageReduction *= (1 - reductionFactor);
-        }
-        else if (_attackType == AttackType.FirstAttack)
-        {
-            unit.DamageEffects.FirstAttackPercentageReduction *= (1 - reductionFactor);
-        }
-        else if (_attackType == AttackType.FollowUp)
-        {
-            unit.DamageEffects.FollowUpPercentageReduction *= (1 - reductionFactor);
+            case AttackType.None:
+                unit.DamageEffects.PercentageReduction *= (1 - reductionFactor);
+                break;
+            case AttackType.FirstAttack:
+                unit.DamageEffects.FirstAttackPercentageReduction *= (1 - reductionFactor);
+                break;
+            case AttackType.FollowUp:
+                unit.DamageEffects.FollowUpPercentageReduction *= (1 - reductionFactor);
+                break;
         }
     }
 

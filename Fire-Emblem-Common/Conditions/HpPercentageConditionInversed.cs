@@ -1,6 +1,6 @@
 using Fire_Emblem_Common.Enums;
-using Fire_Emblem_Common.EDDs.Models;
-using Fire_Emblem_Common.EDDs.Managers;
+using Fire_Emblem_Common.Models;
+using Fire_Emblem_Common.Helpers;
 
 namespace Fire_Emblem_Common.Conditions;
 
@@ -17,12 +17,14 @@ public class HpPercentageConditionInversed:Condition
     
     public override bool IsConditionSatisfied(RoundInfo roundInfo)
     {
+        Unit skillOwner = GetSkillOwner(roundInfo);
+        
         return _analyzedUnit switch
         {
-            UnitRole.Unit => Math.Round(HealthStatusManager.GetHpPercentage(roundInfo.SkillOwner.HealthStatus), 2) >=
+            UnitRole.Unit => Math.Round(HealthStatusHelper.GetHpPercentage(skillOwner.HealthStatus), 2) >=
                              _requiredPercentage,
-            UnitRole.Rival => Math.Round(HealthStatusManager.GetHpPercentage(roundInfo.Rival.HealthStatus), 2) <=
-                              _requiredPercentage,
+            UnitRole.Rival => Math.Round(HealthStatusHelper.GetHpPercentage(
+                                  skillOwner.ActualOpponent.HealthStatus), 2) <= _requiredPercentage,
             _ => false
         };
     }

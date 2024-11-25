@@ -1,6 +1,6 @@
 using Fire_Emblem_Common.Enums;
-using Fire_Emblem_Common.EDDs.Models;
-using Fire_Emblem_Common.EDDs.Managers;
+using Fire_Emblem_Common.Models;
+using Fire_Emblem_Common.Helpers;
 
 namespace Fire_Emblem_Common.Damage;
 
@@ -21,7 +21,7 @@ public static class DamageCalculator
                                                                  damageInfo.Defender.Weapon);
         int defense = GetDefenseByWeapon(damageInfo);
         
-        int baseDamage = Convert.ToInt32(Math.Floor(UnitManager.GetTotalStat(damageInfo.Attacker, StatType.Atk,
+        int baseDamage = Convert.ToInt32(Math.Floor(UnitHelper.GetTotalStat(damageInfo.Attacker, StatType.Atk,
                                                         damageInfo.AttackType) * weaponTriangleBonus)) - defense;
         
         return Math.Max(baseDamage, 0);
@@ -29,9 +29,9 @@ public static class DamageCalculator
     
     private static int ApplyDamageEffects(int baseDamage, DamageInfo damageInfo)
     {
-        baseDamage += DamageEffectsController.GetTotalBonus(damageInfo.Attacker.DamageEffects, damageInfo.AttackType);
+        baseDamage += DamageEffectsHelper.GetTotalBonus(damageInfo.Attacker.DamageEffects, damageInfo.AttackType);
         
-        double modifiedDamage = baseDamage * DamageEffectsController.GetTotalPercentageReduction(
+        double modifiedDamage = baseDamage * DamageEffectsHelper.GetTotalPercentageReduction(
                                          damageInfo.Defender.DamageEffects, damageInfo.AttackType);
         
         modifiedDamage = Math.Round(modifiedDamage, 9);
@@ -43,8 +43,8 @@ public static class DamageCalculator
     {
         return damageInfo.Attacker.Weapon switch
         {
-            WeaponType.Magic => UnitManager.GetTotalStat(damageInfo.Defender, StatType.Res, damageInfo.AttackType),
-            _ => UnitManager.GetTotalStat(damageInfo.Defender, StatType.Def, damageInfo.AttackType)
+            WeaponType.Magic => UnitHelper.GetTotalStat(damageInfo.Defender, StatType.Res, damageInfo.AttackType),
+            _ => UnitHelper.GetTotalStat(damageInfo.Defender, StatType.Def, damageInfo.AttackType)
         };
     }
     
@@ -52,7 +52,7 @@ public static class DamageCalculator
     {
         int baseDamage = GetBaseDamage(damageInfo);
         
-        int damageWithBonus = baseDamage + DamageEffectsController.GetTotalBonus(
+        int damageWithBonus = baseDamage + DamageEffectsHelper.GetTotalBonus(
                                 damageInfo.Attacker.DamageEffects, damageInfo.AttackType);
         
         return damageWithBonus;

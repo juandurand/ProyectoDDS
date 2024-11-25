@@ -40,20 +40,20 @@ public class TeamParser
 
     private bool HasPlayersFlagsChanged(string line)
     {
-        if (line == "Player 1 Team")
+        switch (line)
         {
-            _isPlayerOne = true;
-            _isPlayerTwo = false;
-            return true;
+            case "Player 1 Team":
+                _isPlayerOne = true;
+                _isPlayerTwo = false;
+                return true;
+
+            case "Player 2 Team":
+                _isPlayerOne = false;
+                _isPlayerTwo = true;
+                return true;
+
+            default:
+                return false;
         }
-        
-        if (line == "Player 2 Team")
-        {
-            _isPlayerOne = false;
-            _isPlayerTwo = true;
-            return true;
-        }
-    
-        return false;
     }
 }

@@ -1,40 +1,15 @@
 using Fire_Emblem_Common.Enums;
-using Fire_Emblem_Common.Damage;
-using Fire_Emblem_Common.EDDs.Models;
+using Fire_Emblem_Common.Models;
 
-namespace Fire_Emblem_Common.EDDs.Managers;
+namespace Fire_Emblem.Managers;
 
 public static class UnitManager
 {
-    public static int GetTotalStat(Unit unit, StatType stat, AttackType attackType)
-    {
-        return stat switch
-        {
-            StatType.Atk => StatManager.GetTotalStat(unit.Atk, attackType),
-            StatType.Spd => StatManager.GetTotalStat(unit.Spd, attackType),
-            StatType.Def => StatManager.GetTotalStat(unit.Def, attackType),
-            StatType.Res => StatManager.GetTotalStat(unit.Res, attackType),
-            _ => unit.HealthStatus.ActualHpValue
-        };
-    }
-    
-    public static int GetBaseValue(Unit unit, StatType stat)
-    {
-        return stat switch
-        {
-            StatType.Atk => unit.Atk.BaseValue,
-            StatType.Spd => unit.Spd.BaseValue,
-            StatType.Def => unit.Def.BaseValue,
-            StatType.Res => unit.Res.BaseValue,
-            _ => unit.HealthStatus.ActualHpValue
-        };
-    }
-    
     public static void ResetEffects(Unit unit)
     {
         ResetStatEffects(unit);
         ResetCounterAttackDenials(unit);
-        DamageEffectsController.ResetEffects(unit.DamageEffects);
+        DamageEffectsManager.ResetEffects(unit.DamageEffects);
         HealthStatusManager.ResetEffects(unit.HealthStatus);
         FollowUpEffectsManager.ResetFollowUpEffects(unit.FollowUpEffects);
     }

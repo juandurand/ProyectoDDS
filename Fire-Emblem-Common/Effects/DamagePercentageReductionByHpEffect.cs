@@ -1,6 +1,6 @@
 using Fire_Emblem_Common.Enums;
-using Fire_Emblem_Common.EDDs.Models;
-using Fire_Emblem_Common.EDDs.Managers;
+using Fire_Emblem_Common.Models;
+using Fire_Emblem_Common.Helpers;
 
 namespace Fire_Emblem_Common.Effects;
 
@@ -20,23 +20,25 @@ public class DamagePercentageReductionByHpEffect:Effect
     {
         double reductionFactor = GetReductionFactor(unit);
         reductionFactor = unit.ActualOpponent.DamageEffects.ReductionOfPercentageReduction * reductionFactor;
-        if (_attackType == AttackType.None)
+
+        switch (_attackType)
         {
-            unit.DamageEffects.PercentageReduction *= (1 - reductionFactor);
-        }
-        else if (_attackType == AttackType.FirstAttack)
-        {
-            unit.DamageEffects.FirstAttackPercentageReduction *= (1 - reductionFactor);
-        }
-        else if (_attackType == AttackType.FollowUp)
-        {
-            unit.DamageEffects.FollowUpPercentageReduction *= (1 - reductionFactor);
+            case AttackType.None:
+                unit.DamageEffects.PercentageReduction *= (1 - reductionFactor);
+                break;
+            case AttackType.FirstAttack:
+                unit.DamageEffects.FirstAttackPercentageReduction *= (1 - reductionFactor);
+                break;
+            case AttackType.FollowUp:
+                unit.DamageEffects.FollowUpPercentageReduction *= (1 - reductionFactor);
+                break;
         }
     }
 
     private double GetReductionFactor(Unit unit)
     {
-        double reductionFactor = _percentage * HealthStatusManager.GetHpPercentage(unit.ActualOpponent.HealthStatus);
-        return Math.Truncate(reductionFactor * 100) / 100;
+        double reductionFactor = _percentage * HealthStatusHelper.GetHpPercentage(unit.ActualOpponent.HealthStatus);
+        int oneHundred = 100;
+        return Math.Truncate(reductionFactor * oneHundred) / oneHundred;
     }
 }

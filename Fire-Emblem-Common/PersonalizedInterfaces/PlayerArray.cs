@@ -8,19 +8,21 @@ namespace Fire_Emblem_Common.PersonalizedInterfaces
         
         public void AddUnitList(UnitList unitList, int index)
         {
-            if (index < 0 || index >= _playerArray.Length)
-            {
-                throw new IndexOutOfRangeInPlayerArrayException("Índice fuera del rango válido en el PlayerArray.");
-            }
+            CheckIndex(index);
             _playerArray[index] = unitList;
         }
         
-        public UnitList GetUnitList(int index)
+        private void CheckIndex(int index)
         {
             if (index < 0 || index >= _playerArray.Length)
             {
                 throw new IndexOutOfRangeInPlayerArrayException("Índice fuera del rango válido en el PlayerArray.");
             }
+        }
+        
+        public UnitList GetUnitList(int index)
+        {
+            CheckIndex(index);
             return _playerArray[index];
         }
     }

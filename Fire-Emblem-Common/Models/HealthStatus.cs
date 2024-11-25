@@ -1,6 +1,4 @@
-using Fire_Emblem_Common.EDDs.Managers;
-
-namespace Fire_Emblem_Common.EDDs.Models;
+namespace Fire_Emblem_Common.Models;
 
 public class HealthStatus
 {
@@ -13,7 +11,7 @@ public class HealthStatus
     public int PenaltyAfterRound;
     public int PenaltyAfterRoundIfUnitAttacked;
     
-    public int BonusAfterCombat;
+    public int BonusAfterRound;
     public int BonusAfterAttack;
     
     public HealthStatus(int initialValue)
@@ -21,6 +19,11 @@ public class HealthStatus
         HpBaseValue = initialValue;
         ActualHpValue = initialValue;
 
-        HealthStatusManager.ResetEffects(this);
+        PercentageOfDamageBonusAfterAttack = 0.0;
+        PenaltyBeforeRound = 0;
+        PenaltyAfterRound = 0;
+        PenaltyAfterRoundIfUnitAttacked = 0;
+        BonusAfterRound = 0;
+        BonusAfterAttack = 0;
     }
 }

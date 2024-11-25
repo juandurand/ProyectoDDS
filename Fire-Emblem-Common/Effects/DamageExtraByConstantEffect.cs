@@ -1,5 +1,5 @@
 using Fire_Emblem_Common.Enums;
-using Fire_Emblem_Common.EDDs.Models;
+using Fire_Emblem_Common.Models;
 
 namespace Fire_Emblem_Common.Effects;
 
@@ -17,17 +17,17 @@ public class DamageExtraByConstantEffect:Effect
 
     public override void ApplyEffect(Unit unit)
     {
-        if (_attackType == AttackType.None)
+        switch (_attackType)
         {
-            unit.DamageEffects.Bonus += _damageBonus;
-        }
-        else if (_attackType == AttackType.FirstAttack)
-        {
-            unit.DamageEffects.FirstAttackBonus += _damageBonus;
-        }
-        else if (_attackType == AttackType.FollowUp)
-        {
-            unit.DamageEffects.FollowUpBonus += _damageBonus;
+            case AttackType.None:
+                unit.DamageEffects.Bonus += _damageBonus;
+                break;
+            case AttackType.FirstAttack:
+                unit.DamageEffects.FirstAttackBonus += _damageBonus;
+                break;
+            case AttackType.FollowUp:
+                unit.DamageEffects.FollowUpBonus += _damageBonus;
+                break;
         }
     }
 }

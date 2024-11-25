@@ -1,5 +1,5 @@
 using Fire_Emblem_Common.Enums;
-using Fire_Emblem_Common.EDDs.Models;
+using Fire_Emblem_Common.Models;
 
 namespace Fire_Emblem_Common.Conditions;
 
@@ -14,10 +14,12 @@ public class FirstAttackCondition:Condition
     
     public override bool IsConditionSatisfied(RoundInfo roundInfo)
     {
+        Unit skillOwner = GetSkillOwner(roundInfo);
+        
         return _analyzedUnit switch
         {
-            UnitRole.Unit => roundInfo.Attacker == roundInfo.SkillOwner,
-            UnitRole.Rival => roundInfo.Attacker != roundInfo.SkillOwner,
+            UnitRole.Unit => roundInfo.Attacker == skillOwner,
+            UnitRole.Rival => roundInfo.Attacker != skillOwner,
             _ => false
         };
     }

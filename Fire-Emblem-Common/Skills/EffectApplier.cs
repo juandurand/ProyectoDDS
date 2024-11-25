@@ -1,7 +1,7 @@
 using Fire_Emblem_Common.Enums;
 using Fire_Emblem_Common.Effects;
 using Fire_Emblem_Common.PersonalizedInterfaces;
-using Fire_Emblem_Common.EDDs.Models;
+using Fire_Emblem_Common.Models;
 
 namespace Fire_Emblem_Common.Skills;
 
@@ -30,21 +30,21 @@ public class EffectApplier
     private void ApplyEffectToAppropiateUnit(Effect effect, RoundInfo roundInfo)
     {
         UnitRole typeOfUnit = _effects.GetUnitRoleForEffect(effect);
-        
-        if (typeOfUnit == UnitRole.Unit)
+    
+        switch (typeOfUnit)
         {
-            effect.ApplyEffect(roundInfo.SkillOwner);
-        }
-        
-        else if (typeOfUnit == UnitRole.Rival)
-        {
-            effect.ApplyEffect(roundInfo.Rival);
-        }
-        
-        else if (typeOfUnit == UnitRole.Both)
-        {
-            effect.ApplyEffect(roundInfo.SkillOwner);
-            effect.ApplyEffect(roundInfo.Rival);
+            case UnitRole.Unit:
+                effect.ApplyEffect(roundInfo.SkillOwner);
+                break;
+
+            case UnitRole.Rival:
+                effect.ApplyEffect(roundInfo.SkillOwner.ActualOpponent);
+                break;
+
+            case UnitRole.Both:
+                effect.ApplyEffect(roundInfo.SkillOwner);
+                effect.ApplyEffect(roundInfo.SkillOwner.ActualOpponent);
+                break;
         }
     }
 }

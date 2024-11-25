@@ -1,6 +1,6 @@
 using Fire_Emblem_Common.Enums;
-using Fire_Emblem_Common.EDDs.Models;
-using Fire_Emblem_Common.EDDs.Managers;
+using Fire_Emblem_Common.Models;
+using Fire_Emblem_Common.Helpers;
 
 namespace Fire_Emblem_Common.Effects;
 
@@ -18,21 +18,20 @@ public class StatPenaltyEffect:Effect
 
     public override void ApplyEffect(Unit unit)
     {
-        if (_statType == StatType.Atk)
+        switch (_statType)
         {
-            StatManager.ApplyPenalty(unit.Atk, _penaltyValue);
-        }
-        else if (_statType == StatType.Def)
-        {
-            StatManager.ApplyPenalty(unit.Def, _penaltyValue);
-        }
-        else if (_statType == StatType.Res)
-        {
-            StatManager.ApplyPenalty(unit.Res, _penaltyValue);
-        }
-        else if (_statType == StatType.Spd)
-        {
-            StatManager.ApplyPenalty(unit.Spd, _penaltyValue);
+            case StatType.Atk:
+                StatHelper.ApplyPenalty(unit.Atk, _penaltyValue);
+                break;
+            case StatType.Def:
+                StatHelper.ApplyPenalty(unit.Def, _penaltyValue);
+                break;
+            case StatType.Res:
+                StatHelper.ApplyPenalty(unit.Res, _penaltyValue);
+                break;
+            case StatType.Spd:
+                StatHelper.ApplyPenalty(unit.Spd, _penaltyValue);
+                break;
         }
     }
 }

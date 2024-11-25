@@ -1,6 +1,5 @@
-using Fire_Emblem_Common.Helpers;
-using Fire_Emblem_Common.EDDs.Models;
-using Fire_Emblem_Common.EDDs.Managers;
+using Fire_Emblem_Common.Models;
+using Fire_Emblem.Managers;
 using Fire_Emblem_View.PersonalizedViews;
 using Fire_Emblem_Common.Enums;
 

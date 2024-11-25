@@ -1,6 +1,6 @@
 using Fire_Emblem_Common.Enums;
-using Fire_Emblem_Common.EDDs.Models;
-using Fire_Emblem_Common.EDDs.Managers;
+using Fire_Emblem_Common.Models;
+using Fire_Emblem_Common.Helpers;
 
 namespace Fire_Emblem_Common.Conditions;
 
@@ -19,7 +19,9 @@ public class BaseStatComparisonCondition:Condition
     
     public override bool IsConditionSatisfied(RoundInfo roundInfo)
     {
-        return UnitManager.GetBaseValue(roundInfo.SkillOwner, _skillOwnerStat) >= 
-               _requiredDifference + UnitManager.GetBaseValue(roundInfo.Rival, _rivalStat);
+        Unit skillOwner = GetSkillOwner(roundInfo);
+        
+        return UnitHelper.GetBaseValue(skillOwner, _skillOwnerStat) >= 
+               _requiredDifference + UnitHelper.GetBaseValue(skillOwner.ActualOpponent, _rivalStat);
     }
 }

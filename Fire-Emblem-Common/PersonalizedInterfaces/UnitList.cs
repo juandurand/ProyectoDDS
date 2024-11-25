@@ -1,4 +1,4 @@
-using Fire_Emblem_Common.EDDs.Models;
+using Fire_Emblem_Common.Models;
 using System.Collections;
 
 namespace Fire_Emblem_Common.PersonalizedInterfaces;
