@@ -18,4 +18,9 @@ public class SkillList : IEnumerable<ISkill>
     {
         return GetEnumerator();
     }
+    
+    public string[] GetSkillNames()
+    {
+        return _skills.Select(skill => skill.Name).ToArray();
+    }
 }

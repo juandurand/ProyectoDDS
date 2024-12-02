@@ -38,6 +38,7 @@
       <Compile Remove="Effects\ResPercentagePenaltyEffect.cs" />
       <Compile Remove="EDDs\Models\**" />
       <Compile Remove="Models\Models\**" />
+      <Compile Remove="Models\IUnit.cs" />
     </ItemGroup>
 
     <ItemGroup>
@@ -48,6 +49,12 @@
     <ItemGroup>
       <None Remove="EDDs\Models\**" />
       <None Remove="Models\Models\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="Fire-Emblem-GUI">
+        <HintPath>..\..\..\..\..\..\..\Downloads\Fire-Emblem-With-Gui\Fire-Emblem-View\GuiLib\Fire-Emblem-GUI.dll</HintPath>
+      </Reference>
     </ItemGroup>
 
 </Project>

@@ -33,7 +33,7 @@ public static class SkillFactory
         ConditionList thirdConditions = new ConditionList();
         EffectByUnitType thirdEffectsByUnitType = new EffectByUnitType();
         
-        CompositeSkill compositeSkill = new CompositeSkill(new SkillComponentList());
+        CompositeSkill compositeSkill = new CompositeSkill(new SkillComponentList(), skillName);
         
         if (skillName == "HP +15")
         {
@@ -1474,7 +1474,7 @@ public static class SkillFactory
         ConditionEvaluator conditionEvaluator = GetConditionEvaluator(
             conditions, secondConditions, conditionEvaluatorType);
         EffectApplier effectApplier = new EffectApplier(effectsByUnitType);
-        Skill skill = new Skill(conditionEvaluator, effectApplier);
+        Skill skill = new Skill(conditionEvaluator, effectApplier, skillName);
         return skill;
     }
     

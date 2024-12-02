@@ -1,5 +1,5 @@
 using Fire_Emblem_Common.Enums;
-using Fire_Emblem_Common.Damage;
+using Fire_Emblem_GUI;
 using Fire_Emblem_Common.Skills;
 using Fire_Emblem_Common.PersonalizedInterfaces;
 
@@ -34,6 +34,8 @@ public class Unit
     public FollowUpEffects FollowUpEffects;
 
     public UnitList Team;
+
+    public int PlayerIndex;
     
     public Unit(UnitData unitData)
     {
@@ -64,5 +66,8 @@ public class Unit
         Team = new UnitList();
         
         Skills = SkillFactory.GetSkills(unitData.GetStringList(UnitDataKey.Skills), this);
+        PlayerIndex = 0;
     }
+    
+    public IUnit GetIUnit(AttackType attackType = AttackType.None) => new MyUnit(this, attackType);
 }

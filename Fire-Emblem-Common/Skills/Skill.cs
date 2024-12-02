@@ -7,11 +7,13 @@ public class Skill : ISkill
 {
     private readonly ConditionEvaluator _conditionEvaluator;
     private readonly EffectApplier _effectApplier;
+    public string Name { get; }
 
-    public Skill(ConditionEvaluator conditionEvaluator, EffectApplier effectApplier)
+    public Skill(ConditionEvaluator conditionEvaluator, EffectApplier effectApplier, string name)
     {
         _conditionEvaluator = conditionEvaluator;
         _effectApplier = effectApplier;
+        Name = name;
     }
 
     public void Apply(RoundInfo roundInfo, EffectsApplyOrder applyOrder)

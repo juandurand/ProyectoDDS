@@ -8,10 +8,12 @@ namespace Fire_Emblem_Common.Skills;
 public class CompositeSkill : ISkill
 {
     private readonly SkillComponentList _skillsComponents;
+    public string Name { get; }
 
-    public CompositeSkill(SkillComponentList skillsComponents)
+    public CompositeSkill(SkillComponentList skillsComponents, string name)
     {
         _skillsComponents = skillsComponents;
+        Name = name;
     }
     
     public void AddComponent(ConditionEvaluator conditionEvaluator, EffectApplier effectApplier)

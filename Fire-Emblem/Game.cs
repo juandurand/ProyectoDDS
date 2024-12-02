@@ -1,26 +1,35 @@
 ﻿using Fire_Emblem_View.PersonalizedViews;
+using Fire_Emblem_View.ViewLibrary;
 using Fire_Emblem_Common.TeamLoading;
+using Fire_Emblem_View;
 
 namespace Fire_Emblem;
 
 public class Game
 {
-    private readonly GeneralView _view;
-    private readonly TeamLoaderController _teamLoaderController;
+    private readonly IViewManager _view;
     private readonly string _teamsFolder;
+    private readonly TeamLoaderController _teamLoaderController;
     
-    public Game(GeneralView view, string teamsFolder)
+    public Game(View view, string teamsFolder)
+    {
+        _view = new FireEmblemConsoleView(view);
+        _teamsFolder = teamsFolder;
+        _teamLoaderController = new TeamLoaderController(_view, new TeamParser());
+    }
+
+    public Game(FireEmblemGuiView view)
     {
         _view = view;
-        _teamsFolder = teamsFolder;
-        _teamLoaderController = new TeamLoaderController(_view, new TeamParser(teamsFolder));
+        _teamsFolder = "";
+        _teamLoaderController = new TeamLoaderController(_view, new TeamParser());
     }
 
     public void Play()
     {
-        _view.DisplayTeamSelection(_teamsFolder);
+        string teamFileName = _view.SelectTeamFile(_teamsFolder);
         
-        if (IsTeamFileValid())
+        if (IsTeamFileValid(teamFileName))
         {
             StartCombat();
         }
@@ -30,9 +39,9 @@ public class Game
         }
     }
     
-    private bool IsTeamFileValid()
+    private bool IsTeamFileValid(string teamFileName)
     {
-        _teamLoaderController.ParsePlayersInfo();
+        _teamLoaderController.ParsePlayersInfo(teamFileName);
         return _teamLoaderController.IsTeamValid();
     }
 

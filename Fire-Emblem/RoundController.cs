@@ -1,16 +1,16 @@
 using Fire_Emblem_Common.Models;
 using Fire_Emblem.Managers;
-using Fire_Emblem_View.PersonalizedViews;
+using Fire_Emblem_View;
 using Fire_Emblem_Common.Enums;
 
 namespace Fire_Emblem;
 
 public class RoundController
 {
-    private readonly GeneralView _view;
+    private readonly IViewManager _view;
     private readonly AttackController _attackController;
 
-    public RoundController(GeneralView view)
+    public RoundController(IViewManager view)
     {
         _view = view;
         _attackController = new AttackController(view);

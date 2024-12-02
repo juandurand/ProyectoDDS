@@ -10,16 +10,15 @@ public class TeamParser
     public StringList PlayerOneInfo;
     public StringList PlayerTwoInfo;
 
-    public TeamParser(string folder)
+    public TeamParser()
     {
-        TestFolder = folder;
         PlayerOneInfo = new StringList();
         PlayerTwoInfo = new StringList();
     }
     
     public void ParseTeamsFile(string fileName)
     {
-        var lines = File.ReadLines($"{TestFolder}/{fileName}");
+        var lines = File.ReadLines($"{fileName}");
         
         foreach (var line in lines)
         {

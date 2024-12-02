@@ -1,4 +1,4 @@
-using Fire_Emblem_View.PersonalizedViews;
+using Fire_Emblem_View;
 using Fire_Emblem_Common.Models;
 using Fire_Emblem_Common.Helpers;
 using Fire_Emblem.Managers;
@@ -9,14 +9,14 @@ namespace Fire_Emblem;
 
 public class AttackController
 {
-    private readonly GeneralView _view;
+    private readonly IViewManager _view;
 
-    public AttackController(GeneralView view)
+    public AttackController(IViewManager view)
     {
         _view = view;
     }
     
-    public void SimulateAttack(DamageInfo damageInfo)
+    public void SimulateAttack(DamageInfo damageInfo, AttackType attackType = AttackType.FirstAttack)
     {
         if (IsUnitUnableToCounterAttack(damageInfo.Attacker))
         {
@@ -26,7 +26,8 @@ public class AttackController
         
         UnitManager.SetAttacked(damageInfo.Attacker);
         HealthStatusManager.ApplyPercentageOfDamageBonusAfterAttack(damageInfo.Attacker.HealthStatus, damage);
-        ApplyDamage(damageInfo, damage);
+        ApplyDamage(damageInfo, damage, attackType);
+        _view.UpdateUnitsStatsDuringBattle(damageInfo.Attacker, damageInfo.Defender, attackType);
     }
     
     private bool IsUnitUnableToCounterAttack(Unit unit)
@@ -34,17 +35,17 @@ public class AttackController
         return unit.CounterAttackDenial && !unit.DenialOfCounterAttackDenial;
     }
 
-    private void ApplyDamage(DamageInfo damageInfo, int damage)
+    private void ApplyDamage(DamageInfo damageInfo, int damage, AttackType attackType)
     {
         HealthStatusManager.DealDamage(damageInfo.Defender.HealthStatus, damage);
-        _view.ReportAttack(damageInfo.Attacker, damageInfo.Defender, damage);
+        _view.ReportAttack(damageInfo, damage, attackType);
     }
 
     public void SimulateFollowUp(DamageInfo damageInfo)
     {
         if (CanFollowUp(damageInfo.Attacker, damageInfo.Defender))
         {
-            SimulateAttack(damageInfo);
+            SimulateAttack(damageInfo, AttackType.FollowUp);
         }
     }
 

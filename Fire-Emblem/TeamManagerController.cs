@@ -1,6 +1,7 @@
 using Fire_Emblem_Common.Models;
+using Fire_Emblem_GUI;
 using Fire_Emblem.Managers;
-using Fire_Emblem_View.PersonalizedViews;
+using Fire_Emblem_View;
 using Fire_Emblem_Common.PersonalizedInterfaces;
 using Fire_Emblem_Common.TeamLoading;
 
@@ -16,15 +17,16 @@ public class TeamManagerController
         _playersUnits.AddUnitList(UnitsLoader.LoadUnits(playerOneUnitsInfo), 0);
         _playersUnits.AddUnitList(UnitsLoader.LoadUnits(playerTwoUnitsInfo), 1);
         
-        SetUnitsTeam(_playersUnits.GetUnitList(0));
-        SetUnitsTeam(_playersUnits.GetUnitList(1));
+        SetUnitsTeam(_playersUnits.GetUnitList(0), 0);
+        SetUnitsTeam(_playersUnits.GetUnitList(1), 1);
     }
     
-    private void SetUnitsTeam(UnitList team)
+    private void SetUnitsTeam(UnitList team, int playerIndex)
     {
         for (int unitIndex = 0; unitIndex < team.Count; unitIndex++)
         {
             Unit unit = team.GetUnit(unitIndex);
+            unit.PlayerIndex = playerIndex;
             AddTeamMates(unit, team, unitIndex);
         }
     }
@@ -41,11 +43,11 @@ public class TeamManagerController
         }
     }
 
-    public Unit ChooseUnit(int playerIndex, GeneralView view)
+    public Unit ChooseUnit(int playerIndex, IViewManager view)
     {
         view.DisplayPlayerTeam(playerIndex + 1, _playersUnits.GetUnitList(playerIndex));
         
-        int unitIndex = Convert.ToInt32(view.ReadLine());
+        int unitIndex = view.ChooseUnitIndex(playerIndex);
         
         return _playersUnits.GetUnitList(playerIndex).GetUnit(unitIndex);
     }
@@ -75,6 +77,28 @@ public class TeamManagerController
     }
 
     public bool AreTeamsAlive() => _playersUnits.GetUnitList(0).Count > 0 &&_playersUnits.GetUnitList(1).Count > 0;
-
-    public PlayerArray GetPlayersUnits() => _playersUnits;
+    
+    public IUnit[][] GetPlayersIUnitsAsArray()
+    {
+        IUnit[][] playersUnits = new IUnit[2][];
+        
+        for (int playerIndex = 0; playerIndex < 2; playerIndex++)
+        {
+            playersUnits[playerIndex] = GetPlayerIUnitsAsArray(playerIndex);
+        }
+        
+        return playersUnits;
+    }
+    
+    private IUnit[] GetPlayerIUnitsAsArray(int playerIndex)
+    {
+        IUnit[] playerUnits = new IUnit[_playersUnits.GetUnitList(playerIndex).Count];
+        
+        for (int unitIndex = 0; unitIndex < _playersUnits.GetUnitList(playerIndex).Count; unitIndex++)
+        {
+            playerUnits[unitIndex] = _playersUnits.GetUnitList(playerIndex).GetUnit(unitIndex).GetIUnit();
+        }
+        
+        return playerUnits;
+    }
 }
